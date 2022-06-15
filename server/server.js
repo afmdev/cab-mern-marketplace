@@ -3,6 +3,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 import categoriesRoute from "./routes/categoriesRoute.js";
+import gendersRoute from "./routes/gendersRoute.js";
+import itemsRoute from "./routes/itemsRoute.js";
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -15,6 +17,8 @@ const startServer = () => {
 
 const loadRoutes = () => {
 	app.use("/api/categories", categoriesRoute);
+	app.use("/api/genders", gendersRoute);
+	app.use("/api/items", itemsRoute);
 };
 
 const addMiddleware = () => {

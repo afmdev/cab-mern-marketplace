@@ -7,12 +7,8 @@ const categoriesSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 	},
-	gender: {
-		type: String,
-		required: true,
-	},
 });
 
-const Category = mongoose.model('Category', categoriesSchema);
+const categoriesModel = mongoose.model('Category', categoriesSchema);
 
-export default Category
+export default categoriesModel
