@@ -62,6 +62,6 @@ const itemsSchema = new mongoose.Schema({
 
 });
 
-const itemsModel = mongoose.model('Items', itemsSchema);
+const itemsModel = mongoose.model('item', itemsSchema);
 
 export default itemsModel

@@ -1,12 +1,16 @@
 import gendersModel from '../models/gendersModel.js'
 
 const getAllGenders = async (req, res) => {
+
 	try {
-		const allGenders = await gendersModel.find({});
+		const data = await gendersModel
+			.find({})
+			.populate({ path: "categories", select: ["catName"] })
+			.exec()
 		res
 			.status(200)
-			.json({ allGenders, Number: allGenders.length })
-		console.log(allGenders)
+			.json({ data, Number: data.length })
+		console.log("all genders", data)
 	}
 	catch (error) {
 		res
@@ -20,8 +24,16 @@ const getGendersByCode = async (req, res) => {
 	try {
 		const requestedGenders = await gendersModel
 			.find({ genderCode: req.params.genderCode })
+			.populate({ path: "categories", select: ["catName"] })
 			.exec()
-		res.status(200).json({ requestedGenders, Number: requestedGenders.length })
+
+		if (requestedGenders.length === 0) {
+			res.status(201)
+				.json({ Message: "The request does not return any results. Try to enter another parameter as 'Gender Code'" })
+		} else {
+			res.status(200)
+				.json({ requestedGenders, Number: requestedGenders.length })
+		}
 	} catch (error) {
 		res
 			.status(400)
