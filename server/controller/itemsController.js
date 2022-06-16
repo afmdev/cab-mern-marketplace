@@ -4,10 +4,10 @@ const getAllItems = async (req, res) => {
 
 	console.log(req)
 	try {
-		const allItems = await itemsModel.find({});
+		const data = await itemsModel.find({});
 		res
 			.status(200)
-			.json({ allItems, Number: allItems.length })
+			.json({ data, Number: data.length })
 	}
 	catch (error) {
 		res

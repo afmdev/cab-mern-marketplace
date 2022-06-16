@@ -40,7 +40,7 @@ const mongoDbConection = async () => {
 		await mongoose.connect(process.env.DB);
 		console.log("Connection to Mongo DB established");
 	} catch (error) {
-		console.log("error connection to Mongo DB", err);
+		console.log("Error connection to Mongo DB", error);
 	}
 };
 

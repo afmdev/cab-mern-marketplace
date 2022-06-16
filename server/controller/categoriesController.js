@@ -3,10 +3,14 @@ import categoriesModel from '../models/categoriesModel.js'
 const getAllCategories = async (req, res) => {
 
 	try {
-		const allCategories = await categoriesModel.find({});
+		const data = await categoriesModel
+			.find({})
+			.populate({ path: "items", select: ["itemName"] })
+			.exec()
 		res
 			.status(200)
-			.json({ allCategories, Number: allCategories.length })
+			.json({ data, Number: data.length })
+		console.log("all categories", data)
 	}
 	catch (error) {
 		res

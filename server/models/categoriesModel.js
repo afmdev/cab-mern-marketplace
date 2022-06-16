@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-// const { Schema } = mongoose;
+const { Schema } = mongoose;
 
 const categoriesSchema = new mongoose.Schema({
 	catName: {
@@ -7,8 +7,12 @@ const categoriesSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 	},
+	items: [{
+		type: Schema.Types.ObjectId,
+		ref: 'item'
+	}]
 });
 
-const categoriesModel = mongoose.model('Category', categoriesSchema);
+const categoriesModel = mongoose.model('category', categoriesSchema);
 
 export default categoriesModel
