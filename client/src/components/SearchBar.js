@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,14 +16,20 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { Tooltip } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
 	borderRadius: theme.shape.borderRadius,
-	backgroundColor: alpha(theme.palette.common.white, 0.15),
+	backgroundColor: alpha(theme.palette.common.black, 0.04),
 	'&:hover': {
-		backgroundColor: alpha(theme.palette.common.white, 0.25),
+		backgroundColor: alpha(theme.palette.common.black, 0.06),
 	},
 	marginRight: theme.spacing(2),
 	marginLeft: 0,
@@ -59,13 +65,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function SearchBar() {
-	// const [anchorEl, setAnchorEl] = React.useState < null | HTMLElement > (null);
-	// const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-	// 	React.useState < null | HTMLElement > (null);
+
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-	const isMenuOpen = Boolean(anchorEl);
+	const open = Boolean(anchorEl);
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
 	const handleProfileMenuOpen = (event) => {
@@ -76,38 +87,98 @@ function SearchBar() {
 		setMobileMoreAnchorEl(null);
 	};
 
-	const handleMenuClose = () => {
-		setAnchorEl(null);
-		handleMobileMenuClose();
-	};
+	// const handleMenuClose = () => {
+	// 	setAnchorEl(null);
+	// 	handleMobileMenuClose();
+	// };
 
-	const handleMobileMenuOpen = (event) => {
-		setMobileMoreAnchorEl(event.currentTarget);
-	};
+	// const handleMobileMenuOpen = (event) => {
+	// 	setMobileMoreAnchorEl(event.currentTarget);
+	// };
 
-	const menuId = 'primary-search-account-menu';
+	// const menuId = 'primary-search-account-menu';
 	const renderMenu = (
 		<Menu
 			anchorEl={anchorEl}
-			anchorOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
+			id="account-menu"
+			open={open}
+			onClose={handleClose}
+			onClick={handleClose}
+			PaperProps={{
+				elevation: 0,
+				sx: {
+					overflow: 'visible',
+					filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+					mt: 1.5,
+					'& .MuiAvatar-root': {
+						width: 32,
+						height: 32,
+						ml: -0.5,
+						mr: 1,
+					},
+					'&:before': {
+						content: '""',
+						display: 'block',
+						position: 'absolute',
+						top: 0,
+						right: 14,
+						width: 10,
+						height: 10,
+						bgcolor: 'background.paper',
+						transform: 'translateY(-50%) rotate(45deg)',
+						zIndex: 0,
+					},
+				},
 			}}
-			id={menuId}
-			keepMounted
-			transformOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-			}}
-			open={isMenuOpen}
-			onClose={handleMenuClose}
+			transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+			anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 		>
-			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-			<MenuItem onClick={handleMenuClose}>Account</MenuItem>
-			<MenuItem onClick={handleMenuClose}>Dashboard</MenuItem>
-			<MenuItem onClick={handleMenuClose}>Orders</MenuItem>
-			<MenuItem onClick={handleMenuClose}>Add Item</MenuItem>
-			<MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+
+			<MenuItem>
+				<Avatar /> Profile
+			</MenuItem>
+			<MenuItem>
+				<Avatar /> My account
+			</MenuItem>
+			<Divider />
+
+			<MenuItem sx={{ display: { md: 'none', sm: 'flex' } }}>
+				<ListItemIcon>
+					<Badge badgeContent={4} color="error">
+						<MailIcon fontSize="small" />
+					</Badge>
+				</ListItemIcon>
+				Messages
+			</MenuItem>
+
+			<MenuItem sx={{ display: { md: 'none', sm: 'flex' } }}>
+				<ListItemIcon>
+					<Badge badgeContent={17} color="error">
+						<NotificationsIcon fontSize="small" />
+					</Badge>
+				</ListItemIcon>
+				Notifications
+			</MenuItem>
+
+			<Divider sx={{ display: { md: 'none', sm: 'flex' } }} />
+			<MenuItem>
+				<ListItemIcon>
+					<PersonAdd fontSize="small" />
+				</ListItemIcon>
+				Add another account
+			</MenuItem>
+			<MenuItem>
+				<ListItemIcon>
+					<Settings fontSize="small" />
+				</ListItemIcon>
+				Settings
+			</MenuItem>
+			<MenuItem>
+				<ListItemIcon>
+					<Logout fontSize="small" />
+				</ListItemIcon>
+				Logout
+			</MenuItem>
 		</Menu>
 	);
 
@@ -163,27 +234,26 @@ function SearchBar() {
 		</Menu>
 	);
 
+
+
+
+
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="static">
+			<AppBar position="sticky" sx={{ backgroundColor: "#fff", height: '64px', justifyContent: 'center', color: '#757575', boxShadow: '0px 1px 10px 0px rgb(0 0 0 / 12%)' }}>
 				<Toolbar>
 					<IconButton
 						size="large"
 						edge="start"
 						color="inherit"
 						aria-label="open drawer"
-						sx={{ mr: 2 }}
+						sx={{ mr: 2, backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography
-						variant="h6"
-						noWrap
-						component="div"
-						sx={{ display: { xs: 'none', sm: 'block' } }}
-					>
-						MUI
-					</Typography>
+					<Box sx={{ display: { sm: 'flex', xs: 'none' }, alignItems: "center" }}>
+						<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm-dark.svg" alt="Logo" href="/"></img>
+					</Box>
 					<Search>
 						<SearchIconWrapper>
 							<SearchIcon />
@@ -209,19 +279,21 @@ function SearchBar() {
 								<NotificationsIcon />
 							</Badge>
 						</IconButton>
-						<Tooltip title="User Settings">
+
+
+						<Tooltip title="Account settings">
 							<IconButton
-								size="large"
-								edge="end"
-								aria-label="account of current user"
-								aria-controls={menuId}
+								onClick={handleClick}
+								size="small"
+								sx={{ ml: 2 }}
+								aria-controls={open ? 'account-menu' : undefined}
 								aria-haspopup="true"
-								onClick={handleProfileMenuOpen}
-								color="inherit"
+								aria-expanded={open ? 'true' : undefined}
 							>
-								<AccountCircle />
+								<Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
 							</IconButton>
 						</Tooltip>
+
 					</Box>
 					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
 						<IconButton
@@ -229,17 +301,20 @@ function SearchBar() {
 							aria-label="show more"
 							aria-controls={mobileMenuId}
 							aria-haspopup="true"
-							onClick={handleMobileMenuOpen}
+							// onClick={handleMobileMenuOpen}
+							onClick={handleClick}
 							color="inherit"
 						>
 							<MoreIcon />
 						</IconButton>
 					</Box>
 				</Toolbar>
+
 			</AppBar>
 			{renderMobileMenu}
 			{renderMenu}
 		</Box >
+
 	);
 }
 export default SearchBar

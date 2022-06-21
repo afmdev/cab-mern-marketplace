@@ -1,7 +1,6 @@
-import React from 'react'
-import { createContext, useState } from 'React'
+import { createContext, useState } from 'react'
 
-export const ProductsContext = createContext()
+export const ProductsContext = createContext();
 
 export const ProductContextProvider = (props) => {
 	const [products, setProducts] = useState(null)
@@ -11,9 +10,9 @@ export const ProductContextProvider = (props) => {
 
 
 	const fetchData = () => {
-		fetch('http://localhost:5000/api/items/all')
+		fetch("https://fakestoreapi.com/products")
 			.then((response) => {
-				return response.json()
+				return response.json();
 			})
 			.then((data) => {
 				const myData = data
@@ -27,8 +26,8 @@ export const ProductContextProvider = (props) => {
 	}
 
 	return (
-		<ProductContext.Provider value={{ products, loader, error, filter, setFilter, fetchData, setproducts }}>
+		<ProductsContext.Provider value={{ products, loader, error, filter, setFilter, fetchData, setProducts }}>
 			{props.children}
-		</ProductContext.Provider>
+		</ProductsContext.Provider>
 	)
 }
