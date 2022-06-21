@@ -7,7 +7,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 
 function TopBar() {
 	return (
-		<Container disableGutters maxWidth={false} sx={{ bgcolor: '#0F3460', color: 'white', height: '40px', px: '30px' }}>
+		<Container disableGutters maxWidth={false} sx={{ bgcolor: '#0F3460', color: 'white', height: '40px', px: '25px' }}>
 			<Box>
 				<Grid sx={{ height: '40px' }}
 					container
@@ -16,12 +16,12 @@ function TopBar() {
 					alignItems="center"
 					justifyContent="center">
 
-					<Grid item xs="auto" sx={{ display: { md: 'none', xs: 'flex' }, fontSize: '12px' }}>
+					<Grid item xs="auto" sx={{ display: { sm: 'none', xs: 'flex' }, fontSize: '12px' }}>
 						<Box sx={{ display: 'flex', alignItems: "center" }}>
 							<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm.svg" alt="Logo" href="/"></img>
 						</Box>
 					</Grid>
-					<Grid item xs="auto" sx={{ display: { md: 'flex', xs: 'none' }, fontSize: '12px' }}>
+					<Grid item xs="auto" sx={{ display: { sm: 'flex', xs: 'none' }, fontSize: '12px' }}>
 						<Box sx={{ display: 'flex', alignItems: "center" }}>
 							<LocalPhoneOutlinedIcon sx={{ mr: '7px' }} /><span>+49 176 8563 5852</span>
 						</Box>
