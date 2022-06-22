@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import { Skeleton } from '@mui/material';
 
 
 function ProductSingle(props) {
@@ -39,16 +41,78 @@ function ProductSingle(props) {
 
 	const element = products?.data[0]
 
+	const sale = products?.data[0].sale
+
+
 	useEffect(() => {
 		fetchData()
 	}, [])
 
 
 	return (
-		<Container maxWidth="xs">
-			{element && <img src={element.picture} alt={element.itemName} width="50px" />}
 
-		</Container>
+		<Grid container alignItems="stretch"
+			justifyContent="center"
+			spacing={2}
+			columns={16}
+		>
+			{/* {loader && <div className="loader">Loading...</div>} */}
+			{error && (<div>{`There is a problem fetching the post data - ${error}`}</div>)}
+			<Grid item xs={6} style={{ display: 'flex', justifyContent: 'end' }}>
+
+				{element ?
+					(
+						<img src={element.picture} alt={element.itemName} width="365px" />
+					) : (
+						<Skeleton
+							variant="rectangular"
+							animation="wave"
+							width={365}
+							height={487} />
+					)
+				}
+
+			</Grid>
+			<Grid item xs={6} style={{ display: 'flex', justifyContent: 'start' }}>
+				{element ? (
+					<Box>
+						<Grid>
+							<Typography variant="headline" component="h1">
+								{element.itemName}
+							</Typography>
+						</Grid>
+						<Grid>
+							<Typography variant="paragraph" component="p">
+								{element.shortDesc}
+							</Typography>
+						</Grid>
+						<Grid>
+							<Typography variant="paragraph" component="p">
+
+								{sale === "0" ?
+									(<div>€{element.price}</div>)
+									:
+									(<div>€{element.sale} €{element.price}</div>)
+								}
+
+
+							</Typography>
+						</Grid>
+					</Box>
+
+				) : (
+					<Box sx={{ width: '100%' }}>
+						<Skeleton />
+						<Skeleton animation="wave" />
+						<Skeleton animation={false} />
+					</Box>
+				)
+
+
+
+				}
+			</Grid>
+		</Grid>
 	);
 }
 
