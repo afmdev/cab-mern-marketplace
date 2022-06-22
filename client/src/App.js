@@ -1,12 +1,29 @@
 import React from 'react';
-import ViewHome from './views/ViewHome';
+import { Routes, Route } from "react-router-dom";
 import { ProductsContextProvider } from './context/ProductsContext'
+
+import TopBar from './components/TopBar';
+import SearchBar from './components/SearchBar';
+import MainMenu from './components/MainMenu';
+import TopSlider from './components/TopSlider';
+
+import ViewHome from './views/ViewHome';
+import ViewProductSingle from './views/ViewProductSingle'
 
 function App() {
 	return (
 		<div className="Home">
 			<ProductsContextProvider>
-				<ViewHome />
+				<TopBar />
+				<SearchBar />
+				<MainMenu />
+				<TopSlider />
+				<Routes>
+					<Route path="/" element={<ViewHome />} />
+					<Route path="/product/:slug/" element={<ViewProductSingle />} />
+					{/* <Route path="no-logged" element={<ViewNoLogged />} />
+					<Route path="*" element={<NoMatch />} /> */}
+				</Routes>
 			</ProductsContextProvider>
 		</div>
 	);

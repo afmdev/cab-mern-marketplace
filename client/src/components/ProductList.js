@@ -1,13 +1,13 @@
 
 import React, { useContext, useEffect, useState } from 'react'
 import { ProductsContext } from '../context/ProductsContext'
+import { Link } from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container'
 
 
 function ProductsList() {
@@ -23,16 +23,15 @@ function ProductsList() {
 			justifyContent="center"
 			spacing={2}
 			columns={16}
+
 		>
 
 			{items && items.map((element, i) => {
 				return (
-					<Grid item style={{ display: 'flex' }} spacing={3}>
+					<Grid item style={{ display: 'flex' }} key={i}>
 						<Card style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', maxWidth: '300px' }}>
 							<CardContent>
-								<Typography>
-									Category
-								</Typography>
+								<img src={element.picture} width="100%" />
 								<Typography variant="headline" component="h4">
 									{element.itemName}
 								</Typography>
@@ -44,7 +43,9 @@ function ProductsList() {
 								</Typography>
 							</CardContent >
 							<CardActions>
-								<Button size="small">Learn More</Button>
+								<Link to={`/product/${element.slug}`}>
+									<Button size="small">Read More</Button>
+								</Link>
 							</CardActions>
 						</Card >
 					</Grid >

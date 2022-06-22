@@ -1,7 +1,8 @@
 import express from 'express';
-import { getAllItems } from '../controller/itemsController.js'
+import { getAllItems, getItemsBySlug } from '../controller/itemsController.js'
 const router = express.Router();
 
-router.get('/:all', getAllItems)
+router.get('/all', getAllItems)
+router.get('/:slug', getItemsBySlug)
 
 export default router;

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
+import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Link, Stack, Divider } from '@mui/material';
+import { Stack, Divider } from '@mui/material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
@@ -55,12 +56,22 @@ function Slider() {
 								divider={<Divider orientation="vertical" flexItem />}
 								spacing={2}
 							>
-								<Box>
-									<Link href="#" underline="hover" style={menuLinksStyles}><HomeOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Home</Link>
-								</Box>
-								<Link href="#" underline="hover" style={menuLinksStyles}><LocalGroceryStoreOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Shop</Link>
-								<Link href="#" underline="hover" style={menuLinksStyles}><EmojiEventsOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Bestseller</Link>
-								<Link href="#" underline="hover" style={menuLinksStyles}><LoyaltyOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Sale</Link>
+
+								<Link to='/' style={menuLinksStyles}>
+									<HomeOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Home
+								</Link>
+
+								<Link to='/' style={menuLinksStyles}>
+									<LocalGroceryStoreOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Shop
+								</Link>
+
+								<Link to='/' style={menuLinksStyles}>
+									<EmojiEventsOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Bestseller
+								</Link>
+
+								<Link to='/' style={menuLinksStyles}>
+									<LoyaltyOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Sale
+								</Link>
 							</Stack>
 						</Box>
 					</Grid>
