@@ -61,8 +61,8 @@ function Slider() {
 									<HomeOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Home
 								</Link>
 
-								<Link to='/' style={menuLinksStyles}>
-									<LocalGroceryStoreOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Shop
+								<Link to='/access' style={menuLinksStyles}>
+									<LocalGroceryStoreOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Login
 								</Link>
 
 								<Link to='/' style={menuLinksStyles}>
