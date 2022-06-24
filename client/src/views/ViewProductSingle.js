@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 
 
 function ViewProductSingle() {
-	const slug = useParams()
+
 	return (
 		<div className="ViewSingleProduct">
 			<ProductSingle />

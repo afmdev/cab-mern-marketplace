@@ -9,6 +9,7 @@ import TopSlider from './components/TopSlider';
 
 import ViewHome from './views/ViewHome';
 import ViewProductSingle from './views/ViewProductSingle'
+import ViewRegisterLogin from './views/ViewRegisterLogin'
 
 function App() {
 	return (
@@ -21,6 +22,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<ViewHome />} />
 					<Route path="/product/:slug/" element={<ViewProductSingle />} />
+					<Route path="/access/" element={<ViewRegisterLogin />} />
 					{/* <Route path="no-logged" element={<ViewNoLogged />} />
 					<Route path="*" element={<NoMatch />} /> */}
 				</Routes>

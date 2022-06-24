@@ -42,7 +42,6 @@ function ProductSingle(props) {
 
 
 	const { slug } = useParams();
-	const location = useLocation();
 
 	const [products, setProducts] = useState(null)
 	const [loader, setLoader] = useState(true)
