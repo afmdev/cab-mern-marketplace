@@ -18,43 +18,53 @@ import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+	flexCenter: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		alignItems: 'center'
+	},
+});
+
 function MyAccount() {
 
-
-
+	const classes = useStyles();
 	return (
 
 		<Grid container alignItems="stretch"
 			justifyContent="center"
-			spacing={5}
-			rowSpacing={5}
+			spacing={3}
+			rowSpacing={3}
 			columns={12}
 			sx={{ mt: '0' }}
 		>
 
 			<Grid item xs={10} sm={10} md={3} lg={3} xl={3}>
-				<Box style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#fff', borderRadius: '8px', overflow: 'hidden', width: '100%' }}>
-					<Typography component="p" >
+
+				<Box style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
+					<Typography component="p">
 						Dashboard
 					</Typography>
-					<Link href="#" underline="none">
-						<Box>
+					<Link href="#" underline="none" className={classes.flexCenter}>
+						<Box className={classes.flexCenter}>
 							<ShoppingBagOutlinedIcon /> Orders
 						</Box>
 						<Box component="span">
 							10
 						</Box>
 					</Link>
-					<Link href="#" underline="none">
-						<Box>
+					<Link href="#" underline="none" className={classes.flexCenter}>
+						<Box className={classes.flexCenter}>
 							<FavoriteBorderOutlinedIcon />Whishlist
 						</Box>
 						<Box component="span">
 							10
 						</Box>
 					</Link>
-					<Link href="#" underline="none">
-						<Box>
+					<Link href="#" underline="none" className={classes.flexCenter}>
+						<Box className={classes.flexCenter}>
 							<SupportAgentOutlinedIcon /> Support Ticket
 						</Box>
 						<Box component="span">
@@ -67,9 +77,11 @@ function MyAccount() {
 
 			<Grid item xs={10} sm={10} md={8} lg={7} xl={7}>
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: '10px' }}>
-					<Box><Typography component="headline" variant="h5" fontWeight="900" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-						<PersonIcon sx={{ mr: '25px' }} />My Profile
-					</Typography></Box>
+					<Box>
+						<Typography variant="h5" fontWeight="900" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+							<PersonIcon sx={{ mr: '25px' }} />My Profile
+						</Typography>
+					</Box>
 					<Box>
 						<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Edit Profile</Button>
 					</Box>
@@ -77,7 +89,7 @@ function MyAccount() {
 
 				<Box>
 
-					<Box>
+					<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
 						<Box>
 							<Avatar
 								alt="Remy Sharp"
