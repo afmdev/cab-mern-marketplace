@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useEffect } from 'react';
+import { getToken } from '../utils/getToken';
+import { useNavigate } from 'react-router-dom';
+
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Toolbar from '@mui/material/Toolbar';
+import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
@@ -22,6 +27,7 @@ import Divider from '@mui/material/Divider';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -66,8 +72,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchBar() {
 
+	const redirectTo = useNavigate();
+
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+	const [user, setUser] = useState(false);
 
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
@@ -87,6 +97,29 @@ function SearchBar() {
 		setMobileMoreAnchorEl(null);
 	};
 
+
+	const isUserLoggedIn = () => {
+		const token = getToken();
+		console.log(token);
+		if (token) {
+			setUser(true);
+			console.log("OK: User is logged in");
+			redirectTo("/my-account")
+		} else {
+			setUser(false);
+			console.log("WARNING: User is NOT logged in");
+		}
+	};
+
+	useEffect(() => {
+		isUserLoggedIn();
+	}, [user]);
+
+	const signOut = () => {
+		localStorage.removeItem("token");
+		setUser(false);
+	};
+
 	// const handleMenuClose = () => {
 	// 	setAnchorEl(null);
 	// 	handleMobileMenuClose();
@@ -96,11 +129,11 @@ function SearchBar() {
 	// 	setMobileMoreAnchorEl(event.currentTarget);
 	// };
 
-	// const menuId = 'primary-search-account-menu';
-	const renderMenu = (
+	const MenuSignedInId = 'account-menu';
+	const renderMenuSignedIn = (
 		<Menu
 			anchorEl={anchorEl}
-			id="account-menu"
+			id={MenuSignedInId}
 			open={open}
 			onClose={handleClose}
 			onClick={handleClose}
@@ -174,23 +207,84 @@ function SearchBar() {
 				Settings
 			</MenuItem>
 			<MenuItem>
-				<ListItemIcon>
-					<Logout fontSize="small" />
-				</ListItemIcon>
-				Logout
+				<Link onClick={signOut} underline="none" sx={{ display: 'flex', alignItems: 'center' }}>
+					<ListItemIcon>
+						<Logout fontSize="small" />
+					</ListItemIcon>
+					Logout
+				</Link>
 			</MenuItem>
 		</Menu>
 	);
 
-	const mobileMenuId = 'primary-search-account-menu-mobile';
-	const renderMobileMenu = (
+	const MenuMenuSignedOut = 'account-menu';
+	const renderMenuSignedOut = (
+		<Menu
+			anchorEl={anchorEl}
+			id={MenuMenuSignedOut}
+			open={open}
+			onClose={handleClose}
+			onClick={handleClose}
+			PaperProps={{
+				elevation: 0,
+				sx: {
+					overflow: 'visible',
+					filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+					mt: 1.5,
+					'& .MuiAvatar-root': {
+						width: 32,
+						height: 32,
+						ml: -0.5,
+						mr: 1,
+					},
+					'&:before': {
+						content: '""',
+						display: 'block',
+						position: 'absolute',
+						top: 0,
+						right: 14,
+						width: 10,
+						height: 10,
+						bgcolor: 'background.paper',
+						transform: 'translateY(-50%) rotate(45deg)',
+						zIndex: 0,
+					},
+				},
+			}}
+			transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+			anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+		>
+
+			<MenuItem>
+				<Avatar /> Login
+			</MenuItem>
+			<MenuItem>
+				<Avatar /> Register
+			</MenuItem>
+		</Menu>
+	);
+
+
+
+
+
+
+
+
+
+
+
+
+
+	const mobileMenuInId = 'primary-search-account-menu-mobile';
+	const renderMobileMenuIn = (
 		<Menu
 			anchorEl={mobileMoreAnchorEl}
 			anchorOrigin={{
 				vertical: 'top',
 				horizontal: 'right',
 			}}
-			id={mobileMenuId}
+			id={mobileMenuInId}
 			keepMounted
 			transformOrigin={{
 				vertical: 'top',
@@ -233,9 +327,6 @@ function SearchBar() {
 			</MenuItem>
 		</Menu>
 	);
-
-
-
 
 
 	return (
@@ -299,7 +390,7 @@ function SearchBar() {
 						<IconButton
 							size="large"
 							aria-label="show more"
-							aria-controls={mobileMenuId}
+							aria-controls={mobileMenuInId}
 							aria-haspopup="true"
 							// onClick={handleMobileMenuOpen}
 							onClick={handleClick}
@@ -309,10 +400,12 @@ function SearchBar() {
 						</IconButton>
 					</Box>
 				</Toolbar>
-
 			</AppBar>
-			{renderMobileMenu}
-			{renderMenu}
+
+			{renderMobileMenuIn}
+			{/* {user ? renderMobileMenuIn : renderMobileMenuOut} */}
+			{user ? renderMenuSignedIn : renderMenuSignedOut}
+
 		</Box >
 
 	);
