@@ -1,10 +1,12 @@
 import { v2 as cloudinary } from "cloudinary";
 import usersModel from "../models/usersModel.js";
-import encryptPassword from "../utils/encryptPassword.js";
+import { verifyPassword, encryptPassword } from "../utils/bcrypt.js";
+import { issueToken } from "../utils/jwt.js";
 
 
 const uploadUserPicture = async (req, res) => {
 	console.log("req.body", req.body);
+
 	try {
 		console.log("req.file", req.file);
 		const uploadResult = await cloudinary.uploader.upload(req.file.path, {
@@ -65,4 +67,37 @@ const signUp = async (req, res) => {
 	}
 };
 
-export { uploadUserPicture, signUp };
+
+const logIn = async (req, res) => {
+	const existingUser = await usersModel.findOne({ email: req.body.email });
+	if (!existingUser) {
+		res.status(401).json({
+			msg: "ERROR: You have to register first",
+		});
+	} else {
+		const verified = await verifyPassword(req.body.password, existingUser.password);
+		console.log("exisiting user password", req.body.password);
+		console.log("exisiting user password", existingUser.password);
+		if (!verified) {
+			res.status(401).json({
+				msg: "ERROR: Wrong password",
+			});
+		} else {
+			console.log("verified", verified);
+			console.log("logged in successful");
+			const token = issueToken(existingUser.id);
+			res.status(200).json({
+				msg: "OK: Login successful",
+				user: {
+					userName: existingUser.userName,
+					email: existingUser.email,
+					id: existingUser._id,
+					avatarPicture: existingUser.avatarPicture,
+				},
+				token,
+			});
+		}
+	}
+};
+
+export { uploadUserPicture, signUp, logIn };

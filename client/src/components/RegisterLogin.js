@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Button from '@mui/material/Button';
+import FormHelperText from '@mui/material/FormHelperText';
+import Alert from '@mui/material/Alert';
 
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -46,30 +48,70 @@ function a11yProps(index) {
 }
 
 
+
+
 function RegisterLogin() {
 
-
 	const [value, setValue] = useState(0);
+
+	const [name, setName] = useState(undefined);
+	const [errorName, setErrorName] = useState(false);
+	const [helperName, setHelperName] = useState('');
+
+	const [email, setEmail] = useState('');
+	const [errorEmail, setErrorEmail] = useState(false);
+	const [helperEmail, setHelperEmail] = useState('');
+
+	const [password, setPassword] = useState(undefined);
+	const [errorPassword, setErrorPassword] = useState(false);
+	const [helperPassword, setHelperPassword] = useState('');
+
+	const [newUser, setNewUser] = useState({});
+
+
+	//REVIEW Handler for tabs
+
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 
-	const [name, setName] = useState("alejandro");
 
-	const [newUser, setNewUser] = useState({});
+	//REVIEW Handler for input fields
 
-	const handleChangeHandler = (e) => {
+	const handleChangeName = (e) => {
+		setName(e.target.value)
 		setNewUser({ ...newUser, [e.target.name]: e.target.value });
-		console.log(e.target.value)
+		setErrorName(false);
+		setHelperName('');
+	};
+	const handleChangeEmail = (e) => {
+		setEmail(e.target.value)
+		setNewUser({ ...newUser, [e.target.name]: e.target.value });
+		setErrorEmail(false);
+		setHelperEmail('');
+	};
+	const handleChangePassword = (e) => {
+		setPassword(e.target.value)
+		setNewUser({ ...newUser, [e.target.name]: e.target.value });
+		setErrorPassword(false);
+		setHelperPassword('');
 	};
 
 	const signup = async () => {
 
-		if (name === undefined) {
-			console.log("ERROR UNDEFINED")
+		if (name === undefined || name === '') {
+			setHelperName('Name is a required field');
+			setErrorName(true);
+		} else if (email === undefined || email === '') {
+			setHelperEmail('Email is a required field');
+			setErrorEmail(true);
+		} else if (password === undefined || password === '') {
+			setHelperPassword('Password is a required field');
+			setErrorPassword(true);
 		} else {
 
 			let urlencoded = new URLSearchParams();
+
 			urlencoded.append("userName", newUser.userName);
 			urlencoded.append("email", newUser.email);
 			urlencoded.append("password", newUser.password);
@@ -92,7 +134,6 @@ function RegisterLogin() {
 				console.log("error fetching", error);
 			}
 		}
-
 	};
 
 
@@ -174,57 +215,59 @@ function RegisterLogin() {
 								<Box component="span" m={1} sx={{ width: '100%', border: '1px solid #e7e7e9' }}></Box>
 							</Box>
 
-							<form>
-
-								<Grid container spacing={2}>
-									<Grid item xs={12}>
-										<TextField
-											autoComplete="fname"
-											variant="outlined"
-											label="First Name"
-											autoFocus
-											id="username"
-											name="userName"
-											type="text"
-											value={newUser.userName ? newUser.userName : ""}
-											onChange={handleChangeHandler}
-											required
-											fullWidth
-										/>
-									</Grid>
-
-									<Grid item xs={12}>
-										<TextField
-											variant="outlined"
-											label="Email Address"
-											name="email"
-											id="email"
-											autoComplete="email"
-											type="email"
-											value={newUser.email ? newUser.email : ""}
-											onChange={handleChangeHandler}
-											required
-											fullWidth
-										/>
-									</Grid>
-									<Grid item xs={12}>
-										<TextField
-											variant="outlined"
-											name="password"
-											id="password"
-											label="Password"
-											type="password"
-											autoComplete="current-password"
-											value={newUser.password ? newUser.password : ""}
-											onChange={handleChangeHandler}
-											required
-											fullWidth
-										/>
-									</Grid>
-
+							<Grid container spacing={2}>
+								<Grid item xs={12}>
+									<TextField
+										error={errorName}
+										autoComplete="fname"
+										variant="outlined"
+										label="First Name"
+										id="username"
+										name="userName"
+										type="text"
+										defaultValue={newUser.userName ? newUser.userName : ""}
+										helperText={helperName}
+										onChange={handleChangeName}
+										required
+										fullWidth
+									/>
 								</Grid>
-								<Button variant="contained" size="large" sx={{ width: '100%', my: '25px' }} onClick={signup}>REGISTER ACCOUNT</Button>
-							</form>
+
+								<Grid item xs={12}>
+									<TextField
+										error={errorEmail}
+										label="Email Address"
+										variant="outlined"
+										name="email"
+										id="email"
+										autoComplete="email"
+										type="email"
+										defaultValue={newUser.email ? newUser.email : ""}
+										helperText={helperEmail}
+										onChange={handleChangeEmail}
+										required
+										fullWidth
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<TextField
+										error={errorPassword}
+										variant="outlined"
+										name="password"
+										id="password"
+										label="Password"
+										type="password"
+										autoComplete="current-password"
+										defaultValue={newUser.password ? newUser.password : ""}
+										helperText={helperPassword}
+										onChange={handleChangePassword}
+										required
+										fullWidth
+									/>
+								</Grid>
+
+							</Grid>
+							<Button variant="contained" size="large" sx={{ width: '100%', my: '25px' }} onClick={signup}>REGISTER ACCOUNT</Button>
 						</Grid>
 					</Box>
 				</TabPanel>
