@@ -1,4 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { getToken } from "../utils/getToken";
+
+
 import Typography from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -7,12 +10,9 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Button from '@mui/material/Button';
-import FormHelperText from '@mui/material/FormHelperText';
-import Alert from '@mui/material/Alert';
 
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -47,9 +47,6 @@ function a11yProps(index) {
 	};
 }
 
-
-
-
 function RegisterLogin() {
 
 	const [value, setValue] = useState(0);
@@ -68,13 +65,11 @@ function RegisterLogin() {
 
 	const [newUser, setNewUser] = useState({});
 
-
 	//REVIEW Handler for tabs
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
-
 
 	//REVIEW Handler for input fields
 
@@ -97,7 +92,8 @@ function RegisterLogin() {
 		setHelperPassword('');
 	};
 
-	const signup = async () => {
+
+	const signUp = async () => {
 
 		if (name === undefined || name === '') {
 			setHelperName('Name is a required field');
@@ -137,6 +133,43 @@ function RegisterLogin() {
 	};
 
 
+	const [signInUser, setSignInUser] = useState({});
+
+	const handleChangeHandlerSignIn = (e) => {
+		setSignInUser({ ...signInUser, [e.target.name]: e.target.value });
+	};
+
+
+	const signIn = async () => {
+		let urlencoded = new URLSearchParams();
+		urlencoded.append("email", signInUser.email);
+		urlencoded.append("password", signInUser.password);
+
+		var requestOptions = {
+			method: "POST",
+			body: urlencoded,
+		};
+
+		try {
+			const response = await fetch(
+				"http://localhost:5000/api/users/login",
+				requestOptions
+			);
+			const result = await response.json();
+			const { token, user } = result;
+
+			if (token) {
+				localStorage.setItem("token", token);
+			} else {
+				console.log("error seting token");
+			}
+			console.log("result", result);
+		} catch (error) {
+			console.log("login error", error);
+		}
+	}
+
+
 	return (
 
 		<Grid container alignItems="stretch"
@@ -160,7 +193,7 @@ function RegisterLogin() {
 							<Box sx={{ width: '100%', mb: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 								<Box component="span" m={1} sx={{ width: '100%', border: '1px solid #e7e7e9' }}></Box>
 								<Box sx={{
-									display: 'inline-block', backgroundColor: '#d32f2f', borderRadius: '100px', p: '10px',
+									backgroundColor: '#d32f2f', borderRadius: '100px', p: '10px',
 									color: '#fff', height: '25px', width: '25px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
 								}}><LockOpenIcon /></Box>
 
@@ -170,28 +203,32 @@ function RegisterLogin() {
 								<Grid item xs={12}>
 									<TextField
 										variant="outlined"
-										required
-										fullWidth
 										id="email"
 										label="Email Address"
 										name="email"
 										autoComplete="email"
+										value={signInUser.email ? signInUser.email : ""}
+										onChange={handleChangeHandlerSignIn}
+										required
+										fullWidth
 									/>
 								</Grid>
 								<Grid item xs={12}>
 									<TextField
 										variant="outlined"
-										required
-										fullWidth
 										name="password"
 										label="Password"
 										type="password"
 										id="password"
 										autoComplete="current-password"
+										value={signInUser.password ? signInUser.password : ""}
+										onChange={handleChangeHandlerSignIn}
+										required
+										fullWidth
 									/>
 								</Grid>
 							</Grid>
-							<Button variant="contained" size="large" sx={{ width: '100%', my: '25px' }}>LOGIN</Button>
+							<Button variant="contained" size="large" sx={{ width: '100%', my: '25px' }} onClick={signIn}>LOGIN</Button>
 						</Grid>
 					</Box>
 				</TabPanel>
@@ -267,7 +304,7 @@ function RegisterLogin() {
 								</Grid>
 
 							</Grid>
-							<Button variant="contained" size="large" sx={{ width: '100%', my: '25px' }} onClick={signup}>REGISTER ACCOUNT</Button>
+							<Button variant="contained" size="large" sx={{ width: '100%', my: '25px' }} onClick={signUp}>REGISTER ACCOUNT</Button>
 						</Grid>
 					</Box>
 				</TabPanel>
