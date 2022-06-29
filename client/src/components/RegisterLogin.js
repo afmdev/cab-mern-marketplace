@@ -199,10 +199,10 @@ function RegisterLogin() {
 			<Box sx={{ width: '100%' }}>
 				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 					<Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
-						<LinkTab label="LOGIN" href="/access/login" {...a11yProps(0)} />
-						<LinkTab label="REGISTER" href="/access/register" {...a11yProps(1)} />
-						{/* <Tab label="LOGIN" {...a11yProps(0)} />
-						<Tab label="REGISTER" {...a11yProps(1)} /> */}
+
+						<Tab label="LOGIN" {...a11yProps(0)} />
+						<Tab label="REGISTER" {...a11yProps(1)} />
+
 
 					</Tabs>
 				</Box>
@@ -335,3 +335,6 @@ function RegisterLogin() {
 }
 
 export default RegisterLogin
+
+
+

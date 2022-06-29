@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/authContext';
-import { Link } from "react-router-dom";
+import { Link as LinkRouter } from "react-router-dom";
 
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Avatar from '@mui/material/Avatar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -235,16 +236,17 @@ function SearchBar() {
 
 
 
-			<Link to="/access">
+			<LinkRouter to="/access">
 				<MenuItem>
 					<Avatar /> Login
 				</MenuItem>
-			</Link>
-			<MenuItem>
+			</LinkRouter>
 
-				<Avatar /> Register
-
-			</MenuItem>
+			<LinkRouter to="/access">
+				<MenuItem>
+					<Avatar /> Register
+				</MenuItem>
+			</LinkRouter>
 		</Menu>
 	);
 
@@ -345,19 +347,36 @@ function SearchBar() {
 							</Badge>
 						</IconButton>
 
+						{user ?
+							<Tooltip title="Account settings">
+								<IconButton
+									onClick={handleClick}
+									size="small"
+									sx={{ ml: 2 }}
+									aria-controls={open ? 'account-menu' : undefined}
+									aria-haspopup="true"
+									aria-expanded={open ? 'true' : undefined}
+								>
+									<Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
+								</IconButton>
+							</Tooltip>
+							:
+							<Tooltip title="Login & Register">
+								<IconButton
+									onClick={handleClick}
+									size="small"
+									sx={{ ml: 2 }}
+									aria-controls={open ? 'account-menu' : undefined}
+									aria-haspopup="true"
+									aria-expanded={open ? 'true' : undefined}
+								>
+									<Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
+								</IconButton>
+							</Tooltip>
+						}
 
-						<Tooltip title="Account settings">
-							<IconButton
-								onClick={handleClick}
-								size="small"
-								sx={{ ml: 2 }}
-								aria-controls={open ? 'account-menu' : undefined}
-								aria-haspopup="true"
-								aria-expanded={open ? 'true' : undefined}
-							>
-								<Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
-							</IconButton>
-						</Tooltip>
+
+
 
 					</Box>
 					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
