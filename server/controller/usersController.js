@@ -24,6 +24,16 @@ const uploadUserPicture = async (req, res) => {
 	}
 };
 
+const updateUser = async (req, res) => {
+	try {
+
+	} catch (error) {
+		res
+			.status(409)
+			.json({ message: "ERROR: Changes could not be saved", error: error });
+	}
+}
+
 
 const signUp = async (req, res) => {
 	try {
