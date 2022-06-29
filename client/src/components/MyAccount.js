@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, Link as Link2 } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'
@@ -143,7 +143,9 @@ function MyAccount() {
 						</Typography>
 					</Box>
 					<Box>
-						<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Edit Profile</Button>
+						<Link2 to="/my-account/edit">
+							<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Edit Profile</Button>
+						</Link2>
 					</Box>
 				</Box>
 
