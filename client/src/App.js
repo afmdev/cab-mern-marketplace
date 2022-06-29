@@ -7,13 +7,12 @@ import SearchBar from './components/SearchBar';
 import MainMenu from './components/MainMenu';
 import TopSlider from './components/TopSlider';
 import MyAccount from './components/MyAccount';
-import Login from './components/Login';
-import Register from './components/Register';
 
 import ViewHome from './views/ViewHome';
 import ViewProductSingle from './views/ViewProductSingle'
 import ViewRegisterLogin from './views/ViewRegisterLogin'
 import ViewMyAccount from './views/ViewMyAccount'
+import ViewMyAccountEdit from './views/ViewMyAccountEdit'
 
 function App() {
 	return (
@@ -28,10 +27,10 @@ function App() {
 					<Route path="/product/:slug/" element={<ViewProductSingle />} />
 					<Route path="/access/" element={<ViewRegisterLogin />} />
 					<Route path="/my-account/" element={<ViewMyAccount />} />
+					<Route path="/my-account/edit" element={<ViewMyAccountEdit />} />
 					{/* <Route path="no-logged" element={<ViewNoLogged />} />
 					<Route path="*" element={<NoMatch />} /> */}
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<Register />} />
+
 				</Routes>
 			</ProductsContextProvider>
 		</div>

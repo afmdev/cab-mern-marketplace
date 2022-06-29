@@ -1,11 +1,12 @@
 import React from 'react'
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, Link as Link2 } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'
 import { Skeleton } from '@mui/material';
 
-import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
@@ -26,6 +27,15 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 
 import { makeStyles } from '@mui/styles';
+
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+
+const Input = styled('input')({
+	display: 'none',
+});
 
 const useStyles = makeStyles({
 	flexCenter: {
@@ -113,118 +123,148 @@ function MyAccount() {
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 					<Box>
 						<Typography variant="h5" fontWeight="900" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-							<PersonIcon sx={{ mr: '25px' }} />My Profile
+							<PersonIcon sx={{ mr: '25px' }} />Edit My Profile
 						</Typography>
 					</Box>
 					<Box>
-						<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Edit Profile</Button>
+						<Link2 to="/my-account">
+							<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Back To Profile</Button>
+						</Link2>
 					</Box>
 				</Box>
 
 
-				<Grid container spacing={3} alignItems="stretch" columns={13} sx={{ mt: '0', pt: '0' }}>
+				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
 
-					<Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
-						<Box sx={{ display: 'flex', alignItems: 'center', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-							<Box>
-								<Avatar
-									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
-									sx={{ width: 56, height: 56, mr: '10px' }}
-								/>
+					<Grid item xs={12} sm={12} md={12} lg={12} xl={12} sx={{ position: 'relative' }}>
+						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
+							<Box sx={{ position: 'relative' }}>
+								<Box>
+									<Avatar
+										alt="Remy Sharp"
+										src="https://mui.com/static/images/avatar/1.jpg"
+										sx={{ width: 56, height: 56, mr: '10px' }}
+									/>
+								</Box>
+								<Box sx={{ position: 'absolute', left: '31px', bottom: '-13px' }}>
+									<label htmlFor="icon-button-file">
+										<Input accept="image/*" id="icon-button-file" type="file" />
+										<IconButton color="primary" aria-label="upload picture" component="span">
+											<PhotoCamera />
+										</IconButton>
+									</label>
+								</Box>
+
 							</Box>
-							<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-								<Typography component="p" sx={{ fontWeight: '900' }}>
-									Alejandro F. Marrero
-								</Typography>
-								<Typography component="p" sx={{ fontSize: '12px' }}>
-									Balance: <Typography component="span" sx={{ fontSize: '12px', fontWeight: '900' }}>500€</Typography>
-								</Typography>
-							</Box>
+							<Grid container spacing={2} sx={{
+								mt: '20px'
+							}}>
+								<Grid item xs={12} xl={6}>
+									<TextField
+										// error={errorName}
+										autoComplete="fname"
+										variant="outlined"
+										label="First Name"
+										id="username"
+										name="userName"
+										type="text"
+										// defaultValue={newUser.userName ? newUser.userName : ""}
+										// helperText={helperName}
+										// onChange={handleChangeName}
+										required
+										fullWidth
+									/>
+								</Grid>
+
+								<Grid item xs={12} xl={6}>
+									<TextField
+										// error={errorName}
+										autoComplete="lname"
+										variant="outlined"
+										label="Last Name"
+										id="lastname"
+										name="lastName"
+										type="text"
+										// defaultValue={newUser.userName ? newUser.userName : ""}
+										// helperText={helperName}
+										// onChange={handleChangeName}
+										required
+										fullWidth
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<TextField
+										// error={errorName}
+										autoComplete="emial"
+										variant="outlined"
+										label="E-Mail"
+										id="email"
+										name="email"
+										type="text"
+										// defaultValue={newUser.userName ? newUser.userName : ""}
+										// helperText={helperName}
+										// onChange={handleChangeName}
+										required
+										fullWidth
+									/>
+								</Grid>
+								<Grid item xs={12} xl={6}>
+									<TextField
+										// error={errorName}
+										autoComplete="phone"
+										variant="outlined"
+										label="Phone"
+										id="phone"
+										name="phone"
+										type="text"
+										// defaultValue={newUser.userName ? newUser.userName : ""}
+										// helperText={helperName}
+										// onChange={handleChangeName}
+										required
+										fullWidth
+									/>
+								</Grid>
+								<Grid item xs={12} xl={6}>
+									<TextField
+										// error={errorName}
+										autoComplete="birthday"
+										variant="outlined"
+										label="Birthday"
+										id="birthday"
+										name="birthday"
+										type="date"
+										defaultValue="2017-05-24"
+										InputLabelProps={{
+											shrink: true,
+										}}
+										// defaultValue={newUser.userName ? newUser.userName : ""}
+										// helperText={helperName}
+										// onChange={handleChangeName}
+										required
+										fullWidth
+									/>
+								</Grid>
+
+							</Grid>
 						</Box>
+
 					</Grid>
 
-					<Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-							<Box>
-								<Avatar
-									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
-									sx={{ width: 56, height: 56 }}
-								/>
-							</Box>
-						</Box>
-					</Grid>
-					<Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-							<Box>
-								<Avatar
-									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
-									sx={{ width: 56, height: 56 }}
-								/>
-							</Box>
-						</Box>
-					</Grid>
-					<Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-							<Box>
-								<Avatar
-									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
-									sx={{ width: 56, height: 56 }}
-								/>
-							</Box>
-						</Box>
-					</Grid>
-					<Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-							<Box>
-								<Avatar
-									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
-									sx={{ width: 56, height: 56 }}
-								/>
-							</Box>
-						</Box>
-					</Grid>
+
 
 				</Grid>
 
 
-				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
+				{/* <Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
 
 					<Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 						<Box sx={{ display: 'flex', justifyContent: 'space-between', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-							<Box>
-								<Typography component="p" fontSize="small">First Name</Typography>
-								<Typography component="p">Alejandro</Typography>
-							</Box>
-
-							<Box>
-								<Typography component="p" fontSize="small">Last Name</Typography>
-								<Typography component="p">Marrero</Typography>
-							</Box>
-
-							<Box>
-								<Typography component="p" fontSize="small">Email</Typography>
-								<Typography component="p">ale@fm.es</Typography>
-							</Box>
-
-							<Box>
-								<Typography component="p" fontSize="small">Phone</Typography>
-								<Typography component="p">922482738</Typography>
-							</Box>
-
-							<Box>
-								<Typography component="p" fontSize="small">Birthday</Typography>
-								<Typography component="p">18-03-1986</Typography>
-							</Box>
+							Hola
 						</Box>
 					</Grid>
 
 
-				</Grid>
+				</Grid> */}
 
 
 
