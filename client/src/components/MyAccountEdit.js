@@ -78,32 +78,6 @@ function MyAccount() {
 						Dashboard
 					</Typography>
 
-					{/* <Link href="#" underline="none" className={classes.flexCenter}>
-						<Box className={classes.flexCenter} >
-							<ShoppingBagOutlinedIcon sx={{ mr: '10px' }} /> Orders
-						</Box>
-						<Box component="span">
-							10
-						</Box>
-					</Link>
-
-					<Link href="#" underline="none" className={classes.flexCenter}>
-						<Box className={classes.flexCenter}>
-							<FavoriteBorderOutlinedIcon sx={{ mr: '10px' }} /> Whishlist
-						</Box>
-						<Box component="span">
-							10
-						</Box>
-					</Link>
-
-					<Link href="#" underline="none" className={classes.flexCenter}>
-						<Box className={classes.flexCenter}>
-							<SupportAgentOutlinedIcon sx={{ mr: '10px' }} /> Support Ticket
-						</Box>
-						<Box component="span">
-							10
-						</Box>
-					</Link> */}
 
 					<List sx={style} component="nav" aria-label="mailbox folders">
 						<Divider />

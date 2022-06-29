@@ -1,15 +1,46 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react';
+import { getToken } from '../utils/getToken';
+import { useNavigate } from 'react-router-dom';
+
+export const AuthContext = createContext();
+
+export const AuthContextProvider = (props) => {
+	const [user, setUser] = useState(false);
+	const redirectTo = useNavigate();
 
 
-export const UsersContext = createContext()
+	const isUserLoggedIn = () => {
+		const token = getToken();
+		console.log(token);
+		if (token) {
+			setUser(true);
+			console.log("OK: User is logged in");
+			redirectTo("/my-account")
+		} else {
+			setUser(false);
+			console.log("WARNING: User is NOT logged in");
+		}
+	};
 
-export const UsersContextProvider = (props) => {
+
+	const signOut = () => {
+		localStorage.removeItem("token");
+		setUser(false);
+		redirectTo("/");
+		console.log("WARNING: User signed out");
+	};
+
+
+	useEffect(() => {
+		isUserLoggedIn();
+	}, [user]);
 
 
 
 	return (
-		<UsersContext.Provider value={{}}>
+		<AuthContext.Provider
+			value={{ user, setUser, signOut, isUserLoggedIn }}>
 			{props.children}
-		</UsersContext.Provider>
-	)
-}
+		</AuthContext.Provider>
+	);
+};

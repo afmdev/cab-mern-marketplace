@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import * as React from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../context/authContext';
 import { getToken } from "../utils/getToken";
 
 
@@ -47,7 +49,21 @@ function a11yProps(index) {
 	};
 }
 
+function LinkTab(props) {
+	return (
+		<Tab
+			component="a"
+			onClick={event => {
+				event.preventDefault();
+			}}
+			{...props}
+		/>
+	);
+}
+
 function RegisterLogin() {
+
+	const { user, setUser, signOut, isUserLoggedIn } = useContext(AuthContext);
 
 	const [value, setValue] = useState(0);
 
@@ -160,8 +176,10 @@ function RegisterLogin() {
 
 			if (token) {
 				localStorage.setItem("token", token);
+				setUser(true);
 			} else {
 				console.log("error seting token");
+				setUser(false);
 			}
 			console.log("result", result);
 		} catch (error) {
@@ -181,8 +199,11 @@ function RegisterLogin() {
 			<Box sx={{ width: '100%' }}>
 				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 					<Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
-						<Tab label="LOGIN" {...a11yProps(0)} />
-						<Tab label="REGISTER" {...a11yProps(1)} />
+						<LinkTab label="LOGIN" href="/access/login" {...a11yProps(0)} />
+						<LinkTab label="REGISTER" href="/access/register" {...a11yProps(1)} />
+						{/* <Tab label="LOGIN" {...a11yProps(0)} />
+						<Tab label="REGISTER" {...a11yProps(1)} /> */}
+
 					</Tabs>
 				</Box>
 				<TabPanel value={value} index={0} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

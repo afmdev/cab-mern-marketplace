@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { getToken } from '../utils/getToken';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../context/authContext';
+import { Link } from "react-router-dom";
 
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Toolbar from '@mui/material/Toolbar';
-import Link from '@mui/material/Link';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
@@ -18,8 +16,6 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Tooltip from '@mui/material/Tooltip';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -27,6 +23,10 @@ import Divider from '@mui/material/Divider';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+
 
 
 
@@ -72,12 +72,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchBar() {
 
-	const redirectTo = useNavigate();
+	const { user, signOut, isUserLoggedIn } = useContext(AuthContext);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-	const [user, setUser] = useState(false);
+
 
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
@@ -97,28 +97,6 @@ function SearchBar() {
 		setMobileMoreAnchorEl(null);
 	};
 
-
-	const isUserLoggedIn = () => {
-		const token = getToken();
-		console.log(token);
-		if (token) {
-			setUser(true);
-			console.log("OK: User is logged in");
-			redirectTo("/my-account")
-		} else {
-			setUser(false);
-			console.log("WARNING: User is NOT logged in");
-		}
-	};
-
-	useEffect(() => {
-		isUserLoggedIn();
-	}, [user]);
-
-	const signOut = () => {
-		localStorage.removeItem("token");
-		setUser(false);
-	};
 
 	// const handleMenuClose = () => {
 	// 	setAnchorEl(null);
@@ -178,19 +156,19 @@ function SearchBar() {
 			<MenuItem sx={{ display: { md: 'none', sm: 'flex' } }}>
 				<ListItemIcon>
 					<Badge badgeContent={4} color="error">
-						<MailIcon fontSize="small" />
+						<FavoriteOutlinedIcon fontSize="small" />
 					</Badge>
 				</ListItemIcon>
-				Messages
+				Whishlist
 			</MenuItem>
 
 			<MenuItem sx={{ display: { md: 'none', sm: 'flex' } }}>
 				<ListItemIcon>
 					<Badge badgeContent={17} color="error">
-						<NotificationsIcon fontSize="small" />
+						<ShoppingCartIcon fontSize="small" />
 					</Badge>
 				</ListItemIcon>
-				Notifications
+				Cart
 			</MenuItem>
 
 			<Divider sx={{ display: { md: 'none', sm: 'flex' } }} />
@@ -255,24 +233,20 @@ function SearchBar() {
 			anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 		>
 
+
+
+			<Link to="/access">
+				<MenuItem>
+					<Avatar /> Login
+				</MenuItem>
+			</Link>
 			<MenuItem>
-				<Avatar /> Login
-			</MenuItem>
-			<MenuItem>
+
 				<Avatar /> Register
+
 			</MenuItem>
 		</Menu>
 	);
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -296,22 +270,22 @@ function SearchBar() {
 			<MenuItem>
 				<IconButton size="large" aria-label="show 4 new mails" color="inherit">
 					<Badge badgeContent={4} color="error">
-						<MailIcon />
+						<FavoriteOutlinedIcon />
 					</Badge>
 				</IconButton>
-				<p>Messages</p>
+				Whishlist
 			</MenuItem>
 			<MenuItem>
 				<IconButton
 					size="large"
-					aria-label="show 17 new notifications"
+					aria-label="show 17 new items"
 					color="inherit"
 				>
 					<Badge badgeContent={17} color="error">
-						<NotificationsIcon />
+						<ShoppingCartIcon />
 					</Badge>
 				</IconButton>
-				<p>Notifications</p>
+				<p>Cart</p>
 			</MenuItem>
 			<MenuItem onClick={handleProfileMenuOpen}>
 				<IconButton
@@ -358,16 +332,16 @@ function SearchBar() {
 					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 						<IconButton size="large" aria-label="show 4 new mails" color="inherit">
 							<Badge badgeContent={4} color="error">
-								<MailIcon />
+								<FavoriteOutlinedIcon />
 							</Badge>
 						</IconButton>
 						<IconButton
 							size="large"
-							aria-label="show 17 new notifications"
+							aria-label="show 17 new items"
 							color="inherit"
 						>
 							<Badge badgeContent={17} color="error">
-								<NotificationsIcon />
+								<ShoppingCartIcon />
 							</Badge>
 						</IconButton>
 
