@@ -24,16 +24,43 @@ const uploadUserPicture = async (req, res) => {
 	}
 };
 
-const updateUser = async (req, res) => {
+
+const updateProfile = async (req, res) => {
+	console.log('req.body >>>>>>>>>>>>>>>>>>>>>>', req.body)
+
 	try {
-
+		const updatedUser = await usersModel.findOneAndUpdate(req.body.id, {
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+		});
+		console.log("updatedUser: ", updatedUser);
+		res.status(200).json({
+			message: "OK: User info updated.",
+			user: updatedUser,
+		});
 	} catch (error) {
-		res
-			.status(409)
-			.json({ message: "ERROR: Changes could not be saved", error: error });
+		res.status(400).json({
+			message: "ERROR: Unable to update account information.",
+		});
 	}
-}
+};
 
+
+
+// try {
+// 	const updateProfile = await usersModel.findByIdAndUpdate(req.body.id);
+// 	console.log('req.body.id', req.body.id)
+// 	console.log("updateProfile: ", updateProfile);
+// 	res.status(200).json({
+// 		message: "SUCCESS: User info updated.",
+// 		user: updateProfile,
+// 	});
+// } catch (error) {
+// 	res.status(400).json({
+// 		message: "ERROR: Unable to update account information.",
+// 	});
+// }
+// };
 
 const signUp = async (req, res) => {
 	try {
@@ -48,7 +75,7 @@ const signUp = async (req, res) => {
 
 
 			const newUser = new usersModel({
-				userName: req.body.userName,
+				firstName: req.body.firstName,
 				email: req.body.email,
 				password: hashedPassword,
 				avatarPicture: req.body.avatarPicture,
@@ -58,7 +85,7 @@ const signUp = async (req, res) => {
 				const savedUser = await newUser.save();
 				res.status(201).json({
 					user: {
-						userName: savedUser.userName,
+						firstName: savedUser.firstName,
 						email: savedUser.email,
 						avatarPicture: savedUser.avatarPicture,
 					},
@@ -79,6 +106,7 @@ const signUp = async (req, res) => {
 
 
 const logIn = async (req, res) => {
+
 	const existingUser = await usersModel.findOne({ email: req.body.email });
 	if (!existingUser) {
 		res.status(401).json({
@@ -99,7 +127,7 @@ const logIn = async (req, res) => {
 			res.status(200).json({
 				msg: "OK: Login successful",
 				user: {
-					userName: existingUser.userName,
+					firstName: existingUser.firstName,
 					email: existingUser.email,
 					id: existingUser._id,
 					avatarPicture: existingUser.avatarPicture,
@@ -110,4 +138,19 @@ const logIn = async (req, res) => {
 	}
 };
 
-export { uploadUserPicture, signUp, logIn };
+const getProfile = (req, res) => {
+	console.log("req.user", req.user);
+	res.status(200).json({
+		_id: req.user.id,
+		firstName: req.user.firstName,
+		lastName: req.user.lastName,
+		email: req.user.email,
+		phone: req.user.phone,
+		birthday: req.user.birthday,
+		password: req.user.password,
+		avatarPicture: req.user.avatarPicture,
+	});
+};
+
+
+export { uploadUserPicture, signUp, logIn, updateProfile, getProfile };

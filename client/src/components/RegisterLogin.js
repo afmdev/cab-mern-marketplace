@@ -49,17 +49,17 @@ function a11yProps(index) {
 	};
 }
 
-function LinkTab(props) {
-	return (
-		<Tab
-			component="a"
-			onClick={event => {
-				event.preventDefault();
-			}}
-			{...props}
-		/>
-	);
-}
+// function LinkTab(props) {
+// 	return (
+// 		<Tab
+// 			component="a"
+// 			onClick={event => {
+// 				event.preventDefault();
+// 			}}
+// 			{...props}
+// 		/>
+// 	);
+// }
 
 function RegisterLogin() {
 
@@ -124,7 +124,7 @@ function RegisterLogin() {
 
 			let urlencoded = new URLSearchParams();
 
-			urlencoded.append("userName", newUser.userName);
+			urlencoded.append("firstName", newUser.firstName);
 			urlencoded.append("email", newUser.email);
 			urlencoded.append("password", newUser.password);
 
@@ -168,7 +168,7 @@ function RegisterLogin() {
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/users/login",
+				"http://localhost:5000/api/users/updateuser",
 				requestOptions
 			);
 			const result = await response.json();
@@ -280,10 +280,10 @@ function RegisterLogin() {
 										autoComplete="fname"
 										variant="outlined"
 										label="First Name"
-										id="username"
-										name="userName"
+										id="firstname"
+										name="firstName"
 										type="text"
-										defaultValue={newUser.userName ? newUser.userName : ""}
+										defaultValue={newUser.firstName ? newUser.firstName : ""}
 										helperText={helperName}
 										onChange={handleChangeName}
 										required
