@@ -1,60 +1,84 @@
-import React from 'react'
-import { useLocation, useParams, Link as Link2 } from "react-router-dom";
+import React, { useContext, useState } from 'react'
+import { Link as Link2 } from "react-router-dom";
+
+
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'
-import { Skeleton } from '@mui/material';
-
 import TextField from '@mui/material/TextField';
-
-import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
 import Avatar from '@mui/material/Avatar';
-
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PersonIcon from '@mui/icons-material/Person';
-
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-
-import { makeStyles } from '@mui/styles';
-
-import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { styled } from '@mui/material/styles';
+
+import { AuthContext } from "../context/authContext";
+
 
 const Input = styled('input')({
 	display: 'none',
 });
 
-const useStyles = makeStyles({
-	flexCenter: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		height: '40px'
-	},
-});
 
 const style = {
 	width: '100%',
-
 	bgcolor: '#f5f5f5',
 };
 
-function MyAccount() {
+function MyAccountEdit() {
 
-	const classes = useStyles();
+	const [updateAccount, setUpdateAccount] = useState({});
+	const { token } = useContext(AuthContext)
+	console.log('token', token)
+
+	const handleChange = (event) => {
+		setUpdateAccount({ ...updateAccount, [event.target.name]: event.target.value });
+		console.log(updateAccount);
+	};
+	const updateProfile = async () => {
+
+		let myHeaders = new Headers();
+		myHeaders.append("Authorization", `Bearer ${token}`);
+		let urlencoded = new URLSearchParams();
+		urlencoded.append("firstName", updateAccount.firstName);
+		urlencoded.append("lastName", updateAccount.lastName);
+		urlencoded.append("email", updateAccount.email);
+		urlencoded.append("phone", updateAccount.phone);
+		urlencoded.append("birthday", updateAccount.birthday);
+		urlencoded.append("password", updateAccount.password);
+		const requestOptions = {
+			method: "POST",
+			headers: myHeaders,
+			body: urlencoded,
+		};
+		console.log('urlencoded', myHeaders.get("Authorization"))
+
+		try {
+			const response = await fetch(
+				"http://localhost:5000/api/users/updateProfile",
+				requestOptions
+			);
+			console.log('response', response)
+			const results = await response.json();
+			console.log("MyAccountEdit Results user update", results);
+		} catch (error) {
+			console.log("MyAccountEdit ERROR: Unable to update user information.", error);
+		}
+	};
+
+
+
 	return (
 
 		<Grid container alignItems="stretch"
@@ -134,7 +158,7 @@ function MyAccount() {
 				</Box>
 
 
-				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
+				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0', mb: '50px' }}>
 
 					<Grid item xs={12} sm={12} md={12} lg={12} xl={12} sx={{ position: 'relative' }}>
 						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
@@ -154,23 +178,33 @@ function MyAccount() {
 										</IconButton>
 									</label>
 								</Box>
-
 							</Box>
+							<Button variant="contained" size="small" color="error" sx={{ my: '25px' }} disableElevation>UPLOAD</Button>
+							<Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+								<Box component="span" m={1} sx={{ width: '100%', border: '1px solid #e7e7e9' }}></Box>
+								<Box sx={{
+									backgroundColor: '#d32f2f', borderRadius: '100px', p: '10px',
+									color: '#fff', height: '25px', width: '25px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+								}}><EditOutlinedIcon /></Box>
+
+								<Box component="span" m={1} sx={{ width: '100%', border: '1px solid #e7e7e9' }}></Box>
+							</Box>
+
 							<Grid container spacing={2} sx={{
 								mt: '20px'
 							}}>
 								<Grid item xs={12} xl={6}>
 									<TextField
 										// error={errorName}
-										autoComplete="fname"
+										autoComplete="lname"
 										variant="outlined"
-										label="First Name"
-										id="username"
-										name="userName"
+										label="Last Name"
+										id="firstname"
+										name="firstName"
 										type="text"
-										// defaultValue={newUser.userName ? newUser.userName : ""}
+										defaultValue={updateAccount.firstName ? updateAccount.firstName : ""}
 										// helperText={helperName}
-										// onChange={handleChangeName}
+										onChange={handleChange}
 										required
 										fullWidth
 									/>
@@ -185,9 +219,9 @@ function MyAccount() {
 										id="lastname"
 										name="lastName"
 										type="text"
-										// defaultValue={newUser.userName ? newUser.userName : ""}
+										defaultValue={updateAccount.lastName ? updateAccount.lastName : ""}
 										// helperText={helperName}
-										// onChange={handleChangeName}
+										onChange={handleChange}
 										required
 										fullWidth
 									/>
@@ -201,9 +235,9 @@ function MyAccount() {
 										id="email"
 										name="email"
 										type="text"
-										// defaultValue={newUser.userName ? newUser.userName : ""}
+										defaultValue={updateAccount.email ? updateAccount.email : ""}
 										// helperText={helperName}
-										// onChange={handleChangeName}
+										onChange={handleChange}
 										required
 										fullWidth
 									/>
@@ -217,9 +251,9 @@ function MyAccount() {
 										id="phone"
 										name="phone"
 										type="text"
-										// defaultValue={newUser.userName ? newUser.userName : ""}
+										defaultValue={updateAccount.phone ? updateAccount.phone : ""}
 										// helperText={helperName}
-										// onChange={handleChangeName}
+										onChange={handleChange}
 										required
 										fullWidth
 									/>
@@ -233,21 +267,36 @@ function MyAccount() {
 										id="birthday"
 										name="birthday"
 										type="date"
-										defaultValue="2017-05-24"
 										InputLabelProps={{
 											shrink: true,
 										}}
-										// defaultValue={newUser.userName ? newUser.userName : ""}
+										defaultValue={updateAccount.birthday ? updateAccount.birthday : ""}
 										// helperText={helperName}
-										// onChange={handleChangeName}
+										onChange={handleChange}
+										required
+										fullWidth
+									/>
+								</Grid>
+								<Grid item xs={12} xl={6}>
+									<TextField
+										// error={errorName}
+										autoComplete="password"
+										variant="outlined"
+										label="Password"
+										id="password"
+										name="password"
+										type="password"
+										defaultValue={updateAccount.password ? updateAccount.password : ""}
+										// helperText={helperName}
+										onChange={handleChange}
 										required
 										fullWidth
 									/>
 								</Grid>
 
 							</Grid>
+							<Button variant="contained" size="small" sx={{ width: '100%', mt: '25px' }} disableElevation onClick={updateProfile}>SAVE CHANGES</Button>
 						</Box>
-
 					</Grid>
 
 
@@ -274,4 +323,4 @@ function MyAccount() {
 	);
 }
 
-export default MyAccount
+export default MyAccountEdit
