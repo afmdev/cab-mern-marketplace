@@ -10,6 +10,7 @@ export const AuthContextProvider = (props) => {
 	const token = getToken();
 
 	const [user, setUser] = useState(false);
+	// const [updateAccount, setUpdateAccount] = useState({});
 	const [userProfile, setUserProfile] = useState(null);
 	const [error, setError] = useState(null);
 	const redirectTo = useNavigate();
@@ -36,31 +37,48 @@ export const AuthContextProvider = (props) => {
 	};
 
 
+	// const getProfile = async () => {
+	// 	const token = getToken();
+	// 	const myHeaders = new Headers();
+	// 	myHeaders.append("Authorization", `Bearer ${token}`);
+	// 	var requestOptions = {
+	// 		method: "GET",
+	// 		headers: myHeaders,
+	// 	};
+	// 	try {
+	// 		const response = await fetch(
+	// 			"http://localhost:5000/api/user/updateUser",
+	// 			requestOptions
+	// 		);
+	// 		const result = await response.json();
+	// 		console.log("result >>>>>>>>>>>>>>>>>>>>>>>>>", result);
+	// 		setUserProfile(result);
+	// 	} catch (error) {
+	// 		console.log("error gettin profile", error);
+	// 		setError("login first ");
+	// 	}
+	// };
+
 	const getProfile = async () => {
-		const token = getToken();
 		const myHeaders = new Headers();
 		myHeaders.append("Authorization", `Bearer ${token}`);
-		var requestOptions = {
+		const requestOptions = {
 			method: "GET",
 			headers: myHeaders,
 		};
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/user/updateUser",
+				"http://localhost:5000/api/users/userInfo",
 				requestOptions
 			);
-			const result = await response.json();
-			console.log("result", result);
-			setUserProfile({
-				email: result.email,
-				userName: result.userName,
-				avatarPicture: result.avatarPicture,
-			});
+			const profileData = await response.json();
+			setUserProfile(profileData);
+			console.log("Profile data: ", profileData);
 		} catch (error) {
-			console.log("error gettin profile", error);
-			setError("login first ");
+			console.log("Error fetching profile data: ", error);
 		}
 	};
+
 
 	useEffect(() => {
 		getProfile();
@@ -74,7 +92,15 @@ export const AuthContextProvider = (props) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ user, setUser, signOut, isUserLoggedIn, userProfile, setUserProfile, token }}>
+			value={{
+				user, setUser,
+				signOut,
+				isUserLoggedIn,
+				getProfile,
+				userProfile, setUserProfile,
+				token,
+				// updateAccount, setUpdateAccount
+			}}>
 			{props.children}
 		</AuthContext.Provider>
 	);

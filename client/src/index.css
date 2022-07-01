@@ -15,3 +15,20 @@ body {
 	margin: 0;
 	padding: 0;
 }
+
+.myFlex>div>p:first-child {
+	font-weight: bold;
+}
+
+
+@media screen and (max-width: 700px) {
+	.myFlex {
+		flex-direction: column!important;
+	}
+	.myFlex > div {
+		margin-bottom: 10px 
+	}
+	.myFlex > div > p:first-child {
+		font-weight: bold;
+	}
+}

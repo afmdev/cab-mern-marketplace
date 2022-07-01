@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useLocation, useParams, Link as Link2 } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -25,26 +25,34 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 
-import { makeStyles } from '@mui/styles';
+import { AuthContext } from "../context/authContext";
 
-const useStyles = makeStyles({
-	flexCenter: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		height: '40px'
-	},
-});
+// const styles = (theme) => ({
+// 	myFlex: {
+
+// 		[theme.breakpoints.down('md')]: {
+// 			display: 'flex',
+// 			justifyContent: 'space-between',
+// 			flexDirection: 'column',
+// 			alignItems: 'center',
+// 			height: '40px'
+// 		},
+// 	},
+// });
+
 
 const style = {
 	width: '100%',
-
 	bgcolor: '#f5f5f5',
 };
 
 function MyAccount() {
 
-	const classes = useStyles();
+	const { token, userProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
+
+	console.log('userProfile', userProfile)
+	console.log('updateAccount', updateAccount)
+
 	return (
 
 		<Grid container alignItems="stretch"
@@ -56,54 +64,21 @@ function MyAccount() {
 		>
 
 			<Grid item xs={10} sm={10} md={3} lg={3} xl={2}>
-
 				<Box style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-
 					<Typography component="p">
 						Account Settings
 					</Typography>
-
 					<List sx={style} component="nav" aria-label="mailbox folders">
 						<Divider />
 						<ListItem button>
 							<PersonOutlineOutlinedIcon sx={{ mr: '10px' }} />
-							<ListItemText primary="Profile Info" />
+							<ListItemText primary="My Profile" />
 						</ListItem>
 						<Divider />
 					</List>
-
-
-
 					<Typography component="p" sx={{ mt: '40px' }}>
 						Dashboard
 					</Typography>
-
-					{/* <Link href="#" underline="none" className={classes.flexCenter}>
-						<Box className={classes.flexCenter} >
-							<ShoppingBagOutlinedIcon sx={{ mr: '10px' }} /> Orders
-						</Box>
-						<Box component="span">
-							10
-						</Box>
-					</Link>
-
-					<Link href="#" underline="none" className={classes.flexCenter}>
-						<Box className={classes.flexCenter}>
-							<FavoriteBorderOutlinedIcon sx={{ mr: '10px' }} /> Whishlist
-						</Box>
-						<Box component="span">
-							10
-						</Box>
-					</Link>
-
-					<Link href="#" underline="none" className={classes.flexCenter}>
-						<Box className={classes.flexCenter}>
-							<SupportAgentOutlinedIcon sx={{ mr: '10px' }} /> Support Ticket
-						</Box>
-						<Box component="span">
-							10
-						</Box>
-					</Link> */}
 
 					<List sx={style} component="nav" aria-label="mailbox folders">
 						<Divider />
@@ -135,7 +110,7 @@ function MyAccount() {
 			</Grid>
 
 
-			<Grid item xs={10} sm={10} md={8} lg={7} xl={5}>
+			<Grid item xs={10} sm={10} md={8} lg={7} xl={5} order={{ xs: 3, md: 1 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 					<Box>
 						<Typography variant="h5" fontWeight="900" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -143,27 +118,26 @@ function MyAccount() {
 						</Typography>
 					</Box>
 					<Box>
-						<Link2 to="/my-account/edit">
+						<Link2 to="/my-account/edit" underline="none" style={{ textDecoration: 'none' }}>
 							<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Edit Profile</Button>
 						</Link2>
 					</Box>
 				</Box>
 
+				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }} order={{ xs: 1, md: 2 }}>
 
-				<Grid container spacing={3} alignItems="stretch" columns={13} sx={{ mt: '0', pt: '0' }}>
-
-					<Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
+					<Grid item xs={12} sm={12} md={5} lg={4} xl={4}>
 						<Box sx={{ display: 'flex', alignItems: 'center', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
 							<Box>
 								<Avatar
-									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
+									alt={userProfile?.fistName}
+									src={userProfile?.avatarPicture ? userProfile.avatarPicture : "https://res.cloudinary.com/https-www-alejandrofm-com/image/upload/v1656668929/afm-mern-marketplace/cenddmxzmxj5gw16oqgi.png"}
 									sx={{ width: 56, height: 56, mr: '10px' }}
 								/>
 							</Box>
 							<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 								<Typography component="p" sx={{ fontWeight: '900' }}>
-									Alejandro F. Marrero
+									{userProfile?.firstName ? userProfile.firstName : "nasty"} {userProfile?.lastName ? userProfile.lastName : ""}
 								</Typography>
 								<Typography component="p" sx={{ fontSize: '12px' }}>
 									Balance: <Typography component="span" sx={{ fontSize: '12px', fontWeight: '900' }}>500€</Typography>
@@ -171,9 +145,8 @@ function MyAccount() {
 							</Box>
 						</Box>
 					</Grid>
-
-					<Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
+					<Grid item xs={6} sm={6} md={1.75} lg={2} xl={2}>
+						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
 							<Box>
 								<Avatar
 									alt="Remy Sharp"
@@ -183,8 +156,8 @@ function MyAccount() {
 							</Box>
 						</Box>
 					</Grid>
-					<Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
+					<Grid item xs={6} sm={6} md={1.75} lg={2} xl={2}>
+						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
 							<Box>
 								<Avatar
 									alt="Remy Sharp"
@@ -194,8 +167,8 @@ function MyAccount() {
 							</Box>
 						</Box>
 					</Grid>
-					<Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
+					<Grid item xs={6} sm={6} md={1.75} lg={2} xl={2}>
+						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
 							<Box>
 								<Avatar
 									alt="Remy Sharp"
@@ -205,8 +178,8 @@ function MyAccount() {
 							</Box>
 						</Box>
 					</Grid>
-					<Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
+					<Grid item xs={6} sm={6} md={1.75} lg={2} xl={2}>
+						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px 0 15px 0' }}>
 							<Box>
 								<Avatar
 									alt="Remy Sharp"
@@ -216,37 +189,54 @@ function MyAccount() {
 							</Box>
 						</Box>
 					</Grid>
-
 				</Grid>
-
-
 				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
 
 					<Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-						<Box sx={{ display: 'flex', justifyContent: 'space-between', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
+						<Box className="myFlex" sx={{ display: 'flex', justifyContent: 'space-between', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px', textAlign: 'center' }}>
 							<Box>
 								<Typography component="p" fontSize="small">First Name</Typography>
-								<Typography component="p">Alejandro</Typography>
+								{userProfile?.firstName
+									?
+									(<Typography component="p">{userProfile.firstName}</Typography>)
+									:
+									(<Typography component="p">nasty</Typography>)}
 							</Box>
 
 							<Box>
 								<Typography component="p" fontSize="small">Last Name</Typography>
-								<Typography component="p">Marrero</Typography>
+								{userProfile?.lastName
+									?
+									<Typography component="p">{userProfile.lastName}</Typography>
+									:
+									<Typography component="p">nasty</Typography>}
 							</Box>
 
 							<Box>
 								<Typography component="p" fontSize="small">Email</Typography>
-								<Typography component="p">ale@fm.es</Typography>
+								{userProfile?.email
+									?
+									<Typography component="p">{userProfile.email}</Typography>
+									:
+									<Typography component="p">nasty</Typography>}
 							</Box>
 
 							<Box>
 								<Typography component="p" fontSize="small">Phone</Typography>
-								<Typography component="p">922482738</Typography>
+								{userProfile?.phone
+									?
+									<Typography component="p">{userProfile.phone}</Typography>
+									:
+									<Typography component="p">nasty</Typography>}
 							</Box>
 
 							<Box>
 								<Typography component="p" fontSize="small">Birthday</Typography>
-								<Typography component="p">18-03-1986</Typography>
+								{userProfile?.birthday
+									?
+									<Typography component="p">{userProfile.birthday}</Typography>
+									:
+									<Typography component="p">nasty</Typography>}
 							</Box>
 						</Box>
 					</Grid>

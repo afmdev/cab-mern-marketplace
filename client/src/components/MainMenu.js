@@ -18,7 +18,7 @@ const menuLinksStyles = {
 
 function Slider() {
 	return (
-		<Container disableGutters maxWidth={false} sx={{ bgcolor: 'rgba(0, 0, 0, 0.04)', color: 'white', height: '40px', px: '30px' }}>
+		<Container disableGutters maxWidth={false} sx={{ bgcolor: 'rgba(0, 0, 0, 0.04)', color: 'white', height: '40px', px: '30px', borderBottom: '1px solid #e7e5e5' }}>
 			<Box>
 				<Grid sx={{ height: '40px' }}
 					container
