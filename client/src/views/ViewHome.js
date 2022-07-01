@@ -1,5 +1,6 @@
 import React from 'react'
 import ProductList from '../components/ProductList'
+import TopSlider from '../components/TopSlider';
 
 
 import Container from '@mui/material/Container';
@@ -11,7 +12,9 @@ function ViewHome() {
 
 	return (
 		<Box>
+			<TopSlider />
 			<Container sx={{ my: '20px' }}>
+
 				<ProductList />
 			</Container>
 		</Box>

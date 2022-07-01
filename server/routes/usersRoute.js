@@ -11,7 +11,7 @@ router.post("/login", logIn);
 router.post("/updateProfile", updateProfile);
 
 
-router.get("/my-account", jwtAuth, getProfile);
+router.get("/userInfo", jwtAuth, getProfile);
 // router.get("/all", getAllUsers)
 
 export default router;

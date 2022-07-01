@@ -21,7 +21,7 @@ function App() {
 				<TopBar />
 				<SearchBar />
 				<MainMenu />
-				<TopSlider />
+
 				<Routes>
 					<Route path="/" element={<ViewHome />} />
 					<Route path="/product/:slug/" element={<ViewProductSingle />} />

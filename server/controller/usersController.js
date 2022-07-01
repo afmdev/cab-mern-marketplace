@@ -19,19 +19,24 @@ const uploadUserPicture = async (req, res) => {
 		});
 	} catch (error) {
 		res
-			.status(500)
+			.status(409)
 			.json({ message: "ERROR: The avatar image has not been successfully uploaded.", error: error });
 	}
 };
 
 
 const updateProfile = async (req, res) => {
-	console.log('req.body >>>>>>>>>>>>>>>>>>>>>>', req.body)
+	// console.log('req.body >>>>>>>>>>>>>>>>>>>>>>', req.body)
 
 	try {
 		const updatedUser = await usersModel.findOneAndUpdate(req.body.id, {
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
+			email: req.body.email,
+			phone: req.body.phone,
+			birthday: req.body.birthday,
+			password: req.body.password,
+			avatarPicture: req.body.avatarPicture,
 		});
 		console.log("updatedUser: ", updatedUser);
 		res.status(200).json({

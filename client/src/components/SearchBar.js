@@ -31,6 +31,7 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 
 
 
+
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
 	borderRadius: theme.shape.borderRadius,
@@ -73,7 +74,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchBar() {
 
-	const { user, signOut, isUserLoggedIn } = useContext(AuthContext);
+
+	const { user, token, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -146,11 +148,16 @@ function SearchBar() {
 			anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 		>
 
+
 			<MenuItem>
-				<Avatar /> Profile
-			</MenuItem>
-			<MenuItem>
-				<Avatar /> My account
+
+				{userProfile?.avatarPicture ? <Avatar
+					alt={userProfile?.fistName}
+					src={userProfile?.avatarPicture}
+					sx={{ width: 32, height: 32 }}
+				/> : <Avatar />} My Profile
+
+				{/* <Avatar /> My account */}
 			</MenuItem>
 			<Divider />
 
@@ -236,13 +243,13 @@ function SearchBar() {
 
 
 
-			<LinkRouter to="/access">
+			<LinkRouter to="/access" style={{ textDecoration: 'none' }}>
 				<MenuItem>
 					<Avatar /> Login
 				</MenuItem>
 			</LinkRouter>
 
-			<LinkRouter to="/access">
+			<LinkRouter to="/access" style={{ textDecoration: 'none' }}>
 				<MenuItem>
 					<Avatar /> Register
 				</MenuItem>
@@ -306,9 +313,9 @@ function SearchBar() {
 
 
 	return (
-		<Box sx={{ flexGrow: 1 }}>
+		<Box sx={{ flexGrow: 1 }} >
 			<AppBar position="sticky" sx={{ backgroundColor: "#fff", height: '64px', justifyContent: 'center', color: '#757575', boxShadow: '0px 1px 10px 0px rgb(0 0 0 / 12%)' }}>
-				<Toolbar>
+				<Toolbar sx={{ px: '24px' }}>
 					<IconButton
 						size="large"
 						edge="start"
@@ -319,7 +326,10 @@ function SearchBar() {
 						<MenuIcon />
 					</IconButton>
 					<Box sx={{ display: { sm: 'flex', xs: 'none' }, alignItems: "center" }}>
-						<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm-dark.svg" alt="Logo" href="/"></img>
+						<LinkRouter to='/'>
+							<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm-dark.svg" alt="Logo" href="/"></img>
+						</LinkRouter
+						>
 					</Box>
 					<Search>
 						<SearchIconWrapper>
@@ -357,7 +367,12 @@ function SearchBar() {
 									aria-haspopup="true"
 									aria-expanded={open ? 'true' : undefined}
 								>
-									<Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
+									<Avatar
+										alt={userProfile?.fistName}
+										src={userProfile?.avatarPicture ? userProfile.avatarPicture : "https://res.cloudinary.com/https-www-alejandrofm-com/image/upload/v1656668929/afm-mern-marketplace/cenddmxzmxj5gw16oqgi.png"}
+										sx={{ width: 32, height: 32 }}
+									/>
+									{/* <Avatar sx={{ width: 32, height: 32 }}>A</Avatar> */}
 								</IconButton>
 							</Tooltip>
 							:
@@ -370,7 +385,12 @@ function SearchBar() {
 									aria-haspopup="true"
 									aria-expanded={open ? 'true' : undefined}
 								>
-									<Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
+									<Avatar
+										alt={userProfile?.fistName}
+										src={userProfile?.avatarPicture ? userProfile.avatarPicture : "https://res.cloudinary.com/https-www-alejandrofm-com/image/upload/v1656668929/afm-mern-marketplace/cenddmxzmxj5gw16oqgi.png"}
+										sx={{ width: 32, height: 32 }}
+									/>
+									{/* <Avatar sx={{ width: 32, height: 32 }}>A</Avatar> */}
 								</IconButton>
 							</Tooltip>
 						}
@@ -379,7 +399,7 @@ function SearchBar() {
 
 
 					</Box>
-					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+					<Box sx={{ display: { xs: 'flex', md: 'none' } }} >
 						<IconButton
 							size="large"
 							aria-label="show more"
