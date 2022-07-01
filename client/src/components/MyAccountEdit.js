@@ -22,6 +22,11 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { InputBase } from '@mui/material';
+
+import FormControl from '@mui/material/FormControl';
+
 
 import { AuthContext } from "../context/authContext";
 
@@ -36,33 +41,87 @@ const style = {
 	bgcolor: '#f5f5f5',
 };
 
+
+const theme = createTheme({
+	overrides: {
+		MuiInputBase: {
+			input: {
+				background: "#fff",
+			},
+		},
+	},
+});
+
 function MyAccountEdit() {
 
-	const [updateAccount, setUpdateAccount] = useState({});
-	const { token } = useContext(AuthContext)
-	console.log('token', token)
+
+	const { token, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
+	// console.log('token', token)
+
+	const [selectedFile, setSelectedFile] = useState(null);
+
+
+	const handleChangeHandler = (e) => {
+		setUserProfile({ ...userProfile, [e.target.name]: e.target.value });
+	};
+
+	const attachFileHandler = (e) => {
+		setSelectedFile(e.target.files[0]);
+	};
+
+
+	const uploadPicture = async (e) => {
+		e.preventDefault();
+		console.log("submit working");
+
+		const formData = new FormData();
+		console.log("selectedFile", selectedFile);
+		formData.append("image", selectedFile);
+		console.log("formData", formData);
+
+		const requestOptions = {
+			method: "POST",
+			body: formData,
+		};
+		try {
+			const response = await fetch(
+				"http://localhost:5000/api/users/imageUpload",
+				requestOptions
+			);
+			console.log("response", response);
+			const result = await response.json();
+			console.log("result", result);
+			setUserProfile({ ...userProfile, avatarPicture: result.imageUrL }); // imageURL is how the field is defined in usersController.
+			// console.log(userProfile);
+			// console.log('URL', result.imageUrL)
+		} catch (error) {
+			console.log('"error submiting picture"', error);
+		}
+	};
 
 	const handleChange = (event) => {
-		setUpdateAccount({ ...updateAccount, [event.target.name]: event.target.value });
-		console.log(updateAccount);
+		setUserProfile({ ...userProfile, [event.target.name]: event.target.value });
+		// setUpdateAccount({ ...updateAccount, [event.target.name]: event.target.value });
+		// console.log(updateAccount);
 	};
 	const updateProfile = async () => {
 
 		let myHeaders = new Headers();
 		myHeaders.append("Authorization", `Bearer ${token}`);
 		let urlencoded = new URLSearchParams();
-		urlencoded.append("firstName", updateAccount.firstName);
-		urlencoded.append("lastName", updateAccount.lastName);
-		urlencoded.append("email", updateAccount.email);
-		urlencoded.append("phone", updateAccount.phone);
-		urlencoded.append("birthday", updateAccount.birthday);
-		urlencoded.append("password", updateAccount.password);
+		urlencoded.append("firstName", userProfile.firstName);
+		urlencoded.append("lastName", userProfile.lastName);
+		urlencoded.append("email", userProfile.email);
+		urlencoded.append("phone", userProfile.phone);
+		urlencoded.append("birthday", userProfile.birthday);
+		urlencoded.append("password", userProfile.password);
+		urlencoded.append("avatarPicture", userProfile.avatarPicture);
 		const requestOptions = {
 			method: "POST",
 			headers: myHeaders,
 			body: urlencoded,
 		};
-		console.log('urlencoded', myHeaders.get("Authorization"))
+		// console.log('urlencoded', myHeaders.get("Authorization"))
 
 		try {
 			const response = await fetch(
@@ -151,7 +210,7 @@ function MyAccountEdit() {
 						</Typography>
 					</Box>
 					<Box>
-						<Link2 to="/my-account">
+						<Link2 to="/my-account" style={{ textDecoration: 'none' }}>
 							<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Back To Profile</Button>
 						</Link2>
 					</Box>
@@ -161,25 +220,30 @@ function MyAccountEdit() {
 				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0', mb: '50px' }}>
 
 					<Grid item xs={12} sm={12} md={12} lg={12} xl={12} sx={{ position: 'relative' }}>
+
+
 						<Box sx={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
 							<Box sx={{ position: 'relative' }}>
 								<Box>
 									<Avatar
-										alt="Remy Sharp"
-										src="https://mui.com/static/images/avatar/1.jpg"
+										alt={userProfile?.fistName}
+										src={userProfile?.avatarPicture ? userProfile.avatarPicture : "https://res.cloudinary.com/https-www-alejandrofm-com/image/upload/v1656668929/afm-mern-marketplace/cenddmxzmxj5gw16oqgi.png"}
 										sx={{ width: 56, height: 56, mr: '10px' }}
 									/>
 								</Box>
 								<Box sx={{ position: 'absolute', left: '31px', bottom: '-13px' }}>
-									<label htmlFor="icon-button-file">
-										<Input accept="image/*" id="icon-button-file" type="file" />
-										<IconButton color="primary" aria-label="upload picture" component="span">
-											<PhotoCamera />
-										</IconButton>
-									</label>
+									<FormControl>
+										<label htmlFor="icon-button-file">
+											<Input accept="image/*" id="icon-button-file" type="file" onChange={attachFileHandler} />
+											<IconButton color="primary" aria-label="upload picture" component="span">
+												<PhotoCamera />
+											</IconButton>
+										</label>
+										<Button variant="contained" size="small" color="error" sx={{ my: '10px', padding: '0px' }} disableElevation onClick={uploadPicture}>UPLOAD</Button>
+									</FormControl>
 								</Box>
 							</Box>
-							<Button variant="contained" size="small" color="error" sx={{ my: '25px' }} disableElevation>UPLOAD</Button>
+
 							<Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 								<Box component="span" m={1} sx={{ width: '100%', border: '1px solid #e7e7e9' }}></Box>
 								<Box sx={{
@@ -198,18 +262,18 @@ function MyAccountEdit() {
 										// error={errorName}
 										autoComplete="lname"
 										variant="outlined"
-										label="Last Name"
+										label="First Name"
 										id="firstname"
 										name="firstName"
 										type="text"
-										defaultValue={updateAccount.firstName ? updateAccount.firstName : ""}
+										defaultValue={userProfile?.firstName ? userProfile.firstName : "First Name"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
 										fullWidth
+										sx={{ background: '#fff' }}
 									/>
 								</Grid>
-
 								<Grid item xs={12} xl={6}>
 									<TextField
 										// error={errorName}
@@ -219,11 +283,12 @@ function MyAccountEdit() {
 										id="lastname"
 										name="lastName"
 										type="text"
-										defaultValue={updateAccount.lastName ? updateAccount.lastName : ""}
+										defaultValue={userProfile?.lastName ? userProfile.lastName : "Last Name"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
 										fullWidth
+										sx={{ background: '#fff' }}
 									/>
 								</Grid>
 								<Grid item xs={12}>
@@ -235,11 +300,12 @@ function MyAccountEdit() {
 										id="email"
 										name="email"
 										type="text"
-										defaultValue={updateAccount.email ? updateAccount.email : ""}
+										defaultValue={userProfile?.email ? userProfile.email : "E-Mail"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
 										fullWidth
+										sx={{ background: '#fff' }}
 									/>
 								</Grid>
 								<Grid item xs={12} xl={6}>
@@ -251,11 +317,12 @@ function MyAccountEdit() {
 										id="phone"
 										name="phone"
 										type="text"
-										defaultValue={updateAccount.phone ? updateAccount.phone : ""}
+										defaultValue={userProfile?.phone ? userProfile.phone : "E-Mail"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
 										fullWidth
+										sx={{ background: '#fff' }}
 									/>
 								</Grid>
 								<Grid item xs={12} xl={6}>
@@ -270,11 +337,12 @@ function MyAccountEdit() {
 										InputLabelProps={{
 											shrink: true,
 										}}
-										defaultValue={updateAccount.birthday ? updateAccount.birthday : ""}
+										defaultValue={userProfile?.birthday ? userProfile.birthday : "E-Mail"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
 										fullWidth
+										sx={{ background: '#fff' }}
 									/>
 								</Grid>
 								<Grid item xs={12} xl={6}>
@@ -286,37 +354,26 @@ function MyAccountEdit() {
 										id="password"
 										name="password"
 										type="password"
-										defaultValue={updateAccount.password ? updateAccount.password : ""}
+										defaultValue={userProfile?.password ? userProfile.password : "E-Mail"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
 										fullWidth
+										sx={{ background: '#fff' }}
 									/>
 								</Grid>
-
 							</Grid>
 							<Button variant="contained" size="small" sx={{ width: '100%', mt: '25px' }} disableElevation onClick={updateProfile}>SAVE CHANGES</Button>
 						</Box>
 					</Grid>
-
-
-
 				</Grid>
-
-
 				{/* <Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
-
 					<Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 						<Box sx={{ display: 'flex', justifyContent: 'space-between', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
 							Hola
 						</Box>
 					</Grid>
-
-
 				</Grid> */}
-
-
-
 			</Grid>
 		</Grid >
 
