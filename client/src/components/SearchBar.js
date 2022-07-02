@@ -11,26 +11,53 @@ import Avatar from '@mui/material/Avatar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
+import Typography from '@mui/material/Typography';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import Tooltip from '@mui/material/Tooltip';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+
+
+
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import CloseIcon from '@mui/icons-material/Close';
+import InfoIcon from '@mui/icons-material/Info';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import HelpIcon from '@mui/icons-material/Help';
+import GroupIcon from '@mui/icons-material/Group';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import Tooltip from '@mui/material/Tooltip';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
-
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import { createTheme } from '@mui/material/styles';
 
 
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 
+const style = {
+	width: '100%',
+	// bgcolor: '#f5f5f5',
+};
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -79,6 +106,15 @@ function SearchBar() {
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+	const [show, setShow] = useState(false);
+	const handleShow = () => {
+		if (show) {
+			setShow(false);
+		} else {
+			setShow(true);
+		}
+	};
 
 
 
@@ -243,13 +279,13 @@ function SearchBar() {
 
 
 
-			<LinkRouter to="/access" style={{ textDecoration: 'none' }}>
+			<LinkRouter to="/access" sx={{ textDecoration: 'none' }} underline="none">
 				<MenuItem>
 					<Avatar /> Login
 				</MenuItem>
 			</LinkRouter>
 
-			<LinkRouter to="/access" style={{ textDecoration: 'none' }}>
+			<LinkRouter to="/access" sx={{ textDecoration: 'none' }} underline="none">
 				<MenuItem>
 					<Avatar /> Register
 				</MenuItem>
@@ -313,7 +349,57 @@ function SearchBar() {
 
 
 	return (
+
+
+
+
+
 		<Box sx={{ flexGrow: 1 }} >
+
+			<Box style={{ position: 'relative', width: '80%' }}>
+				<Drawer
+					anchor="left"
+					variant="temporary"
+					open={show}
+					onClose={handleShow}
+				>
+					<Box sx={{ position: 'absolute', right: '0' }}>
+						<IconButton onClick={handleShow}>
+							<CloseIcon />
+						</IconButton>
+					</Box>
+					<Typography variant="h6" m={2} sx={{ width: '300px' }}>
+						Menu
+					</Typography>
+					{/* <Divider /> */}
+					<List sx={style} component="nav" aria-label="mailbox folders">
+						<Divider />
+						<ListItem button>
+							<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+							<ListItemText primary="Orders" />
+							<Box component="span">10</Box>
+						</ListItem>
+						<Divider />
+						<ListItem button divider>
+							<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+							<ListItemText primary="Whishlist" />
+							<Box component="span">32</Box>
+						</ListItem>
+						<ListItem button>
+							<SupportAgentOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+							<ListItemText primary="Support" />
+							<Box component="span">10</Box>
+						</ListItem>
+						<Divider light />
+						<ListItem button>
+							<DeleteForeverOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+							<ListItemText primary="Delete" />
+						</ListItem>
+						<Divider />
+					</List>
+				</Drawer>
+			</Box>
+
 			<AppBar position="sticky" sx={{ backgroundColor: "#fff", height: '64px', justifyContent: 'center', color: '#757575', boxShadow: '0px 1px 10px 0px rgb(0 0 0 / 12%)' }}>
 				<Toolbar sx={{ px: '24px' }}>
 					<IconButton
@@ -321,6 +407,7 @@ function SearchBar() {
 						edge="start"
 						color="inherit"
 						aria-label="open drawer"
+						onClick={handleShow}
 						sx={{ mr: 2, backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
 					>
 						<MenuIcon />
