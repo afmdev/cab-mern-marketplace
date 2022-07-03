@@ -9,6 +9,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 
+import IconButton from '@mui/material/IconButton';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+
 
 function ProductsList() {
 
@@ -44,8 +47,11 @@ function ProductsList() {
 							</CardContent >
 							<CardActions>
 								<Link to={`/product/${element.slug}`}>
-									<Button size="small">Read More</Button>
+									<Button variant="outlined">Read More</Button>
 								</Link>
+								<IconButton color="primary" aria-label="add to shopping cart">
+									<AddShoppingCartIcon />
+								</IconButton>
 							</CardActions>
 						</Card >
 					</Grid >

@@ -35,7 +35,7 @@ const updateProfile = async (req, res) => {
 			email: req.body.email,
 			phone: req.body.phone,
 			birthday: req.body.birthday,
-			password: req.body.password,
+			// password: req.body.password,
 			avatarPicture: req.body.avatarPicture,
 		});
 		console.log("updatedUser: ", updatedUser);
