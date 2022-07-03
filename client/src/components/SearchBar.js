@@ -53,6 +53,11 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
+import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
+
 
 const style = {
 	width: '100%',
@@ -101,7 +106,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchBar() {
 
-
 	const { user, token, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
 
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -114,27 +118,25 @@ function SearchBar() {
 		} else {
 			setShow(true);
 		}
-	};
-
-
+	}
 
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
-	};
+	}
+
 	const handleClose = () => {
 		setAnchorEl(null);
-	};
+	}
 
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
 	const handleProfileMenuOpen = (event) => {
 		setAnchorEl(event.currentTarget);
-	};
+	}
 
 	const handleMobileMenuClose = () => {
 		setMobileMoreAnchorEl(null);
-	};
+	}
 
 
 	// const handleMenuClose = () => {
@@ -374,27 +376,32 @@ function SearchBar() {
 					{/* <Divider /> */}
 					<List sx={style} component="nav" aria-label="mailbox folders">
 						<Divider />
-						<ListItem button>
-							<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
-							<ListItemText primary="Orders" />
-							<Box component="span">10</Box>
-						</ListItem>
+						<LinkRouter to='/access'>
+							<ListItem button>
+								<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="Home" />
+							</ListItem>
+						</LinkRouter>
 						<Divider />
-						<ListItem button divider>
-							<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
-							<ListItemText primary="Whishlist" />
-							<Box component="span">32</Box>
-						</ListItem>
-						<ListItem button>
-							<SupportAgentOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
-							<ListItemText primary="Support" />
-							<Box component="span">10</Box>
-						</ListItem>
+						<LinkRouter to='/access' >
+							<ListItem button divider>
+								<LocalGroceryStoreOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="Shop" />
+							</ListItem>
+						</LinkRouter>
+						<LinkRouter to='/access' underline="none">
+							<ListItem button>
+								<EmojiEventsOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="Bestseller" />
+							</ListItem>
+						</LinkRouter>
 						<Divider light />
-						<ListItem button>
-							<DeleteForeverOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
-							<ListItemText primary="Delete" />
-						</ListItem>
+						<LinkRouter to='/access'>
+							<ListItem button>
+								<LoyaltyOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="Sale" />
+							</ListItem>
+						</LinkRouter>
 						<Divider />
 					</List>
 				</Drawer>
@@ -408,7 +415,7 @@ function SearchBar() {
 						color="inherit"
 						aria-label="open drawer"
 						onClick={handleShow}
-						sx={{ mr: 2, backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+						sx={{ display: { sm: 'none', xs: 'flex' }, mr: 2, backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
 					>
 						<MenuIcon />
 					</IconButton>

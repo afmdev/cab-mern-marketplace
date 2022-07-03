@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link as LinkRouter } from "react-router-dom";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -16,10 +17,12 @@ function TopBar() {
 					alignItems="center"
 					justifyContent="center">
 
-					<Grid item xs="auto" sx={{ display: { sm: 'none', xs: 'flex' }, fontSize: '12px' }}>
-						<Box sx={{ display: 'flex', alignItems: "center" }}>
-							<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm.svg" alt="Logo" href="/"></img>
-						</Box>
+					<Grid item xs="auto" sx={{ display: { xs: 'flex', sm: 'none' }, fontSize: '12px' }}>
+						<LinkRouter to='/'>
+							<Box sx={{ display: 'flex', alignItems: "center" }}>
+								<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm.svg" alt="Logo" href="/"></img>
+							</Box>
+						</LinkRouter>
 					</Grid>
 					<Grid item xs="auto" sx={{ display: { sm: 'flex', xs: 'none' }, fontSize: '12px' }}>
 						<Box sx={{ display: 'flex', alignItems: "center" }}>

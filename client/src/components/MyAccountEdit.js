@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link as Link2 } from "react-router-dom";
+import { Link as LinkRouter } from "react-router-dom";
 
 
 import Typography from '@mui/material/Typography';
@@ -114,7 +114,6 @@ function MyAccountEdit() {
 		urlencoded.append("email", userProfile.email);
 		urlencoded.append("phone", userProfile.phone);
 		urlencoded.append("birthday", userProfile.birthday);
-		urlencoded.append("password", userProfile.password);
 		urlencoded.append("avatarPicture", userProfile.avatarPicture);
 		const requestOptions = {
 			method: "POST",
@@ -210,9 +209,9 @@ function MyAccountEdit() {
 						</Typography>
 					</Box>
 					<Box>
-						<Link2 to="/my-account" style={{ textDecoration: 'none' }}>
+						<LinkRouter to="/my-account" style={{ textDecoration: 'none' }}>
 							<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Back To Profile</Button>
-						</Link2>
+						</LinkRouter>
 					</Box>
 				</Box>
 
@@ -345,7 +344,7 @@ function MyAccountEdit() {
 										sx={{ background: '#fff' }}
 									/>
 								</Grid>
-								<Grid item xs={12} xl={6}>
+								{/* <Grid item xs={12} xl={6}>
 									<TextField
 										// error={errorName}
 										autoComplete="password"
@@ -361,7 +360,7 @@ function MyAccountEdit() {
 										fullWidth
 										sx={{ background: '#fff' }}
 									/>
-								</Grid>
+								</Grid> */}
 							</Grid>
 							<Button variant="contained" size="small" sx={{ width: '100%', mt: '25px' }} disableElevation onClick={updateProfile}>SAVE CHANGES</Button>
 						</Box>

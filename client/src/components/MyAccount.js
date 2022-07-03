@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useLocation, useParams, Link as Link2 } from "react-router-dom";
+import { useLocation, useParams, Link as LinkRouter } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'
@@ -118,9 +118,9 @@ function MyAccount() {
 						</Typography>
 					</Box>
 					<Box>
-						<Link2 to="/my-account/edit" underline="none" style={{ textDecoration: 'none' }}>
+						<LinkRouter to="/my-account/edit" underline="none" style={{ textDecoration: 'none' }}>
 							<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Edit Profile</Button>
-						</Link2>
+						</LinkRouter>
 					</Box>
 				</Box>
 
