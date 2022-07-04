@@ -18,7 +18,7 @@ const port = process.env.PORT || 5000
 
 const startServer = () => {
 	app.listen(port, () => {
-		console.log("BOING!! Server is running on " + port + " port")
+		console.log("|-->>>>>>> The backend server is running on port " + port + " <<<<<<<--|")
 	})
 }
 
@@ -51,7 +51,7 @@ const addMiddleware = () => {
 const mongoDbConection = async () => {
 	try {
 		await mongoose.connect(process.env.DB)
-		console.log("OK: Connection to Mongo DB established")
+		console.log("|-->>>>>> The connection to MongoDB has been successful <<<<<--| ")
 	} catch (error) {
 		console.log("ERROR: fail connecting to Mongo DB", error)
 	}

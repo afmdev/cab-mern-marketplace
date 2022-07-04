@@ -22,7 +22,8 @@ export const AuthContextProvider = (props) => {
 		if (token) {
 			setUser(true);
 			console.log("OK: User is logged in");
-			// redirectTo("/my-account")
+			redirectTo("/my-account")
+			getProfile()
 		} else {
 			setUser(false);
 			console.log("WARNING: User is NOT logged ");
@@ -33,8 +34,10 @@ export const AuthContextProvider = (props) => {
 	const signOut = () => {
 		localStorage.removeItem("token");
 		setUser(false);
+		setUserProfile(null)
 		redirectTo("/");
-		console.log("WARNING: User signed out");
+
+		console.log("WARNING: User signed out" + user);
 	};
 
 
