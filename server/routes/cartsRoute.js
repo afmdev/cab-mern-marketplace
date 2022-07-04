@@ -1,7 +1,8 @@
 import express from 'express';
-import { getAllUserCarts } from '../controller/cartsController.js'
+import { getAllCarts, getCartsByUser } from '../controller/cartsController.js'
 const router = express.Router();
 
-router.get('/:all', getAllUserCarts)
+router.get('/all', getAllCarts)
+router.get('/:user', getCartsByUser)
 
 export default router;

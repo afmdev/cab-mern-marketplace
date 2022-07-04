@@ -29,6 +29,7 @@ import FormControl from '@mui/material/FormControl';
 
 
 import { AuthContext } from "../context/authContext";
+import { ProductsContext } from '../context/ProductsContext';
 
 
 const Input = styled('input')({
@@ -56,6 +57,13 @@ function MyAccountEdit() {
 
 
 	const { token, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
+
+	const { products } = useContext(ProductsContext)
+
+	const element = products?.data[0]
+
+	console.log('producto', element)
+
 	// console.log('token', token)
 
 	console.log('userProfile', userProfile)
