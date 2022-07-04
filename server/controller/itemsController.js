@@ -12,7 +12,7 @@ const getAllItems = async (req, res) => {
 	catch (error) {
 		res
 			.status(400)
-			.json({ error: error, Message: "Something went wrong with the JSON." })
+			.json({ message: "SERVER: itemsController.js -  Something went wrong with the JSON.", error: error });
 	}
 }
 
@@ -32,7 +32,7 @@ const getItemsBySlug = async (req, res) => {
 	} catch (error) {
 		res
 			.status(400)
-			.json({ error: error, Message: "Something went wrong with the Server." })
+			.json({ message: "SERVER: itemsController.js -  Something went wrong with the JSON.", error: error });
 	}
 }
 

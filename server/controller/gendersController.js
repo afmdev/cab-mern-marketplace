@@ -15,7 +15,7 @@ const getAllGenders = async (req, res) => {
 	catch (error) {
 		res
 			.status(400)
-			.json({ error: error, Message: "Something went wrong with the JSON." })
+			.json({ message: "SERVER: gendersController.js -  Something went wrong with the JSON.", error: error });
 	}
 }
 
@@ -37,7 +37,7 @@ const getGendersByCode = async (req, res) => {
 	} catch (error) {
 		res
 			.status(400)
-			.json({ error: error, Message: "Something went wrong with the Server." })
+			.json({ message: "SERVER: gendersController.js -  Something went wrong with the JSON.", error: error });
 	}
 }
 

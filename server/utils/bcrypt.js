@@ -8,7 +8,7 @@ const encryptPassword = async (password) => {
 
 		return hashPassword;
 	} catch (error) {
-		console.log("ERROR: Fail hashing password", error);
+		console.log("ERROR bcrypt.js: Fail hashing password", error);
 	}
 };
 

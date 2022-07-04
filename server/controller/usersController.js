@@ -20,7 +20,7 @@ const uploadUserPicture = async (req, res) => {
 	} catch (error) {
 		res
 			.status(409)
-			.json({ message: "ERROR: The avatar image has not been successfully uploaded.", error: error });
+			.json({ message: "SERVER: usersController.js -  Something went wrong with the JSON.", error: error });
 	}
 };
 
@@ -29,13 +29,15 @@ const updateProfile = async (req, res) => {
 	// console.log('req.body >>>>>>>>>>>>>>>>>>>>>>', req.body)
 
 	try {
+		const hashedPassword = await encryptPassword(req.body.password);
+		console.log("HOLA HASHED", hashedPassword)
 		const updatedUser = await usersModel.findOneAndUpdate(req.body.id, {
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
 			email: req.body.email,
 			phone: req.body.phone,
 			birthday: req.body.birthday,
-			// password: req.body.password,
+			password: hashedPassword,
 			avatarPicture: req.body.avatarPicture,
 		});
 		console.log("updatedUser: ", updatedUser);
@@ -44,9 +46,8 @@ const updateProfile = async (req, res) => {
 			user: updatedUser,
 		});
 	} catch (error) {
-		res.status(400).json({
-			message: "ERROR: Unable to update account information.",
-		});
+		res.status(400)
+			.json({ message: "SERVER: usersController.js -  Something went wrong with the JSON.", error: error });
 	}
 };
 
@@ -83,7 +84,7 @@ const signUp = async (req, res) => {
 				firstName: req.body.firstName,
 				email: req.body.email,
 				password: hashedPassword,
-				avatarPicture: req.body.avatarPicture,
+				// avatarPicture: req.body.avatarPicture,
 
 			});
 			try {
@@ -135,7 +136,7 @@ const logIn = async (req, res) => {
 					firstName: existingUser.firstName,
 					email: existingUser.email,
 					id: existingUser._id,
-					avatarPicture: existingUser.avatarPicture,
+					// avatarPicture: existingUser.avatarPicture,
 				},
 				token,
 			});

@@ -1,11 +1,10 @@
 import { createContext, useEffect, useState } from 'react';
 import { getToken } from '../utils/getToken';
-import { useNavigate } from 'react-router-dom';
 
 
-export const AuthContext = createContext();
+export const ShoppingCartContext = createContext();
 
-export const AuthContextProvider = (props) => {
+export const ShoppingCartContext = (props) => {
 
 	const token = getToken();
 
@@ -14,7 +13,27 @@ export const AuthContextProvider = (props) => {
 	const [userProfile, setUserProfile] = useState(null);
 	const [error, setError] = useState(null);
 
-	const redirectTo = useNavigate();
+
+
+
+  function increaseCartQuantity(id: number) {
+    setCartItems(currItems => {
+      if (currItems.find(item => item.id === id) == null) {
+        return [...currItems, { id, quantity: 1 }]
+      } else {
+        return currItems.map(item => {
+          if (item.id === id) {
+            return { ...item, quantity: item.quantity + 1 }
+          } else {
+            return item
+          }
+        })
+      }
+    })
+  }
+
+
+
 
 
 	const isUserLoggedIn = () => {
@@ -30,35 +49,9 @@ export const AuthContextProvider = (props) => {
 	};
 
 
-	const signOut = () => {
-		localStorage.removeItem("token");
-		setUser(false);
-		redirectTo("/");
-		console.log("WARNING: User signed out");
-	};
 
 
-	// const getProfile = async () => {
-	// 	const token = getToken();
-	// 	const myHeaders = new Headers();
-	// 	myHeaders.append("Authorization", `Bearer ${token}`);
-	// 	var requestOptions = {
-	// 		method: "GET",
-	// 		headers: myHeaders,
-	// 	};
-	// 	try {
-	// 		const response = await fetch(
-	// 			"http://localhost:5000/api/user/updateUser",
-	// 			requestOptions
-	// 		);
-	// 		const result = await response.json();
-	// 		console.log("result >>>>>>>>>>>>>>>>>>>>>>>>>", result);
-	// 		setUserProfile(result);
-	// 	} catch (error) {
-	// 		console.log("error gettin profile", error);
-	// 		setError("login first ");
-	// 	}
-	// };
+
 
 	const getProfile = async () => {
 		const myHeaders = new Headers();

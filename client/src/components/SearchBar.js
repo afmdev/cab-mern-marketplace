@@ -188,14 +188,15 @@ function SearchBar() {
 
 
 			<MenuItem>
+				<LinkRouter to="/my-account" underline="none" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+					{userProfile?.avatarPicture ? <Avatar
+						alt={userProfile?.fistName}
+						src={userProfile?.avatarPicture}
+						sx={{ width: 32, height: 32 }}
+					/> : <Avatar />} My Account
 
-				{userProfile?.avatarPicture ? <Avatar
-					alt={userProfile?.fistName}
-					src={userProfile?.avatarPicture}
-					sx={{ width: 32, height: 32 }}
-				/> : <Avatar />} My Profile
-
-				{/* <Avatar /> My account */}
+					{/* <Avatar /> My account */}
+				</LinkRouter>
 			</MenuItem>
 			<Divider />
 
@@ -376,7 +377,7 @@ function SearchBar() {
 					{/* <Divider /> */}
 					<List sx={style} component="nav" aria-label="mailbox folders">
 						<Divider />
-						<LinkRouter to='/access'>
+						<LinkRouter to='/'>
 							<ListItem button>
 								<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 								<ListItemText primary="Home" />

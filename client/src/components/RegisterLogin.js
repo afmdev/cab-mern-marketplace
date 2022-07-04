@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/authContext';
-import { getToken } from "../utils/getToken";
 
 
 import Typography from '@mui/material/Grid';
@@ -15,6 +14,8 @@ import Button from '@mui/material/Button';
 
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+
+
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -146,14 +147,14 @@ function RegisterLogin() {
 				console.log("error fetching", error);
 			}
 		}
-	};
+	}
 
 
 	const [signInUser, setSignInUser] = useState({});
 
 	const handleChangeHandlerSignIn = (e) => {
 		setSignInUser({ ...signInUser, [e.target.name]: e.target.value });
-	};
+	}
 
 
 	const signIn = async () => {

@@ -15,7 +15,7 @@ const getAllCategories = async (req, res) => {
 	catch (error) {
 		res
 			.status(400)
-			.json({ error: error, Message: "Something went wrong with the JSON." })
+			.json({ message: "SERVER: categoriesController.js -  Something went wrong with the JSON.", error: error });
 	}
 }
 
