@@ -32,8 +32,11 @@ function ProductsList() {
 			{items && items.map((element, i) => {
 				return (
 					<Grid item style={{ display: 'flex' }} key={i}>
-						<Card style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column', maxWidth: '300px' }}>
+						<Card style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', flexDirection: 'column', maxWidth: '300px' }}>
 							<CardContent>
+								<IconButton color="primary" aria-label="add to shopping cart" style={{ position: 'absolute', right: '26px', top: '26px', padding: '6px', backgroundColor: 'transparent' }}>
+									<AddShoppingCartIcon />
+								</IconButton>
 								<img src={element.picture} width="100%" />
 								<Typography variant="headline" component="h4">
 									{element.itemName}
@@ -45,11 +48,11 @@ function ProductsList() {
 									{element.price}€
 								</Typography>
 							</CardContent >
-							<CardActions>
-								<Link to={`/product/${element.slug}`}>
-									<Button variant="outlined">Read More</Button>
+							<CardActions style={{ justifyContent: 'space-between', padding: '0 16px 10px 16px' }}>
+								<Link to={`/product/${element.slug}`} style={{ textDecoration: 'none' }}>
+									<Button variant="contained" color="error" disableElevation style={{ backgroundColor: '#0F3460' }}>Read More</Button>
 								</Link>
-								<IconButton color="primary" aria-label="add to shopping cart">
+								<IconButton color="primary" aria-label="add to shopping cart" style={{ backgroundColor: '#e0e5ea' }}>
 									<AddShoppingCartIcon />
 								</IconButton>
 							</CardActions>

@@ -6,6 +6,7 @@ import categoriesRoute from './routes/categoriesRoute.js'
 import gendersRoute from './routes/gendersRoute.js'
 import itemsRoute from './routes/itemsRoute.js'
 import usersRoute from './routes/usersRoute.js'
+import cartsRoute from './routes/cartsRoute.js'
 import { cloudinaryConfig } from './config/cloudinaryConfig.js'
 
 import passportConfig from './config/passport.js'
@@ -17,7 +18,7 @@ const port = process.env.PORT || 5000
 
 const startServer = () => {
 	app.listen(port, () => {
-		console.log("Server is running on " + port + " port")
+		console.log("BOING!! Server is running on " + port + " port")
 	})
 }
 
@@ -26,6 +27,7 @@ const loadRoutes = () => {
 	app.use("/api/genders", gendersRoute)
 	app.use("/api/items", itemsRoute)
 	app.use("/api/users", usersRoute)
+	app.use("/api/carts", cartsRoute)
 }
 
 const addMiddleware = () => {
@@ -49,9 +51,9 @@ const addMiddleware = () => {
 const mongoDbConection = async () => {
 	try {
 		await mongoose.connect(process.env.DB)
-		console.log("Connection to Mongo DB established")
+		console.log("OK: Connection to Mongo DB established")
 	} catch (error) {
-		console.log("Error connection to Mongo DB", error)
+		console.log("ERROR: fail connecting to Mongo DB", error)
 	}
 }
 

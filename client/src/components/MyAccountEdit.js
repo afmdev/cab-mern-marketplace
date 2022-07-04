@@ -58,6 +58,9 @@ function MyAccountEdit() {
 	const { token, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
 	// console.log('token', token)
 
+	console.log('userProfile', userProfile)
+	// console.log('updateAccount', updateAccount)
+
 	const [selectedFile, setSelectedFile] = useState(null);
 
 
@@ -82,7 +85,7 @@ function MyAccountEdit() {
 		const requestOptions = {
 			method: "POST",
 			body: formData,
-		};
+		}
 		try {
 			const response = await fetch(
 				"http://localhost:5000/api/users/imageUpload",
@@ -91,8 +94,8 @@ function MyAccountEdit() {
 			console.log("response", response);
 			const result = await response.json();
 			console.log("result", result);
-			setUserProfile({ ...userProfile, avatarPicture: result.imageUrL }); // imageURL is how the field is defined in usersController.
-			// console.log(userProfile);
+			setUserProfile({ ...userProfile, avatarPicture: result.imageUrL });
+			// imageURL is how the field is defined in usersController.
 			// console.log('URL', result.imageUrL)
 		} catch (error) {
 			console.log('"error submiting picture"', error);
@@ -101,7 +104,7 @@ function MyAccountEdit() {
 
 	const handleChange = (event) => {
 		setUserProfile({ ...userProfile, [event.target.name]: event.target.value });
-		// setUpdateAccount({ ...updateAccount, [event.target.name]: event.target.value });
+		setUpdateAccount({ ...updateAccount, [event.target.name]: event.target.value });
 		// console.log(updateAccount);
 	};
 	const updateProfile = async () => {
@@ -114,6 +117,7 @@ function MyAccountEdit() {
 		urlencoded.append("email", userProfile.email);
 		urlencoded.append("phone", userProfile.phone);
 		urlencoded.append("birthday", userProfile.birthday);
+		urlencoded.append("password", userProfile.password);
 		urlencoded.append("avatarPicture", userProfile.avatarPicture);
 		const requestOptions = {
 			method: "POST",
@@ -256,6 +260,7 @@ function MyAccountEdit() {
 							<Grid container spacing={2} sx={{
 								mt: '20px'
 							}}>
+
 								<Grid item xs={12} xl={6}>
 									<TextField
 										// error={errorName}
@@ -265,7 +270,7 @@ function MyAccountEdit() {
 										id="firstname"
 										name="firstName"
 										type="text"
-										defaultValue={userProfile?.firstName ? userProfile.firstName : "First Name"}
+										value={userProfile?.firstName ? userProfile.firstName : "First Name"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -282,7 +287,7 @@ function MyAccountEdit() {
 										id="lastname"
 										name="lastName"
 										type="text"
-										defaultValue={userProfile?.lastName ? userProfile.lastName : "Last Name"}
+										value={userProfile?.lastName ? userProfile.lastName : "Last Name"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -299,7 +304,7 @@ function MyAccountEdit() {
 										id="email"
 										name="email"
 										type="text"
-										defaultValue={userProfile?.email ? userProfile.email : "E-Mail"}
+										value={userProfile?.email ? userProfile.email : "E-Mail"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -316,7 +321,7 @@ function MyAccountEdit() {
 										id="phone"
 										name="phone"
 										type="text"
-										defaultValue={userProfile?.phone ? userProfile.phone : "E-Mail"}
+										value={userProfile?.phone ? userProfile.phone : "Phone Number"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -336,7 +341,7 @@ function MyAccountEdit() {
 										InputLabelProps={{
 											shrink: true,
 										}}
-										defaultValue={userProfile?.birthday ? userProfile.birthday : "E-Mail"}
+										value={userProfile?.birthday ? userProfile.birthday : "yyyy-MM-dd"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -353,7 +358,7 @@ function MyAccountEdit() {
 										id="password"
 										name="password"
 										type="password"
-										defaultValue={userProfile?.password ? userProfile.password : "E-Mail"}
+										value={userProfile?.password ? userProfile.password : "E-Mail"}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
