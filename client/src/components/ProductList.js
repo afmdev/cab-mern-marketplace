@@ -13,12 +13,19 @@ import IconButton from '@mui/material/IconButton';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
-function ProductsList() {
 
-	const { products, fetchData } = useContext(ProductsContext);
+
+function ProductsList() {
+	const { products, fetchData, cart, setCart, fetchCartItems } = useContext(ProductsContext);
+
+	const { handleAddToCart } = useContext(ProductsContext);
 
 	let items = products?.data
 
+
+	useEffect(() => {
+		console.log(cart);
+	}, [cart]);
 
 
 	return (
@@ -31,7 +38,8 @@ function ProductsList() {
 
 			{items && items.map((element, i) => {
 				return (
-					<Grid item style={{ display: 'flex' }} key={i}>
+					< Grid item style={{ display: 'flex' }
+					} key={i} >
 						<Card style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', flexDirection: 'column', maxWidth: '300px' }}>
 							<CardContent>
 								<IconButton color="primary" aria-label="add to shopping cart" style={{ position: 'absolute', right: '26px', top: '26px', padding: '6px', backgroundColor: 'transparent' }}>
@@ -52,7 +60,7 @@ function ProductsList() {
 								<Link to={`/product/${element.slug}`} style={{ textDecoration: 'none' }}>
 									<Button variant="contained" color="error" disableElevation style={{ backgroundColor: '#0F3460' }}>Read More</Button>
 								</Link>
-								<IconButton color="primary" aria-label="add to shopping cart" style={{ backgroundColor: '#e0e5ea' }}>
+								<IconButton color="primary" aria-label="add to shopping cart" style={{ backgroundColor: '#e0e5ea' }} value={`${element.itemName}`} onClick={() => handleAddToCart(element)}>
 									<AddShoppingCartIcon />
 								</IconButton>
 							</CardActions>

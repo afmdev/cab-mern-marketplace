@@ -8,8 +8,6 @@ import Box from '@mui/material/Box';
 
 function ViewHome() {
 
-	// const { fetchData } = useContext(ProductsContext)
-
 	return (
 		<Box>
 			<TopSlider />

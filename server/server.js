@@ -7,6 +7,7 @@ import gendersRoute from './routes/gendersRoute.js'
 import itemsRoute from './routes/itemsRoute.js'
 import usersRoute from './routes/usersRoute.js'
 import cartsRoute from './routes/cartsRoute.js'
+import ordersRoute from './routes/ordersRoute.js'
 import { cloudinaryConfig } from './config/cloudinaryConfig.js'
 
 import passportConfig from './config/passport.js'
@@ -28,6 +29,7 @@ const loadRoutes = () => {
 	app.use("/api/items", itemsRoute)
 	app.use("/api/users", usersRoute)
 	app.use("/api/carts", cartsRoute)
+	app.use("/api/orders", ordersRoute)
 }
 
 const addMiddleware = () => {
