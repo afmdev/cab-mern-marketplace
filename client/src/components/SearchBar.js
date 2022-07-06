@@ -308,7 +308,6 @@ function SearchBar() {
 		>
 
 
-
 			<LinkRouter to="/access" sx={{ textDecoration: 'none' }} underline="none">
 				<MenuItem>
 					<Avatar /> Login
@@ -322,7 +321,6 @@ function SearchBar() {
 			</LinkRouter>
 		</Menu>
 	);
-
 
 
 	const mobileMenuInId = 'primary-search-account-menu-mobile';
@@ -379,11 +377,6 @@ function SearchBar() {
 
 
 	return (
-
-
-
-
-
 		<Box sx={{ flexGrow: 1 }} >
 
 			<Box style={{ position: 'relative', width: '80%' }}>
