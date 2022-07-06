@@ -25,16 +25,26 @@ export const ProductsContextProvider = (props) => {
 			})
 	}
 
+
+
+	// const savedEvents = localStorage.getItem("MY_CART")
+	// const alejandro = JSON.parse(savedEvents)
+	// console.log("alejandro", alejandro)
+
+
 	const loadLocalCart = localStorage.getItem("MY_CART")
 		? JSON.parse(localStorage.getItem("MY_CART"))
-		: []; // new
+		: [];
+
+
 
 	const [cart, setCart] = useState(loadLocalCart)
 	const [errorCart, setErrorCart] = useState(null)
 
 	//Add product to the cart juts if it does not exist
 	const handleAddToCart = (items) => {
-		if (cart.indexOf(items) !== -1) {
+		console.log("toquees", cart)
+		if (items._id.indexOf(items) !== -1) {
 			return;
 		} else {
 			setCart([...cart, items]);
