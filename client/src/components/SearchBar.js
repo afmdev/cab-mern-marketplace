@@ -110,7 +110,7 @@ function SearchBar() {
 
 	const { user, userProfile, signOut } = useContext(AuthContext)
 
-	const { cart, handleRemove, localStorageCart } = useContext(ProductsContext);
+	const { cart, handleRemove } = useContext(ProductsContext);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
