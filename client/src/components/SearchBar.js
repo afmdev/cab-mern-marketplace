@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/authContext';
+import { ProductsContext } from '../context/ProductsContext';
 import { Link as LinkRouter } from "react-router-dom";
 
 import { styled, alpha } from '@mui/material/styles';
@@ -12,6 +13,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -21,7 +23,7 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
+// import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 
@@ -29,31 +31,31 @@ import ListItemText from '@mui/material/ListItemText';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+// import InboxIcon from '@mui/icons-material/MoveToInbox';
+// import MailIcon from '@mui/icons-material/Mail';
 import CloseIcon from '@mui/icons-material/Close';
-import InfoIcon from '@mui/icons-material/Info';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import HelpIcon from '@mui/icons-material/Help';
-import GroupIcon from '@mui/icons-material/Group';
+// import InfoIcon from '@mui/icons-material/Info';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import DashboardIcon from '@mui/icons-material/Dashboard';
+// import HelpIcon from '@mui/icons-material/Help';
+// import GroupIcon from '@mui/icons-material/Group';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { createTheme } from '@mui/material/styles';
+// import { createTheme } from '@mui/material/styles';
 
 
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+// import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+// import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
+// import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+// import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+// import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+// import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
@@ -106,7 +108,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchBar() {
 
-	const { user, token, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
+	const { user, userProfile, signOut } = useContext(AuthContext)
+
+	const { cart, handleRemove, localStorageCart } = useContext(ProductsContext);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -119,6 +123,38 @@ function SearchBar() {
 			setShow(true);
 		}
 	}
+
+
+	const [showCart, setShowCart] = useState(false);
+	const handleShowCart = () => {
+		if (showCart) {
+			setShowCart(false);
+		} else {
+			setShowCart(true);
+		}
+	}
+
+	// const [price, setPrice] = useState(0);
+
+
+
+
+	// const handleRemove = (id) => {
+	// 	const arr = cart.filter((item) => item.id !== id);
+	// 	setCart(arr);
+	// 	handlePrice();
+	// };
+
+	// const handlePrice = () => {
+	// 	let ans = 0;
+	// 	cart.map((items) => (ans += items.amount * items.price));
+	// 	setPrice(ans);
+	// };
+
+	// useEffect(() => {
+	// 	handlePrice();
+	// });
+
 
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
@@ -138,15 +174,6 @@ function SearchBar() {
 		setMobileMoreAnchorEl(null);
 	}
 
-
-	// const handleMenuClose = () => {
-	// 	setAnchorEl(null);
-	// 	handleMobileMenuClose();
-	// };
-
-	// const handleMobileMenuOpen = (event) => {
-	// 	setMobileMoreAnchorEl(event.currentTarget);
-	// };
 
 	const MenuSignedInId = 'account-menu';
 	const renderMenuSignedIn = (
@@ -408,6 +435,58 @@ function SearchBar() {
 				</Drawer>
 			</Box>
 
+
+			<Box style={{ position: 'relative', width: '80%' }}>
+				<Drawer
+					anchor="right"
+					variant="temporary"
+					open={showCart}
+					onClose={handleShowCart}
+				>
+					<Box sx={{ position: 'absolute', right: '0' }}>
+						<IconButton onClick={handleShowCart}>
+							<CloseIcon />
+						</IconButton>
+					</Box>
+					<Typography variant="h6" m={2} sx={{ width: '300px' }}>
+						My Cart
+					</Typography>
+					{/* <Divider /> */}
+					<List sx={style} component="nav" aria-label="mailbox folders">
+						{cart && cart.map((element, i) => {
+							return (
+								<Box key={i} sx={{ position: 'relative' }}>
+									<Divider />
+									<ListItem sx={{ display: 'flex', justifyContent: 'space-between' }} key={i}>
+										<Box sx={{ mr: '10px' }}>
+											<img src={element.picture} alt="nada" width="35px" />
+										</Box>
+										<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flexGrow: '1', wordWrap: 'break-word', width: '200px', mr: '10px' }}>
+											<Typography variant="paragraph" sx={{ fontSize: '12px', mb: '5px', }}>{element.itemName}</Typography>
+											<Typography variant="paragraph" sx={{ fontSize: '12px', fontWeight: 'bold' }}>€{element.price}</Typography>
+										</Box>
+										<Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', width: '50px' }}>
+											<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff', mr: '5px' }}>-</Box>
+											<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff' }}>+</Box>
+											<Divider />
+											<Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', alignItems: 'stretch', alignContent: 'flex-start' }} >
+												<Button variant="text" sx={{ fontSize: '9px', mt: '7px', color: '#b7b7b7' }} onClick={() => handleRemove(element)}>Delete</Button>
+											</Box>
+										</Box>
+										{/* <Typography variant="paragraph" sx={{ position: 'absolute', left: '0', fontSize: '12px', fontWeight: 'bold' }}>Delete</Typography> */}
+									</ListItem>
+
+								</Box>
+							);
+						})}
+						<Divider />
+
+					</List>
+				</Drawer >
+			</Box >
+
+
+
 			<AppBar position="sticky" sx={{ backgroundColor: "#fff", height: '64px', justifyContent: 'center', color: '#757575', boxShadow: '0px 1px 10px 0px rgb(0 0 0 / 12%)' }}>
 				<Toolbar sx={{ px: '24px' }}>
 					<IconButton
@@ -442,15 +521,20 @@ function SearchBar() {
 								<FavoriteOutlinedIcon />
 							</Badge>
 						</IconButton>
+
+
 						<IconButton
 							size="large"
-							aria-label="show 17 new items"
 							color="inherit"
+							onClick={handleShowCart}
+							sx={{ ml: '5px' }}
+
 						>
-							<Badge badgeContent={17} color="error">
+							<Badge badgeContent={cart.length} color="error">
 								<ShoppingCartIcon />
 							</Badge>
 						</IconButton>
+
 
 						{user ?
 							<Tooltip title="Account settings">
