@@ -37,20 +37,21 @@ export const ProductsContextProvider = (props) => {
 		: [];
 
 
-
 	const [cart, setCart] = useState(loadLocalCart)
 	const [errorCart, setErrorCart] = useState(null)
 
+
 	//Add product to the cart juts if it does not exist
 	const handleAddToCart = (items) => {
-		console.log("toquees", cart)
-		if (items._id.indexOf(items) !== -1) {
-			return;
+		const id = items._id
+		const userExists = cart.some(items => items._id === id);
+		if (userExists) {
+			console.log("Item already exists in the cart, so do not duplicate it")
 		} else {
 			setCart([...cart, items]);
-			// localStorage.setItem("Cart", JSON.stringify(cart))
 		}
 	};
+
 
 	useEffect(() => {
 		const data = window.localStorage.getItem("MY_CART")
@@ -70,14 +71,26 @@ export const ProductsContextProvider = (props) => {
 		const id = element._id
 		const newCart = cart.filter((element) => element._id !== id);
 		setCart(newCart);
-		// handlePrice();
+		handlePrice()
 	};
 
-	// const handlePrice = () => {
-	// 	let ans = 0;
-	// 	cart.map((element) => (ans += element.amount * element.price));
-	// 	setPrice(ans);
-	// };
+
+
+
+	const [price, setPrice] = useState(0);
+
+	const handlePrice = () => {
+		let ans = 0;
+		cart.map((items) => (ans += items.amount * items.price));
+		setPrice(ans);
+	};
+
+	useEffect(() => {
+		handlePrice()
+	});
+
+
+
 
 
 
@@ -92,7 +105,7 @@ export const ProductsContextProvider = (props) => {
 
 	return (
 		<ProductsContext.Provider value={{
-			products, loader, error, filter, setFilter, fetchData, setProducts, cart, setCart, errorCart, setErrorCart, handleAddToCart, handleRemove
+			products, loader, error, filter, setFilter, fetchData, setProducts, cart, setCart, errorCart, setErrorCart, handleAddToCart, handleRemove, price, setPrice
 		}}>
 			{props.children}
 		</ProductsContext.Provider>

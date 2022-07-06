@@ -60,6 +60,8 @@ import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStore
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+
 
 const style = {
 	width: '100%',
@@ -110,7 +112,7 @@ function SearchBar() {
 
 	const { user, userProfile, signOut } = useContext(AuthContext)
 
-	const { cart, handleRemove } = useContext(ProductsContext);
+	const { cart, handleRemove, price } = useContext(ProductsContext);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -445,36 +447,61 @@ function SearchBar() {
 						My Cart
 					</Typography>
 					{/* <Divider /> */}
-					<List sx={style} component="nav" aria-label="mailbox folders">
-						{cart && cart.map((element, i) => {
-							return (
-								<Box key={i} sx={{ position: 'relative' }}>
-									<Divider />
-									<ListItem sx={{ display: 'flex', justifyContent: 'space-between' }} key={i}>
-										<Box sx={{ mr: '10px' }}>
-											<img src={element.picture} alt="nada" width="35px" />
-										</Box>
-										<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flexGrow: '1', wordWrap: 'break-word', width: '200px', mr: '10px' }}>
-											<Typography variant="paragraph" sx={{ fontSize: '12px', mb: '5px', }}>{element.itemName}</Typography>
-											<Typography variant="paragraph" sx={{ fontSize: '12px', fontWeight: 'bold' }}>€{element.price}</Typography>
-										</Box>
-										<Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', width: '50px' }}>
-											<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff', mr: '5px' }}>-</Box>
-											<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff' }}>+</Box>
-											<Divider />
-											<Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', alignItems: 'stretch', alignContent: 'flex-start' }} >
-												<Button variant="text" sx={{ fontSize: '9px', mt: '7px', color: '#b7b7b7' }} onClick={() => handleRemove(element)}>Delete</Button>
+
+					{cart.length === 0 ?
+
+						<List sx={style} component="nav" aria-label="mailbox folders">
+							<Box sx={{ position: 'relative' }}>
+								<Divider />
+								<ListItem sx={{ display: 'flex', justifyContent: 'space-between' }}>
+									<Typography variant="paragraph" sx={{ fontSize: '12px', mb: '5px', }}>No items in your cart</Typography>
+								</ListItem>
+							</Box>
+						</List>
+
+						:
+
+						<List sx={style} component="nav" aria-label="mailbox folders">
+							{cart && cart.map((element, i) => {
+								return (
+									<Box key={i} sx={{ position: 'relative' }}>
+										<Divider />
+										<ListItem sx={{ display: 'flex', justifyContent: 'space-between' }} key={i}>
+											<Box sx={{ mr: '10px' }}>
+												<img src={element.picture} alt="nada" width="35px" />
 											</Box>
-										</Box>
-										{/* <Typography variant="paragraph" sx={{ position: 'absolute', left: '0', fontSize: '12px', fontWeight: 'bold' }}>Delete</Typography> */}
-									</ListItem>
+											<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flexGrow: '1', wordWrap: 'break-word', width: '200px', mr: '10px' }}>
+												<Typography variant="paragraph" sx={{ fontSize: '12px', mb: '5px', }}>{element.itemName}</Typography>
+												<Typography variant="paragraph" sx={{ fontSize: '12px', fontWeight: 'bold' }}>€{element.price}</Typography>
+											</Box>
+											<Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', width: '50px' }}>
+												<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff', mr: '5px' }}>-</Box>
+												<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff' }}>+</Box>
+												<Divider />
+												<Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', alignItems: 'stretch', alignContent: 'flex-start' }} >
+													<Button variant="text" sx={{ fontSize: '9px', mt: '7px', color: '#b7b7b7' }} onClick={() => handleRemove(element)}>Delete</Button>
+												</Box>
+											</Box>
+											{/* <Typography variant="paragraph" sx={{ position: 'absolute', left: '0', fontSize: '12px', fontWeight: 'bold' }}>Delete</Typography> */}
+										</ListItem>
 
-								</Box>
-							);
-						})}
-						<Divider />
+									</Box>
 
-					</List>
+								);
+
+							})}
+							<Divider />
+
+						</List>}
+					<Box sx={{ display: 'flex', justifyContent: 'space-between', p: '10px 20px 20px 20px' }}>
+						<Box>Total: </Box>
+						<Box><Typography variant="paragraph" sx={{ fontWeight: 'bold' }}>€ {price}</Typography></Box>
+					</Box>
+					<Divider />
+					<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', mt: '30px' }}>
+						<Box><Button variant="outlined" disableElevation>Save Cart</Button></Box>
+						<Box><Button variant="contained" disableElevation> Checkout</Button></Box>
+					</Box>
 				</Drawer >
 			</Box >
 
