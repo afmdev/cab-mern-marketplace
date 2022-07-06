@@ -31,8 +31,13 @@ export const ProductsContextProvider = (props) => {
 
 	//Add product to the cart juts if it does not exist
 	const handleAddToCart = (items) => {
-		if (cart.indexOf(items) !== -1) return;
-		setCart([...cart, items]);
+		if (cart.indexOf(items) !== -1) {
+			return;
+		} else {
+			setCart([...cart, items]);
+			localStorage.setItem("Cart", JSON.stringify(cart))
+		}
+
 	};
 
 	//Remove product from the cart 
@@ -43,10 +48,20 @@ export const ProductsContextProvider = (props) => {
 		// handlePrice();
 	};
 
+	// const handlePrice = () => {
+	// 	let ans = 0;
+	// 	cart.map((element) => (ans += element.amount * element.price));
+	// 	setPrice(ans);
+	// };
+
 
 
 	useEffect(() => {
 		fetchData()
+		// handlePrice();
+		// localStorage.setItem("Cart", JSON.stringify(cart)
+		// const cartFromLocalStorage = localStorage.getItem('Cart');
+
 	}, [])
 
 
