@@ -23,10 +23,8 @@ function ProductsList() {
 	let items = products?.data
 
 
-	useEffect(() => {
-		console.log(cart);
-		localStorage.setItem("Cart", JSON.stringify(cart))
-	}, [cart]);
+
+
 
 
 	return (

@@ -25,8 +25,11 @@ export const ProductsContextProvider = (props) => {
 			})
 	}
 
+	const loadLocalCart = localStorage.getItem("MY_CART")
+		? JSON.parse(localStorage.getItem("MY_CART"))
+		: []; // new
 
-	const [cart, setCart] = useState([])
+	const [cart, setCart] = useState(loadLocalCart)
 	const [errorCart, setErrorCart] = useState(null)
 
 	//Add product to the cart juts if it does not exist
@@ -35,10 +38,22 @@ export const ProductsContextProvider = (props) => {
 			return;
 		} else {
 			setCart([...cart, items]);
-			localStorage.setItem("Cart", JSON.stringify(cart))
+			// localStorage.setItem("Cart", JSON.stringify(cart))
 		}
-
 	};
+
+	useEffect(() => {
+		const data = window.localStorage.getItem("MY_CART")
+		setCart(JSON.parse(data))
+	}, []);
+
+
+	useEffect(() => {
+		window.localStorage.setItem("MY_CART", JSON.stringify(cart))
+	}, [cart]);
+
+
+
 
 	//Remove product from the cart 
 	const handleRemove = (element) => {
@@ -56,12 +71,11 @@ export const ProductsContextProvider = (props) => {
 
 
 
+
+
 	useEffect(() => {
 		fetchData()
 		// handlePrice();
-		// localStorage.setItem("Cart", JSON.stringify(cart)
-		// const cartFromLocalStorage = localStorage.getItem('Cart');
-
 	}, [])
 
 
