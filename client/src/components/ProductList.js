@@ -16,7 +16,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 function ProductsList() {
-	const { products, fetchData, cart, setCart, fetchCartItems } = useContext(ProductsContext);
+	const { products, fetchData, cart, setCart, fetchCartItems, handleShowCart } = useContext(ProductsContext);
 
 	const { handleAddToCart } = useContext(ProductsContext);
 

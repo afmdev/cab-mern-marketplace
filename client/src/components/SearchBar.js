@@ -112,7 +112,7 @@ function SearchBar() {
 
 	const { user, userProfile, signOut } = useContext(AuthContext)
 
-	const { cart, handleRemove, price } = useContext(ProductsContext);
+	const { cart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart } = useContext(ProductsContext);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -127,14 +127,7 @@ function SearchBar() {
 	}
 
 
-	const [showCart, setShowCart] = useState(false);
-	const handleShowCart = () => {
-		if (showCart) {
-			setShowCart(false);
-		} else {
-			setShowCart(true);
-		}
-	}
+
 
 	// const [price, setPrice] = useState(0);
 
@@ -472,11 +465,12 @@ function SearchBar() {
 											</Box>
 											<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flexGrow: '1', wordWrap: 'break-word', width: '200px', mr: '10px' }}>
 												<Typography variant="paragraph" sx={{ fontSize: '12px', mb: '5px', }}>{element.itemName}</Typography>
-												<Typography variant="paragraph" sx={{ fontSize: '12px', fontWeight: 'bold' }}>€{element.price}</Typography>
+												<Typography variant="paragraph" sx={{ fontSize: '12px', fontWeight: 'bold' }}>{element.amount} x {element.price}€</Typography>
 											</Box>
 											<Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'row', flexWrap: 'wrap', width: '50px' }}>
-												<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff', mr: '5px' }}>-</Box>
-												<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff' }}>+</Box>
+												<Button variant="contained" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff', mr: '5px', minWidth: '0', p: '0' }} onClick={() => handleChange(element, -1)}>-</Button>
+												<Button variant="contained" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '19px', height: '19px', background: '#0F3460', borderRadius: '100px', color: '#fff', minWidth: '0', p: '0' }} onClick={() => handleChange(element, 1)}>+</Button>
+
 												<Divider />
 												<Box sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', alignItems: 'stretch', alignContent: 'flex-start' }} >
 													<Button variant="text" sx={{ fontSize: '9px', mt: '7px', color: '#b7b7b7' }} onClick={() => handleRemove(element)}>Delete</Button>
