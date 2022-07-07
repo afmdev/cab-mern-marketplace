@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-// const { Schema } = mongoose;
+const { Schema } = mongoose;
 
 const itemsSchema = new mongoose.Schema({
 	itemName: {
@@ -46,10 +46,10 @@ const itemsSchema = new mongoose.Schema({
 	gallery: [{
 		type: Array
 	}],
-	author: {
-		type: String,
-		required: true
-	},
+	user: [{
+		type: Schema.Types.ObjectId,
+		ref: 'user'
+	}],
 	visibility: {
 		type: Boolean,
 		required: true

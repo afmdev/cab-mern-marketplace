@@ -10,7 +10,7 @@ export const AuthContextProvider = (props) => {
 	const token = getToken();
 
 	const [user, setUser] = useState(false);
-	// const [updateAccount, setUpdateAccount] = useState({});
+	const [updateAccount, setUpdateAccount] = useState({});
 	const [userProfile, setUserProfile] = useState(null);
 	const [error, setError] = useState(null);
 
@@ -103,7 +103,7 @@ export const AuthContextProvider = (props) => {
 				getProfile,
 				userProfile, setUserProfile,
 				token,
-				// updateAccount, setUpdateAccount
+				updateAccount, setUpdateAccount
 			}}>
 			{props.children}
 		</AuthContext.Provider>
