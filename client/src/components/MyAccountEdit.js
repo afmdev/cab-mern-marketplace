@@ -23,7 +23,7 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { InputBase } from '@mui/material';
+
 
 import FormControl from '@mui/material/FormControl';
 
@@ -57,15 +57,12 @@ function MyAccountEdit() {
 
 
 	const { token, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
-
 	const { products } = useContext(ProductsContext)
 
 	const element = products?.data[0]
-
 	console.log('producto', element)
 
 	// console.log('token', token)
-
 	console.log('userProfile', userProfile)
 	// console.log('updateAccount', updateAccount)
 
@@ -171,7 +168,7 @@ function MyAccountEdit() {
 						<Divider />
 						<ListItem button>
 							<PersonOutlineOutlinedIcon sx={{ mr: '10px' }} />
-							<ListItemText primary="Profile Info" />
+							<ListItemText primary="My Profile" />
 						</ListItem>
 						<Divider />
 					</List>
@@ -318,6 +315,7 @@ function MyAccountEdit() {
 										required
 										fullWidth
 										sx={{ background: '#fff' }}
+										disabled
 									/>
 								</Grid>
 								<Grid item xs={12} xl={6}>

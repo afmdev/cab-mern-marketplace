@@ -23,44 +23,22 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-// import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-
-
-
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-// import InboxIcon from '@mui/icons-material/MoveToInbox';
-// import MailIcon from '@mui/icons-material/Mail';
 import CloseIcon from '@mui/icons-material/Close';
-// import InfoIcon from '@mui/icons-material/Info';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import DashboardIcon from '@mui/icons-material/Dashboard';
-// import HelpIcon from '@mui/icons-material/Help';
-// import GroupIcon from '@mui/icons-material/Group';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-// import { createTheme } from '@mui/material/styles';
-
-
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-// import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-// import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
-// import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-// import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-// import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-
-// import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 
-import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 
 const style = {
@@ -110,7 +88,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchBar() {
 
-	const { user, userProfile, signOut } = useContext(AuthContext)
+	const { user, userProfile, signOut, isUserLoggedIn } = useContext(AuthContext)
 
 	const { cart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart } = useContext(ProductsContext);
 
@@ -127,6 +105,37 @@ function SearchBar() {
 	}
 
 
+	// const placeOrder = async () => {
+
+	// 	let myHeaders = new Headers();
+	// 	myHeaders.append("Authorization", `Bearer ${token}`);
+	// 	let urlencoded = new URLSearchParams();
+	// 	urlencoded.append("firstName", userProfile.firstName);
+	// 	urlencoded.append("lastName", userProfile.lastName);
+	// 	urlencoded.append("email", userProfile.email);
+	// 	urlencoded.append("phone", userProfile.phone);
+	// 	urlencoded.append("birthday", userProfile.birthday);
+	// 	urlencoded.append("password", userProfile.password);
+	// 	urlencoded.append("avatarPicture", userProfile.avatarPicture);
+	// 	const requestOptions = {
+	// 		method: "POST",
+	// 		headers: myHeaders,
+	// 		body: urlencoded,
+	// 	};
+	// 	// console.log('urlencoded', myHeaders.get("Authorization"))
+
+	// 	try {
+	// 		const response = await fetch(
+	// 			"http://localhost:5000/api/users/placeOrder",
+	// 			requestOptions
+	// 		);
+	// 		console.log('response', response)
+	// 		const results = await response.json();
+	// 		console.log("MyAccountEdit Results user update", results);
+	// 	} catch (error) {
+	// 		console.log("MyAccountEdit ERROR: Unable to update user information.", error);
+	// 	}
+	// };
 
 
 	// const [price, setPrice] = useState(0);
@@ -492,10 +501,23 @@ function SearchBar() {
 						<Box><Typography variant="paragraph" sx={{ fontWeight: 'bold' }}>€ {price}</Typography></Box>
 					</Box>
 					<Divider />
-					<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', mt: '30px' }}>
-						<Box><Button variant="outlined" disableElevation>Save Cart</Button></Box>
-						<Box><Button variant="contained" disableElevation> Checkout</Button></Box>
-					</Box>
+
+					{user ?
+						<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', mt: '30px' }}>
+							<Box><Button variant="outlined" disableElevation sx={{ width: '140px' }}>Save Cart</Button></Box>
+							<Box><Button variant="contained" disableElevation sx={{ width: '140px' }}>Place Order</Button></Box>
+						</Box>
+						:
+						<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: '20px', pb: '20px', boxShadow: 'inset 0px 18px 20px 0px #efefef' }}>
+							<Typography variant="paragraph" sx={{ fontSize: '12px' }}>Access to your account to save your cart or place an order</Typography>
+							<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', mt: '30px' }}>
+
+								<Box><Button component={LinkRouter} to="/access" variant="outlined" disableElevation sx={{ width: '100px', mr: '20px' }} onClick={() => setShowCart(false)}>Login</Button></Box>
+								<Box><Button component={LinkRouter} to="/access" variant="contained" disableElevation sx={{ width: '100px', ml: '20px' }} onClick={() => setShowCart(false)}>Register</Button></Box>
+							</Box>
+						</Box>
+					}
+
 				</Drawer >
 			</Box >
 

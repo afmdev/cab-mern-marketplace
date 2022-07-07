@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 const usersSchema = new mongoose.Schema({
 	firstName: {
@@ -25,6 +26,13 @@ const usersSchema = new mongoose.Schema({
 	avatarPicture: {
 		type: String,
 	},
+	role: {
+		type: String,
+	},
+	orders: [{
+		type: Schema.Types.ObjectId,
+		ref: 'order'
+	}]
 });
 
 const usersModel = mongoose.model("user", usersSchema);
