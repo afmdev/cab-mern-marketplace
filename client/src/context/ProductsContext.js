@@ -42,13 +42,14 @@ export const ProductsContextProvider = (props) => {
 
 
 	//Add product to the cart juts if it does not exist
-	const handleAddToCart = (items) => {
-		const id = items._id
-		const userExists = cart.some(items => items._id === id);
+	const handleAddToCart = (element) => {
+		const id = element._id
+		const userExists = cart.some(element => element._id === id);
 		if (userExists) {
 			console.log("Item already exists in the cart, so do not duplicate it")
 		} else {
-			setCart([...cart, items]);
+			setCart([...cart, element]);
+			handleShowCart()
 		}
 	};
 
@@ -74,6 +75,9 @@ export const ProductsContextProvider = (props) => {
 		handlePrice()
 	};
 
+	// const totalPrice = cart.reduce((acc, curr) => acc + curr.price, 0);
+
+	// console.log(totalPrice)
 
 
 
@@ -81,7 +85,7 @@ export const ProductsContextProvider = (props) => {
 
 	const handlePrice = () => {
 		let ans = 0;
-		cart.map((items) => (ans += items.amount * items.price));
+		cart.map((element) => (ans += element.amount * element.price));
 		setPrice(ans);
 	};
 
@@ -91,8 +95,15 @@ export const ProductsContextProvider = (props) => {
 
 
 
+	const handleChange = (element, d) => {
+		const index = cart.indexOf(element);
+		const array = cart;
+		array[index].amount += d;
 
-
+		if (array[index].amount === 0) array[index].amount = 1;
+		setCart([...array]);
+		console.log(cart)
+	};
 
 
 
@@ -102,10 +113,19 @@ export const ProductsContextProvider = (props) => {
 	}, [])
 
 
+	const [showCart, setShowCart] = useState(false);
+	const handleShowCart = () => {
+		if (showCart) {
+			setShowCart(false);
+		} else {
+			setShowCart(true);
+		}
+	}
+
 
 	return (
 		<ProductsContext.Provider value={{
-			products, loader, error, filter, setFilter, fetchData, setProducts, cart, setCart, errorCart, setErrorCart, handleAddToCart, handleRemove, price, setPrice
+			products, loader, error, filter, setFilter, fetchData, setProducts, cart, setCart, errorCart, setErrorCart, handleAddToCart, handleRemove, price, setPrice, handleChange, showCart, setShowCart, handleShowCart
 		}}>
 			{props.children}
 		</ProductsContext.Provider>
