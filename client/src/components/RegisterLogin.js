@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/authContext';
+import { Link as LinkRouter, useNavigate } from 'react-router-dom';
+
 
 
 import Typography from '@mui/material/Grid';
@@ -63,6 +65,8 @@ function a11yProps(index) {
 // }
 
 function RegisterLogin() {
+
+	const navigate = useNavigate();
 
 	const { user, setUser, signOut, isUserLoggedIn } = useContext(AuthContext);
 
@@ -178,6 +182,7 @@ function RegisterLogin() {
 			if (token) {
 				localStorage.setItem("token", token);
 				setUser(true);
+				navigate('/my-account');
 			} else {
 				console.log("error seting token");
 				setUser(false);

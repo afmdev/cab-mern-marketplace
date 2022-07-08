@@ -29,21 +29,20 @@ const updateProfile = async (req, res) => {
 	// console.log('req.body >>>>>>>>>>>>>>>>>>>>>>', req.body)
 
 	try {
-		const hashedPassword = await encryptPassword(req.body.password);
-		console.log("HOLA HASHED", hashedPassword)
-		const updatedUser = await usersModel.findOneAndUpdate(req.body.id, {
+		const updatedUser = await usersModel.findByIdAndUpdate(req.body.id, {
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
-			email: req.body.email,
+			// email: req.body.email,
 			phone: req.body.phone,
 			birthday: req.body.birthday,
-			password: hashedPassword,
+			// password: hashedPassword,
+			role: req.body.role,
 			avatarPicture: req.body.avatarPicture,
 		});
 		console.log("updatedUser: ", updatedUser);
 		res.status(200).json({
 			message: "OK: User info updated.",
-			user: updatedUser,
+			firstName: updatedUser,
 		});
 	} catch (error) {
 		res.status(400)
@@ -82,6 +81,7 @@ const signUp = async (req, res) => {
 
 			const newUser = new usersModel({
 				firstName: req.body.firstName,
+				lastName: req.body.lastName,
 				email: req.body.email,
 				password: hashedPassword,
 				// avatarPicture: req.body.avatarPicture,
@@ -154,6 +154,7 @@ const getProfile = (req, res) => {
 		phone: req.user.phone,
 		birthday: req.user.birthday,
 		password: req.user.password,
+		role: req.user.role,
 		avatarPicture: req.user.avatarPicture,
 	});
 };

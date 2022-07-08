@@ -86,7 +86,7 @@ export const ProductsContextProvider = (props) => {
 	const handlePrice = () => {
 		let ans = 0;
 		cart.map((element) => (ans += element.amount * element.price));
-		setPrice(ans);
+		setPrice(ans.toFixed(2));
 	};
 
 	useEffect(() => {

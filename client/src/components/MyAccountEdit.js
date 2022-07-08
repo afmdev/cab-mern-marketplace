@@ -23,13 +23,12 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { InputBase } from '@mui/material';
 
 import FormControl from '@mui/material/FormControl';
 
 
 import { AuthContext } from "../context/authContext";
-import { ProductsContext } from '../context/ProductsContext';
 
 
 const Input = styled('input')({
@@ -56,15 +55,8 @@ const theme = createTheme({
 function MyAccountEdit() {
 
 
-	const { token, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
-	const { products } = useContext(ProductsContext)
-
-	const element = products?.data[0]
-	console.log('producto', element)
-
+	const { token, user, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
 	// console.log('token', token)
-	console.log('userProfile', userProfile)
-	// console.log('updateAccount', updateAccount)
 
 	const [selectedFile, setSelectedFile] = useState(null);
 
@@ -90,7 +82,7 @@ function MyAccountEdit() {
 		const requestOptions = {
 			method: "POST",
 			body: formData,
-		}
+		};
 		try {
 			const response = await fetch(
 				"http://localhost:5000/api/users/imageUpload",
@@ -99,8 +91,8 @@ function MyAccountEdit() {
 			console.log("response", response);
 			const result = await response.json();
 			console.log("result", result);
-			setUserProfile({ ...userProfile, avatarPicture: result.imageUrL });
-			// imageURL is how the field is defined in usersController.
+			setUserProfile({ ...userProfile, avatarPicture: result.imageUrL }); // imageURL is how the field is defined in usersController.
+			// console.log(userProfile);
 			// console.log('URL', result.imageUrL)
 		} catch (error) {
 			console.log('"error submiting picture"', error);
@@ -109,20 +101,21 @@ function MyAccountEdit() {
 
 	const handleChange = (event) => {
 		setUserProfile({ ...userProfile, [event.target.name]: event.target.value });
-		setUpdateAccount({ ...updateAccount, [event.target.name]: event.target.value });
+		// setUpdateAccount({ ...updateAccount, [event.target.name]: event.target.value });
 		// console.log(updateAccount);
 	};
 	const updateProfile = async () => {
-
+		console.log('<<<<<<<<<<<<<userProfile', userProfile)
 		let myHeaders = new Headers();
 		myHeaders.append("Authorization", `Bearer ${token}`);
 		let urlencoded = new URLSearchParams();
+		urlencoded.append("id", userProfile._id);
 		urlencoded.append("firstName", userProfile.firstName);
 		urlencoded.append("lastName", userProfile.lastName);
-		urlencoded.append("email", userProfile.email);
+		// urlencoded.append("email", userProfile.email);
 		urlencoded.append("phone", userProfile.phone);
 		urlencoded.append("birthday", userProfile.birthday);
-		urlencoded.append("password", userProfile.password);
+		urlencoded.append("role", userProfile.role);
 		urlencoded.append("avatarPicture", userProfile.avatarPicture);
 		const requestOptions = {
 			method: "POST",
@@ -160,26 +153,9 @@ function MyAccountEdit() {
 
 				<Box style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
 
-					<Typography component="p">
-						Account Settings
-					</Typography>
-
-					<List sx={style} component="nav" aria-label="mailbox folders">
-						<Divider />
-						<ListItem button>
-							<PersonOutlineOutlinedIcon sx={{ mr: '10px' }} />
-							<ListItemText primary="My Profile" />
-						</ListItem>
-						<Divider />
-					</List>
-
-
-
-					<Typography component="p" sx={{ mt: '40px' }}>
+					<Typography component="p" sx={{ mt: '8px' }}>
 						Dashboard
 					</Typography>
-
-
 					<List sx={style} component="nav" aria-label="mailbox folders">
 						<Divider />
 						<ListItem button>
@@ -199,6 +175,21 @@ function MyAccountEdit() {
 							<Box component="span">10</Box>
 						</ListItem>
 						<Divider light />
+					</List>
+
+
+					<Typography component="p" sx={{ mt: '30px' }}>
+						Account Settings
+					</Typography>
+					<List sx={style} component="nav" aria-label="mailbox folders">
+						<Divider />
+						<LinkRouter to="/my-account/" underline="none" style={{ textDecoration: 'none' }}>
+							<ListItem button>
+								<PersonOutlineOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="My Profile" />
+							</ListItem>
+						</LinkRouter>
+						<Divider />
 						<ListItem button>
 							<DeleteForeverOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 							<ListItemText primary="Delete" />
@@ -208,7 +199,6 @@ function MyAccountEdit() {
 
 				</Box>
 			</Grid>
-
 
 			<Grid item xs={10} sm={10} md={8} lg={7} xl={5}>
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -265,17 +255,16 @@ function MyAccountEdit() {
 							<Grid container spacing={2} sx={{
 								mt: '20px'
 							}}>
-
 								<Grid item xs={12} xl={6}>
 									<TextField
 										// error={errorName}
-										autoComplete="lname"
+										autoComplete="fname"
 										variant="outlined"
 										label="First Name"
 										id="firstname"
 										name="firstName"
 										type="text"
-										value={userProfile?.firstName ? userProfile.firstName : "First Name"}
+										value={userProfile?.firstName ? userProfile.firstName : ""}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -292,30 +281,12 @@ function MyAccountEdit() {
 										id="lastname"
 										name="lastName"
 										type="text"
-										value={userProfile?.lastName ? userProfile.lastName : "Last Name"}
+										value={userProfile?.lastName ? userProfile.lastName : ""}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
 										fullWidth
 										sx={{ background: '#fff' }}
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										// error={errorName}
-										autoComplete="emial"
-										variant="outlined"
-										label="E-Mail"
-										id="email"
-										name="email"
-										type="text"
-										value={userProfile?.email ? userProfile.email : "E-Mail"}
-										// helperText={helperName}
-										onChange={handleChange}
-										required
-										fullWidth
-										sx={{ background: '#fff' }}
-										disabled
 									/>
 								</Grid>
 								<Grid item xs={12} xl={6}>
@@ -326,8 +297,8 @@ function MyAccountEdit() {
 										label="Phone"
 										id="phone"
 										name="phone"
-										type="text"
-										value={userProfile?.phone ? userProfile.phone : "Phone Number"}
+										type="tel"
+										value={userProfile?.phone ? userProfile.phone : ""}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -347,7 +318,7 @@ function MyAccountEdit() {
 										InputLabelProps={{
 											shrink: true,
 										}}
-										value={userProfile?.birthday ? userProfile.birthday : "yyyy-MM-dd"}
+										value={userProfile?.birthday ? userProfile.birthday : ""}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -355,6 +326,25 @@ function MyAccountEdit() {
 										sx={{ background: '#fff' }}
 									/>
 								</Grid>
+								<Grid item xs={12}>
+									<TextField
+										// error={errorName}
+										autoComplete="email"
+										variant="outlined"
+										label="E-Mail"
+										id="email"
+										name="email"
+										type="email"
+										value={userProfile?.email ? userProfile.email : ""}
+										// helperText={helperName}
+										onChange={handleChange}
+										required
+										fullWidth
+										sx={{ background: '#fff' }}
+										disabled
+									/>
+								</Grid>
+
 								{/* <Grid item xs={12} xl={6}>
 									<TextField
 										// error={errorName}
