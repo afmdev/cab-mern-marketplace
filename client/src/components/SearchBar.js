@@ -88,8 +88,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchBar() {
 
-	const { user, userProfile, signOut, isUserLoggedIn } = useContext(AuthContext)
-
+	const { user, userProfile, signOut, isUserLoggedIn, token } = useContext(AuthContext)
+	console.log("userProfile", userProfile)
 	const { cart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart } = useContext(ProductsContext);
 
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -105,56 +105,45 @@ function SearchBar() {
 	}
 
 
-	// const placeOrder = async () => {
+	const placeOrder = async () => {
 
-	// 	let myHeaders = new Headers();
-	// 	myHeaders.append("Authorization", `Bearer ${token}`);
-	// 	let urlencoded = new URLSearchParams();
-	// 	urlencoded.append("firstName", userProfile.firstName);
-	// 	urlencoded.append("lastName", userProfile.lastName);
-	// 	urlencoded.append("email", userProfile.email);
-	// 	urlencoded.append("phone", userProfile.phone);
-	// 	urlencoded.append("birthday", userProfile.birthday);
-	// 	urlencoded.append("password", userProfile.password);
-	// 	urlencoded.append("avatarPicture", userProfile.avatarPicture);
-	// 	const requestOptions = {
-	// 		method: "POST",
-	// 		headers: myHeaders,
-	// 		body: urlencoded,
-	// 	};
-	// 	// console.log('urlencoded', myHeaders.get("Authorization"))
+		let myHeaders = new Headers();
+		myHeaders.append("Authorization", `Bearer ${token}`);
+		let urlencoded = new URLSearchParams();
 
-	// 	try {
-	// 		const response = await fetch(
-	// 			"http://localhost:5000/api/users/placeOrder",
-	// 			requestOptions
-	// 		);
-	// 		console.log('response', response)
-	// 		const results = await response.json();
-	// 		console.log("MyAccountEdit Results user update", results);
-	// 	} catch (error) {
-	// 		console.log("MyAccountEdit ERROR: Unable to update user information.", error);
-	// 	}
-	// };
+		urlencoded.append("user_id", userProfile._id);
+		const requestOptions = {
+			method: "POST",
+			headers: myHeaders,
+			body: urlencoded,
+		};
+		// console.log('urlencoded', myHeaders.get("Authorization"))
+
+		try {
+			const response = await fetch(
+				"http://localhost:5000/api/orders/placeOrder",
+				requestOptions
+			);
+			console.log('Response', response)
+			const results = await response.json();
+			console.log("Result", results);
+		} catch (error) {
+			console.log("Searchbar Order ERROR: Unable to update order information.", error);
+		}
+	};
 
 
 	// const [price, setPrice] = useState(0);
-
-
-
-
 	// const handleRemove = (id) => {
 	// 	const arr = cart.filter((item) => item.id !== id);
 	// 	setCart(arr);
 	// 	handlePrice();
 	// };
-
 	// const handlePrice = () => {
 	// 	let ans = 0;
 	// 	cart.map((items) => (ans += items.amount * items.price));
 	// 	setPrice(ans);
 	// };
-
 	// useEffect(() => {
 	// 	handlePrice();
 	// });
@@ -505,7 +494,7 @@ function SearchBar() {
 					{user ?
 						<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', mt: '30px' }}>
 							<Box><Button variant="outlined" disableElevation sx={{ width: '140px' }}>Save Cart</Button></Box>
-							<Box><Button variant="contained" disableElevation sx={{ width: '140px' }}>Place Order</Button></Box>
+							<Box><Button variant="contained" disableElevation sx={{ width: '140px' }} onClick={placeOrder}>Place Order</Button></Box>
 						</Box>
 						:
 						<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: '20px', pb: '20px', boxShadow: 'inset 0px 18px 20px 0px #efefef' }}>

@@ -1,4 +1,5 @@
 import ordersModel from '../models/ordersModel.js'
+import usersModel from '../models/usersModel.js'
 
 
 const getAllOrders = async (req, res) => {
@@ -38,24 +39,27 @@ const getOrdersByUser = async (req, res) => {
 	} catch (error) {
 		res
 			.status(400)
-			.json({ message: "SERVER: itemsController.js -  Something went wrong with the JSON.", error: error });
+			.json({ message: "SERVER: ordersController.js -  Something went wrong with the JSON.", error: error });
 	}
 }
 
-const placeOrder = async (request, response) => {
+const placeOrder = async (req, res) => {
 	try {
+		// const userID = await usersModel.findOneAndUpdate(req.body.id, {
+		// 	user_id: req.body._id,
+		// });
 		const placeNewOrder = await ordersModel.create({
-			user_id: request.body.user_id,
-			items: request.body.items,
+			user_id: req.body.user_id,
+			// items: request.body.items,
 		});
 
-		response.status(200).json({
+		res.status(200).json({
 			message: "OK: User info updated.",
 			order: placeNewOrder,
 		});
 	} catch (error) {
-		response.status(400).json({
-			message: "ERROR: Unable to create new comment in comments collection.",
+		res.status(400).json({
+			message: "SERVER: ordersController.js - Something went wrong saving info in MongoDB",
 			error: error,
 		});
 	}
