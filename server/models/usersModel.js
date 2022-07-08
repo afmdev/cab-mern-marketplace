@@ -21,18 +21,14 @@ const usersSchema = new mongoose.Schema({
 	},
 	password: {
 		type: String,
-		required: true,
 	},
 	avatarPicture: {
 		type: String,
 	},
 	role: {
 		type: String,
-	},
-	orders: [{
-		type: Schema.Types.ObjectId,
-		ref: 'order'
-	}]
+		default: 'USER',
+	}
 });
 
 const usersModel = mongoose.model("user", usersSchema);

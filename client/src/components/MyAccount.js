@@ -65,21 +65,10 @@ function MyAccount() {
 
 			<Grid item xs={10} sm={10} md={3} lg={3} xl={2}>
 				<Box style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-					<Typography component="p">
-						Account Settings
-					</Typography>
-					<List sx={style} component="nav" aria-label="mailbox folders">
-						<Divider />
-						<ListItem button>
-							<PersonOutlineOutlinedIcon sx={{ mr: '10px' }} />
-							<ListItemText primary="My Profile" />
-						</ListItem>
-						<Divider />
-					</List>
-					<Typography component="p" sx={{ mt: '40px' }}>
+
+					<Typography component="p" sx={{ mt: '8px' }}>
 						Dashboard
 					</Typography>
-
 					<List sx={style} component="nav" aria-label="mailbox folders">
 						<Divider />
 						<ListItem button>
@@ -99,6 +88,21 @@ function MyAccount() {
 							<Box component="span">10</Box>
 						</ListItem>
 						<Divider light />
+					</List>
+
+
+					<Typography component="p" sx={{ mt: '30px' }}>
+						Account Settings
+					</Typography>
+					<List sx={style} component="nav" aria-label="mailbox folders">
+						<Divider />
+						<LinkRouter to="/my-account/" underline="none" style={{ textDecoration: 'none' }}>
+							<ListItem button>
+								<PersonOutlineOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="My Profile" />
+							</ListItem>
+						</LinkRouter>
+						<Divider />
 						<ListItem button>
 							<DeleteForeverOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 							<ListItemText primary="Delete" />
@@ -131,7 +135,7 @@ function MyAccount() {
 							<Box>
 								<Avatar
 									alt={userProfile?.fistName}
-									src={userProfile?.avatarPicture ? userProfile.avatarPicture : "https://res.cloudinary.com/https-www-alejandrofm-com/image/upload/v1656668929/afm-mern-marketplace/cenddmxzmxj5gw16oqgi.png"}
+									src={userProfile?.avatarPicture ? userProfile.avatarPicture : ""}
 									sx={{ width: 56, height: 56, mr: '10px' }}
 								/>
 							</Box>
@@ -140,7 +144,7 @@ function MyAccount() {
 									{userProfile?.firstName ? userProfile.firstName : "nasty"} {userProfile?.lastName ? userProfile.lastName : ""}
 								</Typography>
 								<Typography component="p" sx={{ fontSize: '12px' }}>
-									Balance: <Typography component="span" sx={{ fontSize: '12px', fontWeight: '900' }}>500€</Typography>
+									Account Type: <Typography component="span" sx={{ fontSize: '12px', fontWeight: '900' }}>{userProfile?.role ? userProfile.role : "nasty"}</Typography>
 								</Typography>
 							</Box>
 						</Box>

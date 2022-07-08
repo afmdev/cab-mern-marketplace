@@ -22,7 +22,6 @@ export const AuthContextProvider = (props) => {
 		if (token) {
 			setUser(true);
 			console.log("OK: User is logged in");
-			redirectTo("/my-account")
 			getProfile()
 		} else {
 			setUser(false);

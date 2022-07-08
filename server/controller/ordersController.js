@@ -1,5 +1,6 @@
 import ordersModel from '../models/ordersModel.js'
 import usersModel from '../models/usersModel.js'
+import itemsModel from '../models/itemsModel.js'
 
 
 const getAllOrders = async (req, res) => {
@@ -50,12 +51,17 @@ const placeOrder = async (req, res) => {
 		// });
 		const placeNewOrder = await ordersModel.create({
 			user_id: req.body.user_id,
+			items: req.body.items
 			// items: request.body.items,
-		});
+		})
+
+
+
 
 		res.status(200).json({
 			message: "OK: User info updated.",
 			order: placeNewOrder,
+
 		});
 	} catch (error) {
 		res.status(400).json({

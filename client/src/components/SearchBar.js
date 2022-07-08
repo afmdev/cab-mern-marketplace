@@ -89,8 +89,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function SearchBar() {
 
 	const { user, userProfile, signOut, isUserLoggedIn, token } = useContext(AuthContext)
-	console.log("userProfile", userProfile)
-	const { cart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart } = useContext(ProductsContext);
+	// console.log("userProfile", userProfile)
+	const { cart, setCart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart } = useContext(ProductsContext);
+
+
+
+
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -105,6 +109,12 @@ function SearchBar() {
 	}
 
 
+	const saveCart = () => {
+		localStorage.clear("MY_CART");
+		setCart([])
+	}
+
+
 	const placeOrder = async () => {
 
 		let myHeaders = new Headers();
@@ -112,12 +122,17 @@ function SearchBar() {
 		let urlencoded = new URLSearchParams();
 
 		urlencoded.append("user_id", userProfile._id);
+		cart.map((id) =>
+			urlencoded.append("items", id._id)
+		);
+
+
 		const requestOptions = {
 			method: "POST",
 			headers: myHeaders,
 			body: urlencoded,
 		};
-		// console.log('urlencoded', myHeaders.get("Authorization"))
+
 
 		try {
 			const response = await fetch(
@@ -131,22 +146,6 @@ function SearchBar() {
 			console.log("Searchbar Order ERROR: Unable to update order information.", error);
 		}
 	};
-
-
-	// const [price, setPrice] = useState(0);
-	// const handleRemove = (id) => {
-	// 	const arr = cart.filter((item) => item.id !== id);
-	// 	setCart(arr);
-	// 	handlePrice();
-	// };
-	// const handlePrice = () => {
-	// 	let ans = 0;
-	// 	cart.map((items) => (ans += items.amount * items.price));
-	// 	setPrice(ans);
-	// };
-	// useEffect(() => {
-	// 	handlePrice();
-	// });
 
 
 	const open = Boolean(anchorEl);
@@ -493,7 +492,7 @@ function SearchBar() {
 
 					{user ?
 						<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', mt: '30px' }}>
-							<Box><Button variant="outlined" disableElevation sx={{ width: '140px' }}>Save Cart</Button></Box>
+							<Box><Button variant="outlined" disableElevation sx={{ width: '140px' }} onClick={saveCart}>Save Cart</Button></Box>
 							<Box><Button variant="contained" disableElevation sx={{ width: '140px' }} onClick={placeOrder}>Place Order</Button></Box>
 						</Box>
 						:
@@ -527,8 +526,7 @@ function SearchBar() {
 					<Box sx={{ display: { sm: 'flex', xs: 'none' }, alignItems: "center" }}>
 						<LinkRouter to='/'>
 							<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm-dark.svg" alt="Logo" href="/"></img>
-						</LinkRouter
-						>
+						</LinkRouter>
 					</Box>
 					<Search>
 						<SearchIconWrapper>
@@ -573,7 +571,7 @@ function SearchBar() {
 								>
 									<Avatar
 										alt={userProfile?.fistName}
-										src={userProfile?.avatarPicture ? userProfile.avatarPicture : "https://res.cloudinary.com/https-www-alejandrofm-com/image/upload/v1656668929/afm-mern-marketplace/cenddmxzmxj5gw16oqgi.png"}
+										src={userProfile?.avatarPicture ? userProfile.avatarPicture : ""}
 										sx={{ width: 32, height: 32 }}
 									/>
 									{/* <Avatar sx={{ width: 32, height: 32 }}>A</Avatar> */}
@@ -589,12 +587,12 @@ function SearchBar() {
 									aria-haspopup="true"
 									aria-expanded={open ? 'true' : undefined}
 								>
-									<Avatar
+									{/* <Avatar
 										alt={userProfile?.fistName}
 										src={userProfile?.avatarPicture ? userProfile.avatarPicture : "https://res.cloudinary.com/https-www-alejandrofm-com/image/upload/v1656668929/afm-mern-marketplace/cenddmxzmxj5gw16oqgi.png"}
 										sx={{ width: 32, height: 32 }}
-									/>
-									{/* <Avatar sx={{ width: 32, height: 32 }}>A</Avatar> */}
+									/> */}
+									<Avatar sx={{ width: 32, height: 32 }} />
 								</IconButton>
 							</Tooltip>
 						}
