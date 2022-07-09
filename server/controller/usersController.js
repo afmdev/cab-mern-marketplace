@@ -6,7 +6,6 @@ import { issueToken } from "../utils/jwt.js";
 
 const uploadUserPicture = async (req, res) => {
 	console.log("req.body", req.body);
-
 	try {
 		console.log("req.file", req.file);
 		const uploadResult = await cloudinary.uploader.upload(req.file.path, {
@@ -14,13 +13,17 @@ const uploadUserPicture = async (req, res) => {
 		});
 		console.log("result", uploadResult);
 		res.status(200).json({
-			message: "OK: Avatar image has been successfully uploaded.",
+			msg: "Avatar image has been successfully uploaded.",
+			alertColor: "success",
 			imageUrL: uploadResult.url,
 		});
 	} catch (error) {
 		res
-			.status(409)
-			.json({ message: "SERVER: usersController.js -  Something went wrong with the JSON.", error: error });
+			.status(409).json({
+				msg: "Avatar image has not been uploaded successfully",
+				alertColor: "error",
+				error: error,
+			});
 	}
 };
 
@@ -41,12 +44,16 @@ const updateProfile = async (req, res) => {
 		});
 		console.log("updatedUser: ", updatedUser);
 		res.status(200).json({
-			message: "OK: User info updated.",
+			msg: "Congratulations, your profile information has been successfully updated. ",
+			alertColor: "success",
 			firstName: updatedUser,
 		});
-	} catch (error) {
-		res.status(400)
-			.json({ message: "SERVER: usersController.js -  Something went wrong with the JSON.", error: error });
+	} catch (catchError) {
+		res.status(409).json({
+			msg: "This is embarrassing but the application has not been processed.",
+			alertColor: "error",
+			error: catchError
+		});
 	}
 };
 
@@ -57,12 +64,12 @@ const updateProfile = async (req, res) => {
 // 	console.log('req.body.id', req.body.id)
 // 	console.log("updateProfile: ", updateProfile);
 // 	res.status(200).json({
-// 		message: "SUCCESS: User info updated.",
+// 		msg: "SUCCESS: User info updated.",
 // 		user: updateProfile,
 // 	});
 // } catch (error) {
 // 	res.status(400).json({
-// 		message: "ERROR: Unable to update account information.",
+// 		msg: "ERROR: Unable to update account information.",
 // 	});
 // }
 // };
@@ -72,7 +79,10 @@ const signUp = async (req, res) => {
 		console.log(req.body);
 		const existingUser = await usersModel.findOne({ email: req.body.email });
 		if (existingUser) {
-			res.status(409).json({ message: "ERROR: The chosen user already exists." });
+			res.status(409).json({
+				msg: "The chosen user already exists.",
+				alertColor: "warning",
+			});
 		} else {
 
 			const hashedPassword = await encryptPassword(req.body.password);
@@ -95,18 +105,26 @@ const signUp = async (req, res) => {
 						email: savedUser.email,
 						avatarPicture: savedUser.avatarPicture,
 					},
-					message: "OK: User successfully registered.",
+					msg: "Congratulations. User successfully registered.",
+					alertColor: "success",
 				});
 			} catch (error) {
 				res
 					.status(409)
-					.json({ message: "ERROR: Changes could not be saved", error: error });
+					.json({
+						msg: "ERROR: Changes could not be saved.",
+						alertColor: "error",
+						error: error
+					});
 			}
 		}
 	} catch (error) {
 		res
-			.status(401)
-			.json({ message: "ERROR: Registration was not possible at this time", error: error });
+			.status(401).json({
+				msg: "Registration was not possible at this time.",
+				alertColor: "error",
+				error: error
+			});
 	}
 };
 
@@ -116,7 +134,8 @@ const logIn = async (req, res) => {
 	const existingUser = await usersModel.findOne({ email: req.body.email });
 	if (!existingUser) {
 		res.status(401).json({
-			msg: "ERROR: You have to register first",
+			msg: "The user doesn't exist, please register a new account.",
+			alertColor: "warning",
 		});
 	} else {
 		const verified = await verifyPassword(req.body.password, existingUser.password);
@@ -124,14 +143,16 @@ const logIn = async (req, res) => {
 		console.log("exisiting user password", existingUser.password);
 		if (!verified) {
 			res.status(401).json({
-				msg: "ERROR: Wrong password",
+				msg: "The password is incorrect. Please try again.",
+				alertColor: "error",
 			});
 		} else {
 			console.log("verified", verified);
 			console.log("logged in successful");
 			const token = issueToken(existingUser.id);
 			res.status(200).json({
-				msg: "OK: Login successful",
+				msg: "Login successful!",
+				alertColor: "success",
 				user: {
 					firstName: existingUser.firstName,
 					email: existingUser.email,

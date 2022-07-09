@@ -9,6 +9,8 @@ import Typography from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
+import Collapse from '@mui/material/Collapse';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -66,9 +68,9 @@ function a11yProps(index) {
 
 function RegisterLogin() {
 
-	const navigate = useNavigate();
+	const redirectTo = useNavigate();
 
-	const { user, setUser, signOut, isUserLoggedIn } = useContext(AuthContext);
+	const { user, setUser, signOut, isUserLoggedIn, alert, setAlert, alertMessage, setAlertMessage, closeAlerts, alertSeverity, setAlertSeverity } = useContext(AuthContext);
 
 	const [value, setValue] = useState(0);
 
@@ -94,11 +96,18 @@ function RegisterLogin() {
 
 	//REVIEW Handler for input fields
 
+
+	function cleanAfterSubmit() {
+		setNewUser({})
+
+	}
+
 	const handleChangeName = (e) => {
 		setName(e.target.value)
 		setNewUser({ ...newUser, [e.target.name]: e.target.value });
 		setErrorName(false);
 		setHelperName('');
+
 	};
 	const handleChangeEmail = (e) => {
 		setEmail(e.target.value)
@@ -145,8 +154,15 @@ function RegisterLogin() {
 					"http://localhost:5000/api/users/signUp",
 					requestOptions
 				);
-				const results = await response.json();
-				console.log("results", results);
+				const result = await response.json();
+				console.log("results", result);
+				const serverMsg = result.msg
+				const serverAlert = result.alertColor
+				setAlert(true)
+				setAlertSeverity(serverAlert)
+				setAlertMessage(serverMsg)
+				setTimeout(closeAlerts, 3000);
+				cleanAfterSubmit()
 			} catch (error) {
 				console.log("error fetching", error);
 			}
@@ -159,6 +175,9 @@ function RegisterLogin() {
 	const handleChangeHandlerSignIn = (e) => {
 		setSignInUser({ ...signInUser, [e.target.name]: e.target.value });
 	}
+
+
+
 
 
 	const signIn = async () => {
@@ -182,14 +201,21 @@ function RegisterLogin() {
 			if (token) {
 				localStorage.setItem("token", token);
 				setUser(true);
-				navigate('/my-account');
+				redirectTo('/my-account');
 			} else {
-				console.log("error seting token");
 				setUser(false);
+				const serverMsg = result.msg
+				const serverAlert = result.alertColor
+				setAlert(true)
+				setAlertSeverity(serverAlert)
+				setAlertMessage(serverMsg)
+				setTimeout(closeAlerts, 3000);
 			}
 			console.log("result", result);
 		} catch (error) {
-			console.log("login error", error);
+			setAlert(true)
+			setAlertMessage("Login failed, check your credentials or register a new account.")
+			setTimeout(closeAlerts, 3000);
 		}
 	}
 
@@ -202,6 +228,7 @@ function RegisterLogin() {
 			sx={{ height: 'calc(100vh - 260px)' }}
 			className="RegisterLogin"
 		>
+
 			<Box sx={{ width: '100%' }}>
 				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 					<Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
@@ -255,7 +282,12 @@ function RegisterLogin() {
 									/>
 								</Grid>
 							</Grid>
-							<Button variant="contained" size="large" sx={{ width: '100%', my: '25px' }} onClick={signIn}>LOGIN</Button>
+							<Button variant="contained" size="large" sx={{ width: '100%', mt: '25px' }} onClick={signIn}>LOGIN</Button>
+							<Collapse in={alert}>
+								<Alert severity={alertSeverity}>
+									{alertMessage}
+								</Alert>
+							</Collapse>
 						</Grid>
 					</Box>
 				</TabPanel>
@@ -289,7 +321,7 @@ function RegisterLogin() {
 										id="firstname"
 										name="firstName"
 										type="text"
-										defaultValue={newUser.firstName ? newUser.firstName : ""}
+										value={newUser.firstName ? newUser.firstName : ""}
 										helperText={helperName}
 										onChange={handleChangeName}
 										required
@@ -306,7 +338,7 @@ function RegisterLogin() {
 										id="email"
 										autoComplete="email"
 										type="email"
-										defaultValue={newUser.email ? newUser.email : ""}
+										value={newUser.email ? newUser.email : ""}
 										helperText={helperEmail}
 										onChange={handleChangeEmail}
 										required
@@ -322,7 +354,7 @@ function RegisterLogin() {
 										label="Password"
 										type="password"
 										autoComplete="current-password"
-										defaultValue={newUser.password ? newUser.password : ""}
+										value={newUser.password ? newUser.password : ""}
 										helperText={helperPassword}
 										onChange={handleChangePassword}
 										required
@@ -331,7 +363,12 @@ function RegisterLogin() {
 								</Grid>
 
 							</Grid>
-							<Button variant="contained" size="large" sx={{ width: '100%', my: '25px' }} onClick={signUp}>REGISTER ACCOUNT</Button>
+							<Button variant="contained" size="large" sx={{ width: '100%', mt: '25px' }} onClick={signUp}>REGISTER ACCOUNT</Button>
+							<Collapse in={alert}>
+								<Alert severity={alertSeverity}>
+									{alertMessage}
+								</Alert>
+							</Collapse>
 						</Grid>
 					</Box>
 				</TabPanel>

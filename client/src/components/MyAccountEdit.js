@@ -16,6 +16,8 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Collapse from '@mui/material/Collapse';
+import Alert from '@mui/material/Alert';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
@@ -55,7 +57,7 @@ const theme = createTheme({
 function MyAccountEdit() {
 
 
-	const { token, user, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
+	const { token, user, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount, alert, setAlert, alertMessage, setAlertMessage, closeAlerts, alertSeverity, setAlertSeverity, } = useContext(AuthContext)
 	// console.log('token', token)
 
 	const [selectedFile, setSelectedFile] = useState(null);
@@ -72,30 +74,45 @@ function MyAccountEdit() {
 
 	const uploadPicture = async (e) => {
 		e.preventDefault();
-		console.log("submit working");
 
-		const formData = new FormData();
-		console.log("selectedFile", selectedFile);
-		formData.append("image", selectedFile);
-		console.log("formData", formData);
+		if (selectedFile === null) {
+			setAlert(true)
+			setAlertSeverity("error")
+			setAlertMessage("You have not selected any images to be uploaded to your profile. ")
+			setTimeout(closeAlerts, 8000);
+		} else {
 
-		const requestOptions = {
-			method: "POST",
-			body: formData,
-		};
-		try {
-			const response = await fetch(
-				"http://localhost:5000/api/users/imageUpload",
-				requestOptions
-			);
-			console.log("response", response);
-			const result = await response.json();
-			console.log("result", result);
-			setUserProfile({ ...userProfile, avatarPicture: result.imageUrL }); // imageURL is how the field is defined in usersController.
-			// console.log(userProfile);
-			// console.log('URL', result.imageUrL)
-		} catch (error) {
-			console.log('"error submiting picture"', error);
+			const formData = new FormData();
+			console.log("selectedFile<<<<<<<<<<<<<", selectedFile);
+			formData.append("image", selectedFile);
+			console.log("formData", formData);
+
+			const requestOptions = {
+				method: "POST",
+				body: formData,
+			};
+			try {
+				const response = await fetch(
+					"http://localhost:5000/api/users/imageUpload",
+					requestOptions
+				);
+				console.log("response", response);
+				const result = await response.json();
+
+				setUserProfile({ ...userProfile, avatarPicture: result.imageUrL });
+
+				const serverMsg = result.msg
+				const serverAlert = result.alertColor
+				setAlert(true)
+				setAlertSeverity(serverAlert)
+				setAlertMessage(serverMsg)
+				setTimeout(closeAlerts, 8000);
+
+			} catch (error) {
+				setAlert(true)
+				setAlertMessage("Something went wrong, please try again later. ", error)
+				setTimeout(closeAlerts, 8000);
+			}
 		}
 	};
 
@@ -130,10 +147,15 @@ function MyAccountEdit() {
 				requestOptions
 			);
 			console.log('response', response)
-			const results = await response.json();
-			console.log("MyAccountEdit Results user update", results);
+			const result = await response.json();
+			const errorMsg = result.msg
+			setAlert(true)
+			setAlertMessage(errorMsg)
+			setTimeout(closeAlerts, 8000);
 		} catch (error) {
-			console.log("MyAccountEdit ERROR: Unable to update user information.", error);
+			setAlert(true)
+			setAlertMessage("Unfortunately your profile information has not been updated.", error)
+			setTimeout(closeAlerts, 8000);
 		}
 	};
 
@@ -225,7 +247,7 @@ function MyAccountEdit() {
 								<Box>
 									<Avatar
 										alt={userProfile?.fistName}
-										src={userProfile?.avatarPicture ? userProfile.avatarPicture : "https://res.cloudinary.com/https-www-alejandrofm-com/image/upload/v1656668929/afm-mern-marketplace/cenddmxzmxj5gw16oqgi.png"}
+										src={userProfile?.avatarPicture ? userProfile.avatarPicture : ""}
 										sx={{ width: 56, height: 56, mr: '10px' }}
 									/>
 								</Box>
@@ -365,6 +387,11 @@ function MyAccountEdit() {
 							</Grid>
 							<Button variant="contained" size="small" sx={{ width: '100%', mt: '25px' }} disableElevation onClick={updateProfile}>SAVE CHANGES</Button>
 						</Box>
+						<Collapse in={alert}>
+							<Alert severity={alertSeverity}>
+								{alertMessage}
+							</Alert>
+						</Collapse>
 					</Grid>
 				</Grid>
 				{/* <Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
