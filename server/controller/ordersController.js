@@ -1,6 +1,4 @@
 import ordersModel from '../models/ordersModel.js'
-import usersModel from '../models/usersModel.js'
-import itemsModel from '../models/itemsModel.js'
 
 
 const getAllOrders = async (req, res) => {
@@ -18,7 +16,7 @@ const getAllOrders = async (req, res) => {
 	catch (error) {
 		res
 			.status(400)
-			.json({ message: "SERVER: ordersController.js -  Something went wrong with the JSON.", error: error });
+			.json({ msg: "SERVER: ordersController.js -  Something went wrong with the JSON.", error: error });
 	}
 }
 
@@ -30,17 +28,17 @@ const getOrdersByUser = async (req, res) => {
 			.populate({ path: "items", select: ["itemName"] })
 			.exec()
 
-		if (requestedGenders.length === 0) {
+		if (data.length === 0) {
 			res.status(201)
 				.json({ Message: "The request does not return any results. Try to enter another UserID'" })
 		} else {
 			res.status(200)
-				.json({ requestedGenders, Number: requestedGenders.length })
+				.json({ data, Number: data.length })
 		}
 	} catch (error) {
 		res
 			.status(400)
-			.json({ message: "SERVER: ordersController.js -  Something went wrong with the JSON.", error: error });
+			.json({ msg: "SERVER: ordersController.js -  Something went wrong with the JSON.", error: error });
 	}
 }
 
@@ -51,7 +49,8 @@ const placeOrder = async (req, res) => {
 		// });
 		const placeNewOrder = await ordersModel.create({
 			user_id: req.body.user_id,
-			items: req.body.items
+			items: req.body.items,
+			// createdAt: new Date(),
 			// items: request.body.items,
 		})
 		res.status(200).json({

@@ -25,24 +25,6 @@ export const ProductsContextProvider = (props) => {
 			})
 	}
 
-	const fetchOrders = () => {
-		fetch("http://localhost:5000/api/items/all")
-			.then((response) => {
-				return response.json();
-			})
-			.then((data) => {
-				const myData = data
-				setProducts(data)
-				setFilter(myData)
-				setLoader(false)
-			})
-			.catch((error) => {
-				setError(error)
-			})
-	}
-
-
-
 	// const savedEvents = localStorage.getItem("MY_CART")
 	// const alejandro = JSON.parse(savedEvents)
 	// console.log("alejandro", alejandro)
