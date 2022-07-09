@@ -70,7 +70,15 @@ function RegisterLogin() {
 
 	const redirectTo = useNavigate();
 
-	const { user, setUser, signOut, isUserLoggedIn, alert, setAlert, alertMessage, setAlertMessage, closeAlerts, alertSeverity, setAlertSeverity } = useContext(AuthContext);
+	const { user, setUser, signOut, isUserLoggedIn, globalTimer } = useContext(AuthContext);
+
+	const [alert, setAlert] = useState(false)
+	const [alertSeverity, setAlertSeverity] = useState()
+	const [alertMessage, setAlertMessage] = useState()
+
+	function closeAlerts() {
+		setAlert(false);
+	}
 
 	const [value, setValue] = useState(0);
 
@@ -161,7 +169,7 @@ function RegisterLogin() {
 				setAlert(true)
 				setAlertSeverity(serverAlert)
 				setAlertMessage(serverMsg)
-				setTimeout(closeAlerts, 3000);
+				setTimeout(closeAlerts, globalTimer);
 				cleanAfterSubmit()
 			} catch (error) {
 				console.log("error fetching", error);
@@ -209,13 +217,13 @@ function RegisterLogin() {
 				setAlert(true)
 				setAlertSeverity(serverAlert)
 				setAlertMessage(serverMsg)
-				setTimeout(closeAlerts, 3000);
+				setTimeout(closeAlerts, globalTimer);
 			}
 			console.log("result", result);
 		} catch (error) {
 			setAlert(true)
 			setAlertMessage("Login failed, check your credentials or register a new account.")
-			setTimeout(closeAlerts, 3000);
+			setTimeout(closeAlerts, globalTimer);
 		}
 	}
 
@@ -329,7 +337,7 @@ function RegisterLogin() {
 									/>
 								</Grid>
 
-								<Grid item xs={12}>
+								<Grid item xs={12} sm={6}>
 									<TextField
 										error={errorEmail}
 										label="Email Address"
@@ -345,7 +353,7 @@ function RegisterLogin() {
 										fullWidth
 									/>
 								</Grid>
-								<Grid item xs={12}>
+								<Grid item xs={12} sm={6}>
 									<TextField
 										error={errorPassword}
 										variant="outlined"

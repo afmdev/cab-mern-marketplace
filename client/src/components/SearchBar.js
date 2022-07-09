@@ -21,6 +21,8 @@ import Tooltip from '@mui/material/Tooltip';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import Collapse from '@mui/material/Collapse';
+import Alert from '@mui/material/Alert';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -88,12 +90,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchBar() {
 
-	const { user, userProfile, signOut, isUserLoggedIn, token } = useContext(AuthContext)
+	const { user, userProfile, signOut, isUserLoggedIn, token, globalTimer } = useContext(AuthContext)
 	// console.log("userProfile", userProfile)
 	const { cart, setCart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart } = useContext(ProductsContext);
 
 
+	const [alert, setAlert] = useState(false)
+	const [alertSeverity, setAlertSeverity] = useState()
+	const [alertMessage, setAlertMessage] = useState()
 
+	function closeAlerts() {
+		setAlert(false);
+	}
 
 
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -123,9 +131,8 @@ function SearchBar() {
 
 		urlencoded.append("user_id", userProfile._id);
 		cart.map((id) =>
-			urlencoded.append("items", id._id)
+			urlencoded.append("items", id._id),
 		);
-
 
 		const requestOptions = {
 			method: "POST",
@@ -133,17 +140,34 @@ function SearchBar() {
 			body: urlencoded,
 		};
 
+		if (cart.length === 0) {
+			setAlert(true)
+			setAlertSeverity("info")
+			setAlertMessage("Your shopping cart looks empty")
+			setTimeout(closeAlerts, globalTimer);
+		} else {
+			try {
+				const response = await fetch(
+					"http://localhost:5000/api/orders/placeOrder",
+					requestOptions
+				);
+				console.log('Response', response)
+				const result = await response.json();
+				console.log("Result", result);
 
-		try {
-			const response = await fetch(
-				"http://localhost:5000/api/orders/placeOrder",
-				requestOptions
-			);
-			console.log('Response', response)
-			const results = await response.json();
-			console.log("Result", results);
-		} catch (error) {
-			console.log("Searchbar Order ERROR: Unable to update order information.", error);
+				const serverMsg = result.msg
+				const serverAlert = result.alertColor
+				setAlert(true)
+				setAlertSeverity(serverAlert)
+				setAlertMessage(serverMsg)
+				setTimeout(closeAlerts, globalTimer);
+				localStorage.clear("MY_CART");
+				setCart([])
+
+
+			} catch (error) {
+				console.log("Searchbar Order ERROR: Unable to update order information.", error);
+			}
 		}
 	};
 
@@ -489,11 +513,18 @@ function SearchBar() {
 						<Box><Typography variant="paragraph" sx={{ fontWeight: 'bold' }}>€ {price}</Typography></Box>
 					</Box>
 					<Divider />
-
+					<Collapse in={alert}>
+						<Alert severity={alertSeverity}>
+							{alertMessage}
+						</Alert>
+					</Collapse>
 					{user ?
-						<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', mt: '30px' }}>
+						<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', pt: '30px', boxShadow: 'inset 0px 18px 20px 0px #efefef' }}>
 							<Box><Button variant="outlined" disableElevation sx={{ width: '140px' }} onClick={saveCart}>Save Cart</Button></Box>
-							<Box><Button variant="contained" disableElevation sx={{ width: '140px' }} onClick={placeOrder}>Place Order</Button></Box>
+							<Box><Button variant="contained" disableElevation sx={{ width: '140px' }} onClick={placeOrder}>Place Order</Button>
+
+							</Box>
+
 						</Box>
 						:
 						<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: '20px', pb: '20px', boxShadow: 'inset 0px 18px 20px 0px #efefef' }}>
