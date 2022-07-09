@@ -26,16 +26,16 @@ const getOrdersByUser = async (req, res) => {
 	console.log(req.params)
 	try {
 		const data = await ordersModel
-			.find({ slug: req.params.email })
-			.populate({ path: "items", select: ["user_id"] })
+			.find({ user_id: req.params.user_id })
+			.populate({ path: "items", select: ["itemName"] })
 			.exec()
 
-		if (data.length === 0) {
+		if (requestedGenders.length === 0) {
 			res.status(201)
-				.json({ Message: "The request does not return any results. Try to enter another parameter" })
+				.json({ Message: "The request does not return any results. Try to enter another UserID'" })
 		} else {
 			res.status(200)
-				.json({ data, Number: data.length })
+				.json({ requestedGenders, Number: requestedGenders.length })
 		}
 	} catch (error) {
 		res

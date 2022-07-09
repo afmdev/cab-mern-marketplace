@@ -1,7 +1,6 @@
 import gendersModel from '../models/gendersModel.js'
 
 const getAllGenders = async (req, res) => {
-
 	try {
 		const data = await gendersModel
 			.find({})
@@ -22,7 +21,7 @@ const getAllGenders = async (req, res) => {
 const getGendersByCode = async (req, res) => {
 	console.log(req.params)
 	try {
-		const requestedGenders = await gendersModel
+		const data = await gendersModel
 			.find({ genderCode: req.params.genderCode })
 			.populate({ path: "categories", select: ["catName"] })
 			.exec()
