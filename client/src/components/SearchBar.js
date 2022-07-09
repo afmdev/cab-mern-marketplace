@@ -126,6 +126,7 @@ function SearchBar() {
 	const placeOrder = async () => {
 
 		let myHeaders = new Headers();
+		console.log('HEADER >>>>>>', myHeaders)
 		myHeaders.append("Authorization", `Bearer ${token}`);
 		let urlencoded = new URLSearchParams();
 
@@ -133,6 +134,7 @@ function SearchBar() {
 		cart.map((id) =>
 			urlencoded.append("items", id._id),
 		);
+		// urlencoded.append("createdAt", new Date())
 
 		const requestOptions = {
 			method: "POST",
