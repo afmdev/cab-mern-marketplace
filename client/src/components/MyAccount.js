@@ -50,6 +50,24 @@ function MyAccount() {
 
 	const { token, userProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
 
+
+	const fetchOrders = () => {
+		fetch("http://localhost:5000/api/items/" + userProfile._id)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				const myData = data
+				// setProducts(data)
+				// setFilter(myData)
+				// setLoader(false)
+			})
+			.catch((error) => {
+				// setError(error)
+			})
+	}
+
+
 	console.log('userProfile', userProfile)
 	console.log('updateAccount', updateAccount)
 
