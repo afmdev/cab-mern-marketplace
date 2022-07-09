@@ -27,7 +27,7 @@ const getOrdersByUser = async (req, res) => {
 	try {
 		const data = await ordersModel
 			.find({ slug: req.params.email })
-			.populate({ path: "items", select: ["user_id", "itemName"] })
+			.populate({ path: "items", select: ["user_id"] })
 			.exec()
 
 		if (data.length === 0) {
@@ -54,18 +54,16 @@ const placeOrder = async (req, res) => {
 			items: req.body.items
 			// items: request.body.items,
 		})
-
-
-
-
 		res.status(200).json({
-			message: "OK: User info updated.",
+			msg: "Great! order placed successfully",
+			alertColor: "success",
 			order: placeNewOrder,
 
 		});
 	} catch (error) {
 		res.status(400).json({
-			message: "SERVER: ordersController.js - Something went wrong saving info in MongoDB",
+			msg: "Ouch! Order not placed",
+			alertColor: "warning",
 			error: error,
 		});
 	}

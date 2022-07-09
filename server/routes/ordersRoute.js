@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 router.get('/all', getAllOrders)
-router.get('/email', getOrdersByUser)
+router.get('/:email', getOrdersByUser)
 router.post('/placeOrder', placeOrder)
 
 

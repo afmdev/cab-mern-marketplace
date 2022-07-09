@@ -57,8 +57,16 @@ const theme = createTheme({
 function MyAccountEdit() {
 
 
-	const { token, user, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount, alert, setAlert, alertMessage, setAlertMessage, closeAlerts, alertSeverity, setAlertSeverity, } = useContext(AuthContext)
+	const { token, user, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount, globalTimer } = useContext(AuthContext)
 	// console.log('token', token)
+
+	const [alert, setAlert] = useState(false)
+	const [alertSeverity, setAlertSeverity] = useState()
+	const [alertMessage, setAlertMessage] = useState()
+
+	function closeAlerts() {
+		setAlert(false);
+	}
 
 	const [selectedFile, setSelectedFile] = useState(null);
 
@@ -79,7 +87,7 @@ function MyAccountEdit() {
 			setAlert(true)
 			setAlertSeverity("error")
 			setAlertMessage("You have not selected any images to be uploaded to your profile. ")
-			setTimeout(closeAlerts, 8000);
+			setTimeout(closeAlerts, globalTimer);
 		} else {
 
 			const formData = new FormData();
@@ -106,12 +114,12 @@ function MyAccountEdit() {
 				setAlert(true)
 				setAlertSeverity(serverAlert)
 				setAlertMessage(serverMsg)
-				setTimeout(closeAlerts, 8000);
+				setTimeout(closeAlerts, globalTimer);
 
 			} catch (error) {
 				setAlert(true)
 				setAlertMessage("Something went wrong, please try again later. ", error)
-				setTimeout(closeAlerts, 8000);
+				setTimeout(closeAlerts, globalTimer);
 			}
 		}
 	};
@@ -122,7 +130,6 @@ function MyAccountEdit() {
 		// console.log(updateAccount);
 	};
 	const updateProfile = async () => {
-		console.log('<<<<<<<<<<<<<userProfile', userProfile)
 		let myHeaders = new Headers();
 		myHeaders.append("Authorization", `Bearer ${token}`);
 		let urlencoded = new URLSearchParams();
@@ -151,11 +158,11 @@ function MyAccountEdit() {
 			const errorMsg = result.msg
 			setAlert(true)
 			setAlertMessage(errorMsg)
-			setTimeout(closeAlerts, 8000);
+			setTimeout(closeAlerts, globalTimer);
 		} catch (error) {
 			setAlert(true)
 			setAlertMessage("Unfortunately your profile information has not been updated.", error)
-			setTimeout(closeAlerts, 8000);
+			setTimeout(closeAlerts, globalTimer);
 		}
 	};
 

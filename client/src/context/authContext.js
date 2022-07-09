@@ -13,13 +13,7 @@ export const AuthContextProvider = (props) => {
 	const [updateAccount, setUpdateAccount] = useState({});
 	const [userProfile, setUserProfile] = useState(null);
 
-	const [alert, setAlert] = useState(false)
-	const [alertSeverity, setAlertSeverity] = useState()
-	const [alertMessage, setAlertMessage] = useState()
-
-	function closeAlerts() {
-		setAlert(false);
-	}
+	const globalTimer = 3000
 
 	const redirectTo = useNavigate();
 
@@ -110,10 +104,7 @@ export const AuthContextProvider = (props) => {
 				userProfile, setUserProfile,
 				token,
 				updateAccount, setUpdateAccount,
-				alert, setAlert,
-				alertSeverity, setAlertSeverity,
-				alertMessage, setAlertMessage,
-				closeAlerts
+				globalTimer
 			}}>
 			{props.children}
 		</AuthContext.Provider>
