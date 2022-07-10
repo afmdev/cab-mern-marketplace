@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/authContext';
 import { ProductsContext } from '../context/ProductsContext';
+import { OrdersContext } from "../context/ordersContext";
 import { Link as LinkRouter } from "react-router-dom";
 
 import { styled, alpha } from '@mui/material/styles';
@@ -40,6 +41,8 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
+
+
 
 
 
@@ -94,6 +97,8 @@ function SearchBar() {
 	// console.log("userProfile", userProfile)
 	const { cart, setCart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart } = useContext(ProductsContext);
 
+	const { fetchOrders, ordersTotal, setOrdersTotal } = useContext(OrdersContext)
+
 
 	const [alert, setAlert] = useState(false)
 	const [alertSeverity, setAlertSeverity] = useState()
@@ -126,15 +131,17 @@ function SearchBar() {
 	const placeOrder = async () => {
 
 		let myHeaders = new Headers();
-		console.log('HEADER >>>>>>', myHeaders)
 		myHeaders.append("Authorization", `Bearer ${token}`);
 		let urlencoded = new URLSearchParams();
 
+		console.log('CART >>>>>>', userProfile)
 		urlencoded.append("user_id", userProfile._id);
 		cart.map((id) =>
 			urlencoded.append("items", id._id),
 		);
-		// urlencoded.append("createdAt", new Date())
+		cart.map((id) =>
+			urlencoded.append("amount", id.amount),
+		);
 
 		const requestOptions = {
 			method: "POST",
@@ -147,6 +154,7 @@ function SearchBar() {
 			setAlertSeverity("info")
 			setAlertMessage("Your shopping cart looks empty")
 			setTimeout(closeAlerts, globalTimer);
+
 		} else {
 			try {
 				const response = await fetch(
@@ -163,8 +171,10 @@ function SearchBar() {
 				setAlertSeverity(serverAlert)
 				setAlertMessage(serverMsg)
 				setTimeout(closeAlerts, globalTimer);
-				localStorage.clear("MY_CART");
-				setCart([])
+				console.log("num orders: ", ordersTotal)
+				fetchOrders()
+				// localStorage.clear("MY_CART");
+				// setCart([])
 
 
 			} catch (error) {
@@ -529,7 +539,7 @@ function SearchBar() {
 
 						</Box>
 						:
-						<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: '20px', pb: '20px', boxShadow: 'inset 0px 18px 20px 0px #efefef' }}>
+						<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: '20px', boxShadow: 'inset 0px 18px 20px 0px #efefef' }}>
 							<Typography variant="paragraph" sx={{ fontSize: '12px' }}>Access to your account to save your cart or place an order</Typography>
 							<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', mt: '30px' }}>
 
