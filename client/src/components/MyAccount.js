@@ -26,6 +26,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 
 import { AuthContext } from "../context/authContext";
+import { OrdersContext } from "../context/ordersContext";
 
 // const styles = (theme) => ({
 // 	myFlex: {
@@ -49,27 +50,9 @@ const style = {
 function MyAccount() {
 
 	const { token, userProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
+	const { ordersTotal } = useContext(OrdersContext)
 
 
-	const fetchOrders = () => {
-		fetch("http://localhost:5000/api/items/" + userProfile._id)
-			.then((response) => {
-				return response.json();
-			})
-			.then((data) => {
-				const myData = data
-				// setProducts(data)
-				// setFilter(myData)
-				// setLoader(false)
-			})
-			.catch((error) => {
-				// setError(error)
-			})
-	}
-
-
-	console.log('userProfile', userProfile)
-	console.log('updateAccount', updateAccount)
 
 	return (
 
@@ -92,7 +75,7 @@ function MyAccount() {
 						<ListItem button>
 							<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 							<ListItemText primary="Orders" />
-							<Box component="span">10</Box>
+							<Box component="span">{ordersTotal ? ordersTotal : 0}</Box>
 						</ListItem>
 						<Divider />
 						<ListItem button divider>

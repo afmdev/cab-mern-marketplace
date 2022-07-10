@@ -31,6 +31,7 @@ import FormControl from '@mui/material/FormControl';
 
 
 import { AuthContext } from "../context/authContext";
+import { OrdersContext } from "../context/ordersContext";
 
 
 const Input = styled('input')({
@@ -58,7 +59,9 @@ function MyAccountEdit() {
 
 
 	const { token, user, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount, globalTimer } = useContext(AuthContext)
-	// console.log('token', token)
+
+
+	const { userOrders, setUserorders, ordersTotal, setOrdersTotal } = useContext(OrdersContext)
 
 	const [alert, setAlert] = useState(false)
 	const [alertSeverity, setAlertSeverity] = useState()

@@ -63,20 +63,12 @@ export const ProductsContextProvider = (props) => {
 	}, [cart]);
 
 
-
-
-	//Remove product from the cart 
 	const handleRemove = (element) => {
 		const id = element._id
 		const newCart = cart.filter((element) => element._id !== id);
 		setCart(newCart);
 		handlePrice()
 	};
-
-	// const totalPrice = cart.reduce((acc, curr) => acc + curr.price, 0);
-
-	// console.log(totalPrice)
-
 
 
 	const [price, setPrice] = useState(0);
@@ -91,8 +83,6 @@ export const ProductsContextProvider = (props) => {
 		handlePrice()
 	});
 
-
-
 	const handleChange = (element, d) => {
 		const index = cart.indexOf(element);
 		const array = cart;
@@ -103,13 +93,10 @@ export const ProductsContextProvider = (props) => {
 		console.log(cart)
 	};
 
-
-
 	useEffect(() => {
 		fetchData()
 		// handlePrice();
 	}, [])
-
 
 	const [showCart, setShowCart] = useState(false);
 	const handleShowCart = () => {
@@ -119,7 +106,6 @@ export const ProductsContextProvider = (props) => {
 			setShowCart(true);
 		}
 	}
-
 
 	return (
 		<ProductsContext.Provider value={{

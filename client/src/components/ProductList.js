@@ -13,8 +13,6 @@ import IconButton from '@mui/material/IconButton';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
-
-
 function ProductsList() {
 	const { products, fetchData, cart, setCart, fetchCartItems, handleShowCart } = useContext(ProductsContext);
 
@@ -22,18 +20,11 @@ function ProductsList() {
 
 	let items = products?.data
 
-
-
-
-
-
 	return (
 		<Grid container alignItems="stretch"
 			justifyContent="center"
 			spacing={2}
-			columns={16}
-
-		>
+			columns={16}>
 
 			{items && items.map((element, i) => {
 				return (
