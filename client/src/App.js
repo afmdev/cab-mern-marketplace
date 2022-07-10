@@ -15,6 +15,7 @@ import ViewProductSingle from './views/ViewProductSingle'
 import ViewRegisterLogin from './views/ViewRegisterLogin'
 import ViewMyAccount from './views/ViewMyAccount'
 import ViewMyAccountEdit from './views/ViewMyAccountEdit'
+import ViewMyOrders from './views/ViewMyOrders'
 
 
 
@@ -35,6 +36,7 @@ function App() {
 							<Route path="/access/" element={<ViewRegisterLogin />} />
 							<Route path="/my-account/" element={<ViewMyAccount />} />
 							<Route path="/my-account/edit" element={<ViewMyAccountEdit />} />
+							<Route path="/my-orders" element={<ViewMyOrders />} />
 							{/* <Route path="no-logged" element={<ViewNoLogged />} />
 					<Route path="*" element={<NoMatch />} /> */}
 

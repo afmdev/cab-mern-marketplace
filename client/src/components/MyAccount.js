@@ -72,11 +72,13 @@ function MyAccount() {
 					</Typography>
 					<List sx={style} component="nav" aria-label="mailbox folders">
 						<Divider />
-						<ListItem button>
-							<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
-							<ListItemText primary="Orders" />
-							<Box component="span">{ordersTotal ? ordersTotal : 0}</Box>
-						</ListItem>
+						<LinkRouter to="/my-orders/" underline="none" style={{ textDecoration: 'none' }}>
+							<ListItem button>
+								<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="Orders" />
+								<Box component="span">{ordersTotal ? ordersTotal : 0}</Box>
+							</ListItem>
+						</LinkRouter>
 						<Divider />
 						<ListItem button divider>
 							<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
