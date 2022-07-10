@@ -50,9 +50,11 @@ const placeOrder = async (req, res) => {
 		const placeNewOrder = await ordersModel.create({
 			user_id: req.body.user_id,
 			items: req.body.items,
+			amount: req.body.amount,
 			// createdAt: new Date(),
 			// items: request.body.items,
 		})
+
 		res.status(200).json({
 			msg: "Great! order placed successfully",
 			alertColor: "success",

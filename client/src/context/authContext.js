@@ -77,7 +77,7 @@ export const AuthContextProvider = (props) => {
 			);
 			const profileData = await response.json();
 			setUserProfile(profileData);
-			console.log("Profile data: ", profileData);
+			// console.log("Profile data: ", profileData);
 		} catch (error) {
 			console.log("Error fetching profile data: ", error);
 		}
