@@ -6,24 +6,25 @@ import Box from '@mui/material/Box'
 import { Skeleton } from '@mui/material';
 
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
-import Avatar from '@mui/material/Avatar';
+
 
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import PersonIcon from '@mui/icons-material/Person';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+
+
+import { AuthContext } from "../context/authContext";
+import { OrdersContext } from "../context/ordersContext";
+import { ProductsContext } from "../context/ProductsContext";
+
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -33,33 +34,32 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { AuthContext } from "../context/authContext";
-import { OrdersContext } from "../context/ordersContext";
-
 
 const style = {
 	width: '100%',
 	bgcolor: '#f5f5f5',
 };
 
-function createData(name, calories, fat, carbs, protein) {
-	return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-	createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-	createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-	createData('Eclair', 262, 16.0, 24, 6.0),
-	createData('Cupcake', 305, 3.7, 67, 4.3),
-	createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+
+
 
 function MyAccount() {
 
+
+
+
+
+
 	const { token, userProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
-	const { ordersTotal } = useContext(OrdersContext)
+	const { ordersTotal, userOrders } = useContext(OrdersContext)
+
+	const { products } = useContext(ProductsContext);
 
 
+	let orders = userOrders
+
+	console.log('ORDERS', orders)
 
 	return (
 
@@ -138,49 +138,65 @@ function MyAccount() {
 					</Box>
 				</Box>
 
-				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }} order={{ xs: 1, md: 2 }}>
-
-
+				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
 
 					<Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-						<Box className="myFlex" sx={{ display: 'flex', justifyContent: 'space-between', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px', textAlign: 'center' }}>
-							<TableContainer component={Paper}>
-								<Table sx={{ minWidth: 650 }} aria-label="simple table">
-									<TableHead>
-										<TableRow>
-											<TableCell>Dessert (100g serving)</TableCell>
-											<TableCell align="right">Calories</TableCell>
-											<TableCell align="right">Fat&nbsp;(g)</TableCell>
-											<TableCell align="right">Carbs&nbsp;(g)</TableCell>
-											<TableCell align="right">Protein&nbsp;(g)</TableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										{rows.map((row) => (
-											<TableRow
-												key={row.name}
-												sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-											>
-												<TableCell component="th" scope="row">
-													{row.name}
-												</TableCell>
-												<TableCell align="right">{row.calories}</TableCell>
-												<TableCell align="right">{row.fat}</TableCell>
-												<TableCell align="right">{row.carbs}</TableCell>
-												<TableCell align="right">{row.protein}</TableCell>
-											</TableRow>
-										))}
-									</TableBody>
-								</Table>
-							</TableContainer>
+
+						<Box>
+							{orders && orders.map((element, i) => (
+								<Box key={i}>
+									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+										<Typography component="p" sx={{ fontSize: '10px' }}>Order: {element._id}</Typography>
+										<Typography component="p" sx={{ fontSize: '10px' }}>Created: {element.createdAt}</Typography>
+									</Box>
+									<TableContainer component={Paper} sx={{ mb: '50px' }}>
+										<Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+											<TableHead sx={{ backgroundColor: '#0f3460', color: '#fff' }}>
+												<TableRow>
+													<TableCell align="left" sx={{ color: '#fff' }}>Image</TableCell>
+													<TableCell align="left" sx={{ color: '#fff' }}>Name</TableCell>
+													<TableCell align="center" sx={{ color: '#fff' }}>Price</TableCell>
+													<TableCell align="center" sx={{ color: '#fff' }}>Amount</TableCell>
+													<TableCell align="center" sx={{ color: '#fff' }}>Link</TableCell>
+												</TableRow>
+											</TableHead>
+											<TableBody>
+												{element.items && element.items.map((element2, i) => (
+													<TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+														<TableCell component="th" scope="row"><img src={element2.picture} alt={element2.itemName} width="25px" /></TableCell>
+														<TableCell align="left">{element2.itemName}</TableCell>
+														<TableCell align="center">{element2.price}</TableCell>
+														<TableCell align="center">{element.amount[i]}</TableCell>
+														<TableCell align="center">
+															<LinkRouter to={`/product/${element2.slug}`} style={{ textDecoration: 'none' }}>
+																<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Product</Button>
+															</LinkRouter>
+														</TableCell>
+													</TableRow>
+												))}
+											</TableBody>
+										</Table>
+									</TableContainer>
+								</Box>
+							))}
 						</Box>
+
+
+
+
+
+
+
+
+						{/* {orders && orders.map((element, i) => {})}
+					return (
+					< Grid item style={{ display: 'flex' }
+					} key={i} >
+						<img src={element.picture} width="100%" />
+					</Grid >
+					); */}
 					</Grid>
-
-
 				</Grid>
-
-
-
 			</Grid>
 		</Grid >
 

@@ -139,8 +139,9 @@ function SearchBar() {
 		cart.map((id) =>
 			urlencoded.append("items", id._id),
 		);
+
 		cart.map((id) =>
-			urlencoded.append("amount", id.amount),
+			urlencoded.append("amount", id.amount)
 		);
 
 		const requestOptions = {

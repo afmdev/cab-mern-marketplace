@@ -10,25 +10,50 @@ export const OrdersContextProvider = (props) => {
 
 	const { userProfile } = useContext(AuthContext)
 
+	const token = getToken();
 
-	const [userOrders, setUserorders] = useState()
+	const [userOrders, setUserOrders] = useState()
 	const [ordersTotal, setOrdersTotal] = useState()
 
 	const userId = userProfile?._id
 
-	const fetchOrders = () => {
-		fetch("http://localhost:5000/api/orders/" + userId)
-			.then((response) => {
-				return response.json();
-			})
-			.then((data) => {
-				console.log("ordersContext: ", data.data.length)
-				setOrdersTotal(data.data.length)
-			})
-			.catch((error) => {
-				// setError(error)
-			})
-	}
+	// const fetchOrders = () => {
+	// 	fetch("http://localhost:5000/api/orders/" + userId)
+	// 		.then((response) => {
+	// 			return response.json();
+	// 		})
+	// 		.then((data) => {
+	// 			console.log("ordersContext: ", data.data.length)
+	// 			setOrdersTotal(data.data.length)
+	// 			setUserOrders(data.data)
+	// 		})
+	// 		.catch((error) => {
+	// 			// setError(error)
+	// 		})
+	// }
+
+	const fetchOrders = async () => {
+		const myHeaders = new Headers();
+		myHeaders.append("Authorization", `Bearer ${token}`);
+		const requestOptions = {
+			method: "GET",
+			headers: myHeaders,
+		};
+		try {
+			const response = await fetch("http://localhost:5000/api/orders/" + userId,
+				requestOptions
+			);
+			const data = await response.json();
+			console.log("ordersContext: ", data.data.length)
+			setOrdersTotal(data.data.length)
+			setUserOrders(data.data)
+		} catch (error) {
+			console.log("Error fetching profile data: ", error);
+		}
+	};
+
+
+	console.log("orderContext", userOrders)
 
 
 	useEffect(() => {
@@ -39,7 +64,7 @@ export const OrdersContextProvider = (props) => {
 	return (
 		<OrdersContext.Provider value={{
 			fetchOrders,
-			userOrders, setUserorders,
+			userOrders, setUserOrders,
 			ordersTotal, setOrdersTotal
 		}}>
 			{props.children}
