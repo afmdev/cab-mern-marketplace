@@ -43,8 +43,37 @@ import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 
 
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Slide from '@mui/material/Slide';
+import PropTypes from 'prop-types';
 
 
+
+
+function HideOnScroll(props) {
+	const { children, window } = props;
+	// Note that you normally won't need to set the window ref as useScrollTrigger
+	// will default to window.
+	// This is only being set here because the demo is in an iframe.
+	const trigger = useScrollTrigger({
+		target: window ? window() : undefined,
+	});
+
+	return (
+		<Slide appear={false} direction="down" in={!trigger}>
+			{children}
+		</Slide>
+	);
+}
+
+HideOnScroll.propTypes = {
+	children: PropTypes.element.isRequired,
+	/**
+	 * Injected by the documentation to work in an iframe.
+	 * You won't need it on your project.
+	 */
+	window: PropTypes.func,
+};
 
 const style = {
 	width: '100%',
@@ -91,7 +120,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	},
 }));
 
-function SearchBar() {
+function SearchBar(props) {
 
 	const { user, userProfile, signOut, isUserLoggedIn, token, globalTimer } = useContext(AuthContext)
 	// console.log("userProfile", userProfile)
@@ -134,7 +163,7 @@ function SearchBar() {
 		myHeaders.append("Authorization", `Bearer ${token}`);
 		let urlencoded = new URLSearchParams();
 
-		console.log('CART >>>>>>', userProfile)
+		// console.log('CART >>>>>>', userProfile)
 		urlencoded.append("user_id", userProfile._id);
 		cart.map((id) =>
 			urlencoded.append("items", id._id),
@@ -554,113 +583,113 @@ function SearchBar() {
 			</Box >
 
 
-
-			<AppBar position="sticky" sx={{ backgroundColor: "#fff", height: '64px', justifyContent: 'center', color: '#757575', boxShadow: '0px 1px 10px 0px rgb(0 0 0 / 12%)' }}>
-				<Toolbar sx={{ px: '24px' }}>
-					<IconButton
-						size="large"
-						edge="start"
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleShow}
-						sx={{ display: { sm: 'none', xs: 'flex' }, mr: 2, backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
-					>
-						<MenuIcon />
-					</IconButton>
-					<Box sx={{ display: { sm: 'flex', xs: 'none' }, alignItems: "center" }}>
-						<LinkRouter to='/'>
-							<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm-dark.svg" alt="Logo" href="/"></img>
-						</LinkRouter>
-					</Box>
-					<Search>
-						<SearchIconWrapper>
-							<SearchIcon />
-						</SearchIconWrapper>
-						<StyledInputBase
-							placeholder="Search…"
-							inputProps={{ 'aria-label': 'search' }}
-						/>
-					</Search>
-					<Box sx={{ flexGrow: 1 }} />
-					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-						<IconButton size="large" aria-label="show 4 new mails" color="inherit">
-							<Badge badgeContent={4} color="error">
-								<FavoriteOutlinedIcon />
-							</Badge>
-						</IconButton>
-
-
+			<HideOnScroll {...props}>
+				<AppBar position="sticky" sx={{ backgroundColor: "#fff", height: '64px', justifyContent: 'center', color: '#757575', boxShadow: '0px 1px 10px 0px rgb(0 0 0 / 12%)' }}>
+					<Toolbar sx={{ px: '24px' }}>
 						<IconButton
 							size="large"
+							edge="start"
 							color="inherit"
-							onClick={handleShowCart}
-							sx={{ ml: '5px' }}
-
+							aria-label="open drawer"
+							onClick={handleShow}
+							sx={{ display: { sm: 'none', xs: 'flex' }, mr: 2, backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
 						>
-							<Badge badgeContent={cart.length} color="error">
-								<ShoppingCartIcon />
-							</Badge>
+							<MenuIcon />
 						</IconButton>
+						<Box sx={{ display: { sm: 'flex', xs: 'none' }, alignItems: "center" }}>
+							<LinkRouter to='/'>
+								<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm-dark.svg" alt="Logo" href="/"></img>
+							</LinkRouter>
+						</Box>
+						<Search>
+							<SearchIconWrapper>
+								<SearchIcon />
+							</SearchIconWrapper>
+							<StyledInputBase
+								placeholder="Search…"
+								inputProps={{ 'aria-label': 'search' }}
+							/>
+						</Search>
+						<Box sx={{ flexGrow: 1 }} />
+						<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+							<IconButton size="large" aria-label="show 4 new mails" color="inherit">
+								<Badge badgeContent={4} color="error">
+									<FavoriteOutlinedIcon />
+								</Badge>
+							</IconButton>
 
 
-						{user ?
-							<Tooltip title="Account settings">
-								<IconButton
-									onClick={handleClick}
-									size="small"
-									sx={{ ml: 2 }}
-									aria-controls={open ? 'account-menu' : undefined}
-									aria-haspopup="true"
-									aria-expanded={open ? 'true' : undefined}
-								>
-									<Avatar
-										alt={userProfile?.fistName}
-										src={userProfile?.avatarPicture ? userProfile.avatarPicture : ""}
-										sx={{ width: 32, height: 32 }}
-									/>
-									{/* <Avatar sx={{ width: 32, height: 32 }}>A</Avatar> */}
-								</IconButton>
-							</Tooltip>
-							:
-							<Tooltip title="Login & Register">
-								<IconButton
-									onClick={handleClick}
-									size="small"
-									sx={{ ml: 2 }}
-									aria-controls={open ? 'account-menu' : undefined}
-									aria-haspopup="true"
-									aria-expanded={open ? 'true' : undefined}
-								>
-									{/* <Avatar
+							<IconButton
+								size="large"
+								color="inherit"
+								onClick={handleShowCart}
+								sx={{ ml: '5px' }}
+
+							>
+								<Badge badgeContent={cart.length} color="error">
+									<ShoppingCartIcon />
+								</Badge>
+							</IconButton>
+
+
+							{user ?
+								<Tooltip title="Account settings">
+									<IconButton
+										onClick={handleClick}
+										size="small"
+										sx={{ ml: 2 }}
+										aria-controls={open ? 'account-menu' : undefined}
+										aria-haspopup="true"
+										aria-expanded={open ? 'true' : undefined}
+									>
+										<Avatar
+											alt={userProfile?.fistName}
+											src={userProfile?.avatarPicture ? userProfile.avatarPicture : ""}
+											sx={{ width: 32, height: 32 }}
+										/>
+										{/* <Avatar sx={{ width: 32, height: 32 }}>A</Avatar> */}
+									</IconButton>
+								</Tooltip>
+								:
+								<Tooltip title="Login & Register">
+									<IconButton
+										onClick={handleClick}
+										size="small"
+										sx={{ ml: 2 }}
+										aria-controls={open ? 'account-menu' : undefined}
+										aria-haspopup="true"
+										aria-expanded={open ? 'true' : undefined}
+									>
+										{/* <Avatar
 										alt={userProfile?.fistName}
 										src={userProfile?.avatarPicture ? userProfile.avatarPicture : "https://res.cloudinary.com/https-www-alejandrofm-com/image/upload/v1656668929/afm-mern-marketplace/cenddmxzmxj5gw16oqgi.png"}
 										sx={{ width: 32, height: 32 }}
 									/> */}
-									<Avatar sx={{ width: 32, height: 32 }} />
-								</IconButton>
-							</Tooltip>
-						}
+										<Avatar sx={{ width: 32, height: 32 }} />
+									</IconButton>
+								</Tooltip>
+							}
 
 
 
 
-					</Box>
-					<Box sx={{ display: { xs: 'flex', md: 'none' } }} >
-						<IconButton
-							size="large"
-							aria-label="show more"
-							aria-controls={mobileMenuInId}
-							aria-haspopup="true"
-							// onClick={handleMobileMenuOpen}
-							onClick={handleClick}
-							color="inherit"
-						>
-							<MoreIcon />
-						</IconButton>
-					</Box>
-				</Toolbar>
-			</AppBar>
-
+						</Box>
+						<Box sx={{ display: { xs: 'flex', md: 'none' } }} >
+							<IconButton
+								size="large"
+								aria-label="show more"
+								aria-controls={mobileMenuInId}
+								aria-haspopup="true"
+								// onClick={handleMobileMenuOpen}
+								onClick={handleClick}
+								color="inherit"
+							>
+								<MoreIcon />
+							</IconButton>
+						</Box>
+					</Toolbar>
+				</AppBar>
+			</HideOnScroll>
 			{renderMobileMenuIn}
 			{/* {user ? renderMobileMenuIn : renderMobileMenuOut} */}
 			{user ? renderMenuSignedIn : renderMenuSignedOut}

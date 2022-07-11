@@ -1,6 +1,7 @@
 
 import React, { useContext, useEffect, useState } from 'react'
-import { useLocation, useParams } from "react-router-dom";
+import { ProductsContext } from '../context/ProductsContext'
+import { useParams } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'
@@ -8,12 +9,13 @@ import { Skeleton } from '@mui/material';
 import ImageGallery from 'react-image-gallery';
 import ReactStars from 'react-stars';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
 
 
 function ProductSingle(props) {
+
+	const { handleAddToCart } = useContext(ProductsContext);
 
 
 	const images = [
@@ -42,12 +44,7 @@ function ProductSingle(props) {
 
 
 	const { slug } = useParams();
-
 	const [products, setProducts] = useState(null)
-	const [loader, setLoader] = useState(true)
-	const [error, setError] = useState(null)
-	const [filter, setFilter] = useState([])
-
 
 	const fetchData = () => {
 		fetch("http://localhost:5000/api/items/" + slug)
@@ -57,11 +54,9 @@ function ProductSingle(props) {
 			.then((data) => {
 				const myData = data
 				setProducts(data)
-				setFilter(myData)
-				setLoader(false)
 			})
 			.catch((error) => {
-				setError(error)
+				console.log("An error has been detected", error)
 			})
 	}
 
@@ -82,8 +77,6 @@ function ProductSingle(props) {
 			columns={12}
 			sx={{ pt: '30px' }}
 		>
-			{/* {loader && <div className="loader">Loading...</div>} */}
-			{error && (<div>{`There is a problem fetching the post data - ${error}`}</div>)}
 			<Grid item xs={10.5} sm={8} md={5} lg={4} xl={3} style={{ display: 'flex', justifyContent: 'end', position: 'relative' }}>
 
 				{element ?
@@ -94,7 +87,7 @@ function ProductSingle(props) {
 								:
 								(<Box sx={{
 									position: 'absolute', display: 'inline-block', zIndex: '999', backgroundColor: '#d32f2f', borderRadius: '100px', p: '10px',
-									color: '#fff', top: '22px', right: '-18px', height: '25px', width: '25px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+									color: '#fff', top: '22px', right: '-18px', height: '45px', width: '45px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
 								}}>
 									<Typography variant="paragraph" component="p">
 										-{salePercentage}%
@@ -158,12 +151,10 @@ function ProductSingle(props) {
 						</Grid>
 						<Grid>
 							<Stack direction="row" spacing={2}>
-								<Button variant="outlined" startIcon={<DeleteIcon />}>
-									Delete
+								<Button variant="outlined" startIcon={<AddShoppingCartIcon />} onClick={() => handleAddToCart(element)} sx={{ mt: '15px', mb: '70px' }}>
+									ADD TO CART
 								</Button>
-								<Button variant="contained" endIcon={<SendIcon />}>
-									Send
-								</Button>
+
 							</Stack>
 						</Grid>
 
