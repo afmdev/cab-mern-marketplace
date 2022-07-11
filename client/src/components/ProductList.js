@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { ProductsContext } from '../context/ProductsContext'
 import { Link } from "react-router-dom";
 import Card from '@mui/material/Card';
@@ -14,9 +14,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 function ProductsList() {
-	const { products, fetchData, cart, setCart, fetchCartItems, handleShowCart } = useContext(ProductsContext);
-
-	const { handleAddToCart } = useContext(ProductsContext);
+	const { products, handleAddToCart } = useContext(ProductsContext);
 
 	let items = products?.data
 

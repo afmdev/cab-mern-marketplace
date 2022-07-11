@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { Link as LinkRouter } from "react-router-dom";
-
-
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'
@@ -25,11 +23,7 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { InputBase } from '@mui/material';
-
 import FormControl from '@mui/material/FormControl';
-
-
 import { AuthContext } from "../context/authContext";
 import { OrdersContext } from "../context/ordersContext";
 
@@ -38,12 +32,10 @@ const Input = styled('input')({
 	display: 'none',
 });
 
-
 const style = {
 	width: '100%',
 	bgcolor: '#f5f5f5',
 };
-
 
 const theme = createTheme({
 	overrides: {
@@ -58,10 +50,8 @@ const theme = createTheme({
 function MyAccountEdit() {
 
 
-	const { token, user, userProfile, setUserProfile, signOut, updateAccount, setUpdateAccount, globalTimer } = useContext(AuthContext)
+	const { token, userProfile, setUserProfile, globalTimer } = useContext(AuthContext)
 
-
-	const { userOrders, setUserorders, ordersTotal, setOrdersTotal } = useContext(OrdersContext)
 
 	const [alert, setAlert] = useState(false)
 	const [alertSeverity, setAlertSeverity] = useState()
@@ -94,9 +84,9 @@ function MyAccountEdit() {
 		} else {
 
 			const formData = new FormData();
-			console.log("selectedFile<<<<<<<<<<<<<", selectedFile);
+			// console.log("selectedFile<<<<<<<<<<<<<", selectedFile);
 			formData.append("image", selectedFile);
-			console.log("formData", formData);
+			// console.log("formData", formData);
 
 			const requestOptions = {
 				method: "POST",
@@ -280,7 +270,7 @@ function MyAccountEdit() {
 								<Box component="span" m={1} sx={{ width: '100%', border: '1px solid #e7e7e9' }}></Box>
 								<Box sx={{
 									backgroundColor: '#d32f2f', borderRadius: '100px', p: '10px',
-									color: '#fff', height: '25px', width: '25px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+									color: '#fff', height: '45px', width: '45px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
 								}}><EditOutlinedIcon /></Box>
 
 								<Box component="span" m={1} sx={{ width: '100%', border: '1px solid #e7e7e9' }}></Box>

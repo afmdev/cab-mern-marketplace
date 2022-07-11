@@ -1,27 +1,57 @@
-import * as React from 'react';
+import React, { useContext, useRef, useState } from 'react'
+import { ProductsContext } from '../context/ProductsContext'
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import Paper from '@mui/material/Paper';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
+
+
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+	'& .MuiBadge-badge': {
+		right: -3,
+		top: 13,
+		border: `2px solid ${theme.palette.background.paper}`,
+		padding: '0 4px',
+	},
+}));
 
 export default function SimpleBottomNavigation() {
-	const [value, setValue] = React.useState(0);
+
+
+	const { cart, handleShowCart } = useContext(ProductsContext);
+
+
+	const [value, setValue] = useState(0);
+	const ref = useRef(null);
+
+
 
 	return (
-		<Box sx={{ width: 500 }}>
-			<BottomNavigation
-				showLabels
-				value={value}
-				onChange={(event, newValue) => {
-					setValue(newValue);
-				}}
-			>
-				<BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-				<BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-				<BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-			</BottomNavigation>
+		<Box sx={{ pb: 7 }} ref={ref}>
+			<Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+				<BottomNavigation
+					showLabels
+					value={value}
+					onChange={(event, newValue) => {
+						setValue(newValue);
+					}}
+				>
+
+					<IconButton aria-label="cart" onClick={handleShowCart}>
+						<StyledBadge badgeContent={cart.length} color="error">
+							<ShoppingCartIcon />
+						</StyledBadge>
+					</IconButton>
+					{/* <BottomNavigationAction label="Recents" icon={<RestoreIcon />} /> */}
+					{/* <BottomNavigationAction label="Cart" icon={<ShoppingCartIcon />} /> */}
+
+					{/* <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} /> */}
+				</BottomNavigation>
+			</Paper>
 		</Box>
 	);
 }
