@@ -25,7 +25,7 @@ const getOrdersByUser = async (req, res) => {
 	try {
 		const data = await ordersModel
 			.find({ user_id: req.params.user_id })
-			.populate({ path: "items", select: ["itemName"] })
+			.populate({ path: "items", select: ["itemName", "price", "picture", "slug"] })
 			.exec()
 
 		if (data.length === 0) {

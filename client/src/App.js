@@ -7,8 +7,8 @@ import { OrdersContextProvider } from "./context/ordersContext";
 import TopBar from './components/TopBar';
 import SearchBar from './components/SearchBar';
 import MainMenu from './components/MainMenu';
-import TopSlider from './components/TopSlider';
-import MyAccount from './components/MyAccount';
+
+import BottomNavigation from './components/BottomNavigation';
 
 import ViewHome from './views/ViewHome';
 import ViewProductSingle from './views/ViewProductSingle'
@@ -29,6 +29,7 @@ function App() {
 						<TopBar />
 						<SearchBar />
 						<MainMenu />
+						<BottomNavigation />
 
 						<Routes>
 							<Route path="/" element={<ViewHome />} />
@@ -41,6 +42,7 @@ function App() {
 					<Route path="*" element={<NoMatch />} /> */}
 
 						</Routes>
+						<BottomNavigation />
 					</OrdersContextProvider>
 				</ProductsContextProvider>
 			</AuthContextProvider>
