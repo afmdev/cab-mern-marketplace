@@ -42,24 +42,13 @@ const style = {
 
 
 
-
-
 function MyAccount() {
 
-
-
-
-
-
-	const { token, userProfile, signOut, updateAccount, setUpdateAccount } = useContext(AuthContext)
 	const { ordersTotal, userOrders } = useContext(OrdersContext)
-
-	const { products } = useContext(ProductsContext);
-
 
 	let orders = userOrders
 
-	console.log('ORDERS', orders)
+	console.log("orders>>>>>>>>>>>>>", orders)
 
 	return (
 
@@ -142,7 +131,10 @@ function MyAccount() {
 
 					<Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
 
+						{!orders ? "Listing is empty, you have not yet placed an order in our marketplace. " : ""}
+
 						<Box>
+
 							{orders && orders.map((element, i) => (
 								<Box key={i}>
 									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

@@ -42,6 +42,8 @@ import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStore
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 
+import AddTaskIcon from '@mui/icons-material/AddTask';
+
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
@@ -305,10 +307,12 @@ function SearchBar(props) {
 
 			<Divider sx={{ display: { md: 'none', sm: 'flex' } }} />
 			<MenuItem>
-				<ListItemIcon>
-					<PersonAdd fontSize="small" />
-				</ListItemIcon>
-				Add another account
+				<LinkRouter to="/add-product" underline="none" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+					<ListItemIcon>
+						<AddTaskIcon fontSize="small" />
+					</ListItemIcon>
+					Add new Product
+				</LinkRouter>
 			</MenuItem>
 			<MenuItem>
 				<ListItemIcon>

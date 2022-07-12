@@ -44,17 +44,15 @@ export const OrdersContextProvider = (props) => {
 				requestOptions
 			);
 			const data = await response.json();
-			console.log("ordersContext: ", data.data.length)
-			setOrdersTotal(data.data.length)
+			// console.log("ordersContext: ", data.data.length)
+			setOrdersTotal(data?.data?.length)
 			setUserOrders(data.data)
 		} catch (error) {
 			console.log("Error fetching profile data: ", error);
 		}
 	};
 
-
-	console.log("orderContext", userOrders)
-
+	// console.log("orderContext", userOrders)
 
 	useEffect(() => {
 		fetchOrders()

@@ -25,24 +25,8 @@ function Slider() {
 					spacing={0}
 					direction="row"
 					alignItems="center"
-					justifyContent="center"
+					justifyContent="center">
 
-				>
-
-
-					{/* <Grid item xs="auto" sx={{ display: { md: 'none', xs: 'flex' }, fontSize: '12px' }}>
-						<Box sx={{ display: 'flex', alignItems: "center" }}>
-							<img display="block" height="28px" src="https://alejandrofm.com/cab/logos/afm.svg" alt="Logo" href="/"></img>
-						</Box>
-					</Grid> 
-					<Grid item xs="auto" sx={{ display: { md: 'flex', xs: 'none' }, fontSize: '12px' }}>
-						<Box sx={{ display: 'flex', alignItems: "center" }}>
-							<LocalPhoneOutlinedIcon sx={{ mr: '7px' }} /><span>+49 176 8563 5852</span>
-						</Box>
-						<Box sx={{ display: 'flex', alignItems: "center", ml: '15px' }}>
-							<EmailOutlinedIcon sx={{ mr: '7px' }} /> <span>info@alejandrofm.com</span>
-						</Box>
-					</Grid> */}
 					<Grid item xs sx={{ display: 'flex', fontSize: '14px', justifyContent: 'center' }}>
 						<Box
 							sx={{
@@ -52,26 +36,20 @@ function Slider() {
 								'& > :not(style) + :not(style)': {
 									ml: 2,
 								},
-							}}
-						>
+							}}>
 							<Stack
 								direction="row"
 								divider={<Divider orientation="vertical" flexItem />}
-								spacing={2}
-							>
-
+								spacing={2}>
 								<LinkRouter to='/' style={menuLinksStyles}>
 									<HomeOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Home
 								</LinkRouter>
-
 								<LinkRouter to='/' style={menuLinksStyles}>
 									<LocalGroceryStoreOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Shop
 								</LinkRouter>
-
 								<LinkRouter to='/' style={menuLinksStyles}>
 									<EmojiEventsOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Bestseller
 								</LinkRouter>
-
 								<LinkRouter to='/' style={menuLinksStyles}>
 									<LoyaltyOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Sale
 								</LinkRouter>

@@ -10,6 +10,8 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import List from '@mui/material/List';
@@ -47,10 +49,9 @@ const theme = createTheme({
 	},
 });
 
-function MyAccountEdit() {
+function ProductAdd() {
 
-
-	const { token, userProfile, setUserProfile, globalTimer } = useContext(AuthContext)
+	const { token, globalTimer } = useContext(AuthContext)
 
 
 	const [alert, setAlert] = useState(false)
@@ -62,11 +63,10 @@ function MyAccountEdit() {
 	}
 
 	const [selectedFile, setSelectedFile] = useState(null);
+	const [itemInfo, setItemInfo] = useState(null);
 
+	// const [itemInfo, setitemInfo] = useState(null);
 
-	const handleChangeHandler = (e) => {
-		setUserProfile({ ...userProfile, [e.target.name]: e.target.value });
-	};
 
 	const attachFileHandler = (e) => {
 		setSelectedFile(e.target.files[0]);
@@ -100,7 +100,7 @@ function MyAccountEdit() {
 				console.log("response", response);
 				const result = await response.json();
 
-				setUserProfile({ ...userProfile, avatarPicture: result.imageUrL });
+				setItemInfo({ ...itemInfo, picture: result.imageUrL });
 
 				const serverMsg = result.msg
 				const serverAlert = result.alertColor
@@ -118,22 +118,23 @@ function MyAccountEdit() {
 	};
 
 	const handleChange = (event) => {
-		setUserProfile({ ...userProfile, [event.target.name]: event.target.value });
-		// setUpdateAccount({ ...updateAccount, [event.target.name]: event.target.value });
-		// console.log(updateAccount);
+		setItemInfo({ ...itemInfo, [event.target.name]: event.target.value });
+		console.log(itemInfo);
 	};
-	const updateProfile = async () => {
+	const addProduct = async () => {
 		let myHeaders = new Headers();
 		myHeaders.append("Authorization", `Bearer ${token}`);
 		let urlencoded = new URLSearchParams();
-		urlencoded.append("id", userProfile._id);
-		urlencoded.append("firstName", userProfile.firstName);
-		urlencoded.append("lastName", userProfile.lastName);
-		// urlencoded.append("email", userProfile.email);
-		urlencoded.append("phone", userProfile.phone);
-		urlencoded.append("birthday", userProfile.birthday);
-		urlencoded.append("role", userProfile.role);
-		urlencoded.append("avatarPicture", userProfile.avatarPicture);
+		urlencoded.append("itemName", itemInfo.itemName);
+		urlencoded.append("slug", itemInfo.slug);
+		urlencoded.append("shortDesc", itemInfo.shortDesc);
+		urlencoded.append("longDesc", itemInfo.longDesc);
+		urlencoded.append("price", itemInfo.price);
+		urlencoded.append("sale", itemInfo.sale);
+		urlencoded.append("picture", itemInfo.picture);
+		urlencoded.append("user_id", itemInfo.user_id);
+		urlencoded.append("rate", itemInfo.rate);
+		urlencoded.append("count", itemInfo.count);
 		const requestOptions = {
 			method: "POST",
 			headers: myHeaders,
@@ -143,7 +144,7 @@ function MyAccountEdit() {
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/users/updateProfile",
+				"http://localhost:5000/api/items/add-product",
 				requestOptions
 			);
 			console.log('response', response)
@@ -228,13 +229,13 @@ function MyAccountEdit() {
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 					<Box>
 						<Typography variant="h5" fontWeight="900" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-							<PersonIcon sx={{ mr: '25px' }} />Edit My Profile
+							<AddShoppingCartIcon sx={{ mr: '25px' }} />Add New Product
 						</Typography>
 					</Box>
 					<Box>
-						<LinkRouter to="/my-account" style={{ textDecoration: 'none' }}>
+						{/* <LinkRouter to="/my-account" style={{ textDecoration: 'none' }}>
 							<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Back To Profile</Button>
-						</LinkRouter>
+						</LinkRouter> */}
 					</Box>
 				</Box>
 
@@ -248,8 +249,8 @@ function MyAccountEdit() {
 							<Box sx={{ position: 'relative' }}>
 								<Box>
 									<Avatar
-										alt={userProfile?.fistName}
-										src={userProfile?.avatarPicture ? userProfile.avatarPicture : ""}
+										alt={itemInfo?.fistName}
+										src={itemInfo?.picture ? itemInfo.picture : ""}
 										sx={{ width: 56, height: 56, mr: '10px' }}
 									/>
 								</Box>
@@ -271,7 +272,7 @@ function MyAccountEdit() {
 								<Box sx={{
 									backgroundColor: '#d32f2f', borderRadius: '100px', p: '10px',
 									color: '#fff', height: '25px', width: '45px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-								}}><EditOutlinedIcon /></Box>
+								}}><AddTaskIcon /></Box>
 
 								<Box component="span" m={1} sx={{ width: '100%', border: '1px solid #e7e7e9' }}></Box>
 							</Box>
@@ -282,13 +283,13 @@ function MyAccountEdit() {
 								<Grid item xs={12} xl={6}>
 									<TextField
 										// error={errorName}
-										autoComplete="fname"
+										autoComplete="itemName"
 										variant="outlined"
-										label="First Name"
-										id="firstname"
-										name="firstName"
+										label="Item Name"
+										id="itemName"
+										name="itemName"
 										type="text"
-										value={userProfile?.firstName ? userProfile.firstName : ""}
+										value={itemInfo?.itemName ? itemInfo.itemName : ""}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -299,50 +300,13 @@ function MyAccountEdit() {
 								<Grid item xs={12} xl={6}>
 									<TextField
 										// error={errorName}
-										autoComplete="lname"
+										autoComplete="slug"
 										variant="outlined"
-										label="Last Name"
-										id="lastname"
-										name="lastName"
+										label="Slug"
+										id="slug"
+										name="slug"
 										type="text"
-										value={userProfile?.lastName ? userProfile.lastName : ""}
-										// helperText={helperName}
-										onChange={handleChange}
-										required
-										fullWidth
-										sx={{ background: '#fff' }}
-									/>
-								</Grid>
-								<Grid item xs={12} xl={6}>
-									<TextField
-										// error={errorName}
-										autoComplete="phone"
-										variant="outlined"
-										label="Phone"
-										id="phone"
-										name="phone"
-										type="tel"
-										value={userProfile?.phone ? userProfile.phone : ""}
-										// helperText={helperName}
-										onChange={handleChange}
-										required
-										fullWidth
-										sx={{ background: '#fff' }}
-									/>
-								</Grid>
-								<Grid item xs={12} xl={6}>
-									<TextField
-										// error={errorName}
-										autoComplete="birthday"
-										variant="outlined"
-										label="Birthday"
-										id="birthday"
-										name="birthday"
-										type="date"
-										InputLabelProps={{
-											shrink: true,
-										}}
-										value={userProfile?.birthday ? userProfile.birthday : ""}
+										value={itemInfo?.slug ? itemInfo.slug : ""}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
@@ -353,41 +317,88 @@ function MyAccountEdit() {
 								<Grid item xs={12}>
 									<TextField
 										// error={errorName}
-										autoComplete="email"
+										autoComplete="shortDesc"
 										variant="outlined"
-										label="E-Mail"
-										id="email"
-										name="email"
-										type="email"
-										value={userProfile?.email ? userProfile.email : ""}
+										label="Short Description"
+										id="shortDesc"
+										name="shortDesc"
+										type="text"
+										value={itemInfo?.shortDesc ? itemInfo.shortDesc : ""}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
 										fullWidth
 										sx={{ background: '#fff' }}
-										disabled
 									/>
 								</Grid>
-
-								{/* <Grid item xs={12} xl={6}>
+								<Grid item xs={12}>
 									<TextField
 										// error={errorName}
-										autoComplete="password"
+										autoComplete="longDesc"
 										variant="outlined"
-										label="Password"
-										id="password"
-										name="password"
-										type="password"
-										value={userProfile?.password ? userProfile.password : "E-Mail"}
+										label="Long Description"
+										id="longDesc"
+										name="longDesc"
+										type="text"
+										value={itemInfo?.longDesc ? itemInfo.longDesc : ""}
 										// helperText={helperName}
 										onChange={handleChange}
 										required
 										fullWidth
 										sx={{ background: '#fff' }}
 									/>
-								</Grid> */}
+								</Grid>
+								<Grid item xs={12} xl={6}>
+									<TextField
+										// error={errorName}
+										autoComplete="price"
+										variant="outlined"
+										label="Price"
+										id="price"
+										name="price"
+										type="text"
+										value={itemInfo?.price ? itemInfo.price : ""}
+										// helperText={helperName}
+										onChange={handleChange}
+										required
+										fullWidth
+										sx={{ background: '#fff' }}
+									/>
+								</Grid>
+								<Grid item xs={12} xl={6}>
+									<TextField
+										// error={errorName}
+										autoComplete="sale"
+										variant="outlined"
+										label="Sale"
+										id="sale"
+										name="sale"
+										type="text"
+										value={itemInfo?.sale ? itemInfo.sale : ""}
+										// helperText={helperName}
+										onChange={handleChange}
+										fullWidth
+										sx={{ background: '#fff' }}
+									/>
+								</Grid>
+								<Grid item xs={12} >
+									<TextField
+										// error={errorName}
+										autoComplete="rate"
+										variant="outlined"
+										label="Rate"
+										id="rate"
+										name="rate"
+										type="text"
+										value={itemInfo?.rate ? itemInfo.rate : ""}
+										// helperText={helperName}
+										onChange={handleChange}
+										fullWidth
+										sx={{ background: '#fff' }}
+									/>
+								</Grid>
 							</Grid>
-							<Button variant="contained" size="small" sx={{ width: '100%', mt: '25px' }} disableElevation onClick={updateProfile}>SAVE CHANGES</Button>
+							<Button variant="contained" size="small" sx={{ width: '100%', mt: '25px' }} disableElevation onClick={addProduct}>SAVE CHANGES</Button>
 						</Box>
 						<Collapse in={alert}>
 							<Alert severity={alertSeverity}>
@@ -409,4 +420,4 @@ function MyAccountEdit() {
 	);
 }
 
-export default MyAccountEdit
+export default ProductAdd
