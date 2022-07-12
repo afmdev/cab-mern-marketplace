@@ -296,7 +296,7 @@ function SearchBar(props) {
 
 			<MenuItem sx={{ display: { md: 'none', sm: 'flex' } }}>
 				<ListItemIcon>
-					<Badge badgeContent={17} color="error">
+					<Badge badgeContent={cart.length} color="error">
 						<ShoppingCartIcon fontSize="small" />
 					</Badge>
 				</ListItemIcon>

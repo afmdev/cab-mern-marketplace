@@ -22,7 +22,7 @@ import ViewMyOrders from './views/ViewMyOrders'
 
 function App() {
 	return (
-		<div className="Home">
+		<div className="Home" >
 			<AuthContextProvider>
 				<ProductsContextProvider>
 					<OrdersContextProvider>

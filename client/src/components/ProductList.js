@@ -22,7 +22,8 @@ function ProductsList() {
 		<Grid container alignItems="stretch"
 			justifyContent="center"
 			spacing={2}
-			columns={16}>
+			columns={16}
+			sx={{ pb: '80px' }}>
 
 			{items && items.map((element, i) => {
 				return (
