@@ -21,37 +21,17 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function SimpleBottomNavigation() {
 
-
 	const { cart, handleShowCart } = useContext(ProductsContext);
 
-
-	const [value, setValue] = useState(0);
-	const ref = useRef(null);
-
-
-
 	return (
-		<Box sx={{ pb: 7 }} ref={ref}>
-			<Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-				<BottomNavigation
-					showLabels
-					value={value}
-					onChange={(event, newValue) => {
-						setValue(newValue);
-					}}
-				>
-
-					<IconButton aria-label="cart" onClick={handleShowCart}>
-						<StyledBadge badgeContent={cart.length} color="error">
-							<ShoppingCartIcon />
-						</StyledBadge>
-					</IconButton>
-					{/* <BottomNavigationAction label="Recents" icon={<RestoreIcon />} /> */}
-					{/* <BottomNavigationAction label="Cart" icon={<ShoppingCartIcon />} /> */}
-
-					{/* <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} /> */}
-				</BottomNavigation>
-			</Paper>
+		<Box sx={{ display: { md: 'none', sm: 'block' }, overflow: 'hidden', position: 'fixed', bottom: '0', width: '100%', background: '#fff', borderTop: '1px solid #e7e5e5', boxShadow: 'inset 0 1px 15px 7px #e9e9e9' }}>
+			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50px' }}>
+				<IconButton aria-label="cart" onClick={handleShowCart}>
+					<StyledBadge badgeContent={cart.length} color="error">
+						<ShoppingCartIcon />
+					</StyledBadge>
+				</IconButton>
+			</Box>
 		</Box>
 	);
 }
