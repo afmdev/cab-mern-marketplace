@@ -28,20 +28,6 @@ import Divider from '@mui/material/Divider';
 import { AuthContext } from "../context/authContext";
 import { OrdersContext } from "../context/ordersContext";
 
-// const styles = (theme) => ({
-// 	myFlex: {
-
-// 		[theme.breakpoints.down('md')]: {
-// 			display: 'flex',
-// 			justifyContent: 'space-between',
-// 			flexDirection: 'column',
-// 			alignItems: 'center',
-// 			height: '40px'
-// 		},
-// 	},
-// });
-
-
 const style = {
 	width: '100%',
 	bgcolor: '#f5f5f5',
@@ -53,7 +39,6 @@ function MyAccount() {
 	const { ordersTotal } = useContext(OrdersContext)
 
 
-
 	return (
 
 		<Grid container alignItems="stretch"
@@ -61,12 +46,10 @@ function MyAccount() {
 			spacing={3}
 			rowSpacing={3}
 			columns={12}
-			sx={{ mt: '0', pb: '100px' }}
-		>
+			sx={{ mt: '0', pb: '100px' }}>
 
 			<Grid item xs={10} sm={10} md={3} lg={3} xl={2}>
 				<Box style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-
 					<Typography component="p" sx={{ mt: '8px' }}>
 						Dashboard
 					</Typography>
@@ -92,8 +75,6 @@ function MyAccount() {
 						</ListItem>
 						<Divider light />
 					</List>
-
-
 					<Typography component="p" sx={{ mt: '30px' }}>
 						Account Settings
 					</Typography>
@@ -115,8 +96,6 @@ function MyAccount() {
 
 				</Box>
 			</Grid>
-
-
 			<Grid item xs={10} sm={10} md={8} lg={7} xl={5} order={{ xs: 3, md: 1 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 					<Box>
@@ -130,24 +109,21 @@ function MyAccount() {
 						</LinkRouter>
 					</Box>
 				</Box>
-
 				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }} order={{ xs: 1, md: 2 }}>
-
 					<Grid item xs={12} sm={12} md={5} lg={4} xl={4}>
 						<Box sx={{ display: 'flex', alignItems: 'center', boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
 							<Box>
 								<Avatar
 									alt={userProfile?.fistName}
 									src={userProfile?.avatarPicture ? userProfile.avatarPicture : ""}
-									sx={{ width: 56, height: 56, mr: '10px' }}
-								/>
+									sx={{ width: 56, height: 56, mr: '10px' }} />
 							</Box>
 							<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 								<Typography component="p" sx={{ fontWeight: '900' }}>
-									{userProfile?.firstName ? userProfile.firstName : "nasty"} {userProfile?.lastName ? userProfile.lastName : ""}
+									{userProfile?.firstName ? userProfile.firstName : ""} {userProfile?.lastName ? userProfile.lastName : ""}
 								</Typography>
 								<Typography component="p" sx={{ fontSize: '12px' }}>
-									Account Type: <Typography component="span" sx={{ fontSize: '12px', fontWeight: '900' }}>{userProfile?.role ? userProfile.role : "nasty"}</Typography>
+									Account Type: <Typography component="span" sx={{ fontSize: '12px', fontWeight: '900' }}>{userProfile?.role ? userProfile.role : ""}</Typography>
 								</Typography>
 							</Box>
 						</Box>
@@ -207,7 +183,7 @@ function MyAccount() {
 									?
 									(<Typography component="p">{userProfile.firstName}</Typography>)
 									:
-									(<Typography component="p">nasty</Typography>)}
+									(<Typography component="p"></Typography>)}
 							</Box>
 
 							<Box>
@@ -216,7 +192,7 @@ function MyAccount() {
 									?
 									<Typography component="p">{userProfile.lastName}</Typography>
 									:
-									<Typography component="p">nasty</Typography>}
+									<Typography component="p"></Typography>}
 							</Box>
 
 							<Box>
@@ -225,7 +201,7 @@ function MyAccount() {
 									?
 									<Typography component="p">{userProfile.email}</Typography>
 									:
-									<Typography component="p">nasty</Typography>}
+									<Typography component="p"></Typography>}
 							</Box>
 
 							<Box>
@@ -234,7 +210,7 @@ function MyAccount() {
 									?
 									<Typography component="p">{userProfile.phone}</Typography>
 									:
-									<Typography component="p">nasty</Typography>}
+									<Typography component="p"></Typography>}
 							</Box>
 
 							<Box>
@@ -243,7 +219,7 @@ function MyAccount() {
 									?
 									<Typography component="p">{userProfile.birthday}</Typography>
 									:
-									<Typography component="p">nasty</Typography>}
+									<Typography component="p"></Typography>}
 							</Box>
 						</Box>
 					</Grid>

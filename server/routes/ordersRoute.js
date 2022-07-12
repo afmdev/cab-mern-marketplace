@@ -6,9 +6,9 @@ import jwtAuth from "../middlewares/jwtAuth.js";
 const router = express.Router();
 
 
-router.get('/all', getAllOrders)
+router.get('/all', jwtAuth, getAllOrders)
 router.get('/:user_id', jwtAuth, getOrdersByUser)
-router.post('/placeOrder', placeOrder)
+router.post('/placeOrder', jwtAuth, placeOrder)
 
 
 export default router;

@@ -1,4 +1,62 @@
+import { v2 as cloudinary } from "cloudinary";
 import itemsModel from '../models/itemsModel.js'
+
+
+
+const addProduct = async (req, res) => {
+
+	try {
+		const placeNewOrder = await itemsModel.create({
+			itemName: req.body.itemName,
+			slug: req.body.slug,
+			shortDesc: req.body.shortDesc,
+			longDesc: req.body.longDesc,
+			price: req.body.price,
+			picture: req.body.picture,
+			user_id: req.body.user_id,
+			rate: req.body.rate,
+			count: req.body.count,
+
+		})
+
+		res.status(200).json({
+			msg: "Great! order placed successfully",
+			alertColor: "success",
+			order: placeNewOrder,
+
+		});
+	} catch (error) {
+		res.status(400).json({
+			msg: "Ouch! Order not placed",
+			alertColor: "warning",
+			error: error,
+		});
+	}
+};
+
+
+const uploadUserPicture = async (req, res) => {
+	console.log("req.body", req.body);
+	try {
+		console.log("req.file", req.file);
+		const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+			folder: "afm-mern-marketplace",
+		});
+		console.log("result", uploadResult);
+		res.status(200).json({
+			msg: "Avatar image has been successfully uploaded.",
+			alertColor: "success",
+			imageUrL: uploadResult.url,
+		});
+	} catch (error) {
+		res
+			.status(409).json({
+				msg: "Avatar image has not been uploaded successfully",
+				alertColor: "error",
+				error: error,
+			});
+	}
+};
 
 const getAllItems = async (req, res) => {
 
@@ -36,4 +94,15 @@ const getItemsBySlug = async (req, res) => {
 	}
 }
 
-export { getAllItems, getItemsBySlug }
+
+
+
+
+
+
+
+
+
+
+
+export { getAllItems, getItemsBySlug, addProduct, uploadUserPicture }

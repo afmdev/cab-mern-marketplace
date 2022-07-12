@@ -8,58 +8,31 @@ const itemsSchema = new mongoose.Schema({
 	},
 	slug: {
 		type: String,
-		required: true,
 		unique: true
 	},
 	shortDesc: {
 		type: String,
-		required: true
 	},
 	longDesc: {
 		type: String,
-		required: true
 	},
 	price: {
 		type: String,
-		required: true
 	},
 	sale: {
 		type: String,
-		required: true
+		default: "0",
 	},
-	rating: [{
-		rate: {
-			type: String
-		},
-		count: {
-			type: String
-		}
-	}],
-	editorChoice: {
-		type: Boolean,
-		required: true
+	rate: {
+		type: Number,
+		default: "0",
 	},
 	picture: {
 		type: String,
-		required: true
 	},
-	gallery: [{
-		type: Array
+	user_id: [{
+		type: String,
 	}],
-	user: [{
-		type: Schema.Types.ObjectId,
-		ref: 'user'
-	}],
-	visibility: {
-		type: Boolean,
-		required: true
-	},
-	createdAt: {
-		type: Date,
-	},
-	modifiedAt: {
-		type: Date,
-	},
 
 });
 

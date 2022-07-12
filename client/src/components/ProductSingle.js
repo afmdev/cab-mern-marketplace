@@ -87,7 +87,7 @@ function ProductSingle(props) {
 								:
 								(<Box sx={{
 									position: 'absolute', display: 'inline-block', zIndex: '999', backgroundColor: '#d32f2f', borderRadius: '100px', p: '10px',
-									color: '#fff', top: '22px', right: '-18px', height: '45px', width: '45px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+									color: '#fff', top: '22px', right: '-18px', height: '25px', width: '25px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
 								}}>
 									<Typography variant="paragraph" component="p">
 										-{salePercentage}%
@@ -117,9 +117,13 @@ function ProductSingle(props) {
 							<ReactStars
 								count={5}
 								size={24}
-								value={element.rating[0].rate}
+								value={element.rate}
 								edit={false} />
-							<Box sx={{ mt: '6px', ml: '10px' }}>{element.rating[0].rate} / 5</Box>
+							<Box sx={{ mt: '6px', ml: '10px' }}>
+
+								{element.rate === "undefined" ? "0 " : element.rate}
+
+								/ 5</Box>
 						</Grid>
 						<Grid>
 							<Typography variant="headline" component="h1" sx={{ mb: '20px' }}>
@@ -135,7 +139,9 @@ function ProductSingle(props) {
 						<Grid>
 							<Box>
 								{sale === "0" ?
-									(<span>€{element.price}</span>)
+									(<Typography variant="headline" component="h4" sx={{ mr: '10px', fontSize: '25px' }}>
+										€{element.price}
+									</Typography>)
 									:
 									(<Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
 										<Typography variant="headline" component="h4" sx={{ mr: '10px', fontSize: '25px' }}>
