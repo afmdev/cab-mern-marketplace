@@ -12,6 +12,7 @@ const addProduct = async (req, res) => {
 			shortDesc: req.body.shortDesc,
 			longDesc: req.body.longDesc,
 			price: req.body.price,
+			sale: req.body.sale,
 			picture: req.body.picture,
 			user_id: req.body.user_id,
 			rate: req.body.rate,
@@ -20,15 +21,15 @@ const addProduct = async (req, res) => {
 		})
 
 		res.status(200).json({
-			msg: "Great! order placed successfully",
+			msg: "Congratulations, the product was successfully published",
 			alertColor: "success",
 			order: placeNewOrder,
 
 		});
 	} catch (error) {
 		res.status(400).json({
-			msg: "Ouch! Order not placed",
-			alertColor: "warning",
+			msg: "Ouch! Something went wrong in the publication of the new product",
+			alertColor: "error",
 			error: error,
 		});
 	}

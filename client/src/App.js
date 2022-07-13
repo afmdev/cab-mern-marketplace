@@ -17,6 +17,7 @@ import ViewMyAccount from './views/ViewMyAccount'
 import ViewMyAccountEdit from './views/ViewMyAccountEdit'
 import ViewMyOrders from './views/ViewMyOrders'
 import ViewProductAdd from './views/ViewProductAdd'
+import ViewMyLikes from './views/ViewMyLikes'
 
 
 
@@ -37,6 +38,7 @@ function App() {
 							<Route path="/my-account/" element={<ViewMyAccount />} />
 							<Route path="/my-account/edit" element={<ViewMyAccountEdit />} />
 							<Route path="/my-orders" element={<ViewMyOrders />} />
+							<Route path="/my-likes" element={<ViewMyLikes />} />
 							<Route path="/add-product" element={<ViewProductAdd />} />
 							{/* <Route path="no-logged" element={<ViewNoLogged />} />
 					<Route path="*" element={<NoMatch />} /> */}

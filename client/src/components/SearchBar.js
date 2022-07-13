@@ -126,7 +126,7 @@ function SearchBar(props) {
 
 	const { user, userProfile, signOut, isUserLoggedIn, token, globalTimer } = useContext(AuthContext)
 	// console.log("userProfile", userProfile)
-	const { cart, setCart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart } = useContext(ProductsContext);
+	const { cart, setCart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart, like } = useContext(ProductsContext);
 
 	const { fetchOrders, ordersTotal, setOrdersTotal } = useContext(OrdersContext)
 
@@ -205,8 +205,8 @@ function SearchBar(props) {
 				setTimeout(closeAlerts, globalTimer);
 				console.log("num orders: ", ordersTotal)
 				fetchOrders()
-				// localStorage.clear("MY_CART");
-				// setCart([])
+				localStorage.clear("MY_CART");
+				setCart([])
 
 
 			} catch (error) {
@@ -288,12 +288,14 @@ function SearchBar(props) {
 			<Divider />
 
 			<MenuItem sx={{ display: { md: 'none', sm: 'flex' } }}>
-				<ListItemIcon>
-					<Badge badgeContent={4} color="error">
-						<FavoriteOutlinedIcon fontSize="small" />
-					</Badge>
-				</ListItemIcon>
-				Whishlist
+				<LinkRouter to="/my-likes/" underline="none" style={{ textDecoration: 'none' }}>
+					<ListItemIcon>
+						<Badge badgeContent={like.length} color="error">
+							<FavoriteOutlinedIcon fontSize="small" />
+						</Badge>
+					</ListItemIcon>
+					Whishlist
+				</LinkRouter>
 			</MenuItem>
 
 			<MenuItem sx={{ display: { md: 'none', sm: 'flex' } }}>
@@ -616,12 +618,13 @@ function SearchBar(props) {
 						</Search>
 						<Box sx={{ flexGrow: 1 }} />
 						<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-							<IconButton size="large" aria-label="show 4 new mails" color="inherit">
-								<Badge badgeContent={4} color="error">
-									<FavoriteOutlinedIcon />
-								</Badge>
-							</IconButton>
-
+							<LinkRouter to="/my-likes/" underline="none" style={{ textDecoration: 'none', color: '#757575' }}>
+								<IconButton size="large" aria-label="show 4 new mails" color="inherit">
+									<Badge badgeContent={like.length} color="error">
+										<FavoriteOutlinedIcon />
+									</Badge>
+								</IconButton>
+							</LinkRouter>
 
 							<IconButton
 								size="large"

@@ -1,5 +1,5 @@
 
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ProductsContext } from '../context/ProductsContext'
 import { Link } from "react-router-dom";
 import Card from '@mui/material/Card';
@@ -13,16 +13,34 @@ import ReactStars from 'react-stars';
 
 import IconButton from '@mui/material/IconButton';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const ratingChanged = (newRating) => {
 	console.log(newRating)
 }
 
 
+
+
 function ProductsList() {
-	const { products, handleAddToCart } = useContext(ProductsContext);
+	const { products, handleAddToCart, like, setLike } = useContext(ProductsContext);
 
 	let items = products?.data
+
+	console.log('like >>>>>>>>>>>>>>', like)
+	const handleLike = (element) => {
+		const id = element._id
+		const likeExist = like.some(element => element._id === id);
+		if (likeExist) {
+			const newLike = like.filter((element) => element._id !== id);
+			setLike(newLike)
+			console.log('like', like)
+		} else {
+			setLike([...like, element]);
+
+		}
+	}
 
 	return (
 		<Grid container alignItems="stretch"
@@ -37,9 +55,21 @@ function ProductsList() {
 					} key={i} >
 						<Card style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', flexDirection: 'column', maxWidth: '300px' }}>
 							<CardContent>
-								<IconButton color="primary" aria-label="add to shopping cart" style={{ position: 'absolute', right: '26px', top: '26px', padding: '6px', backgroundColor: 'transparent' }}>
-									<AddShoppingCartIcon />
-								</IconButton>
+
+								{like && like.length === 0 ?
+
+									(<IconButton key={i} color="primary" aria-label="add to shopping cart" style={{ position: 'absolute', right: '26px', top: '26px', padding: '6px', backgroundColor: 'transparent', color: 'red' }} onClick={() => handleLike(element)}><FavoriteBorderIcon /></IconButton>)
+									:
+									(like.map((elementLike, i) => {
+										return (
+											elementLike._id === element._id ?
+
+												<IconButton key={i} color="primary" aria-label="add to shopping cart" style={{ position: 'absolute', right: '26px', top: '26px', padding: '6px', backgroundColor: 'transparent', color: 'red' }} onClick={() => handleLike(element)}><FavoriteIcon /></IconButton>
+												:
+												<IconButton key={i} color="primary" aria-label="add to shopping cart" style={{ position: 'absolute', right: '26px', top: '26px', padding: '6px', backgroundColor: 'transparent', color: 'red' }} onClick={() => handleLike(element)}><FavoriteBorderIcon /></IconButton>
+										)
+									}))}
+
 								<img src={element.picture} width="100%" />
 								<Typography variant="headline" component="h4" sx={{ my: '10px' }}>
 									{element.itemName}
@@ -63,7 +93,7 @@ function ProductsList() {
 											{element.rate === "undefined" ? "0 " : element.rate}{" "}/ 5
 										</Box>
 									</Grid>
-									{element.sale === "0" ?
+									{element.sale === 0 ?
 										(<Typography variant="headline" component="h4" sx={{ mr: '10px', fontSize: '25px' }}>
 											€{element.price}
 										</Typography>)
