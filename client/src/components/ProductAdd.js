@@ -72,6 +72,11 @@ function ProductAdd() {
 		setSelectedFile(e.target.files[0]);
 	};
 
+	function cleanAfterSubmit() {
+		setItemInfo({})
+
+	}
+
 
 	const uploadPicture = async (e) => {
 		e.preventDefault();
@@ -149,13 +154,18 @@ function ProductAdd() {
 			);
 			console.log('response', response)
 			const result = await response.json();
-			const errorMsg = result.msg
+
+			const serverMsg = result.msg
+			const serverAlert = result.alertColor
 			setAlert(true)
-			setAlertMessage(errorMsg)
+			setAlertSeverity(serverAlert)
+			setAlertMessage(serverMsg)
 			setTimeout(closeAlerts, globalTimer);
+			cleanAfterSubmit()
+
 		} catch (error) {
 			setAlert(true)
-			setAlertMessage("Unfortunately your profile information has not been updated.", error)
+			setAlertMessage("Something went wrong in the publication of the new product.", error)
 			setTimeout(closeAlerts, globalTimer);
 		}
 	};
@@ -169,13 +179,10 @@ function ProductAdd() {
 			spacing={3}
 			rowSpacing={3}
 			columns={12}
-			sx={{ mt: '0', pb: '60px' }}
-		>
+			sx={{ mt: '0', pb: '60px' }}>
 
 			<Grid item xs={10} sm={10} md={3} lg={3} xl={2}>
-
 				<Box style={{ boxShadow: '0px 1px 3px rgb(3 0 71 / 9%)', background: '#F5F5F5', borderRadius: '8px', overflow: 'hidden', padding: '15px' }}>
-
 					<Typography component="p" sx={{ mt: '8px' }}>
 						Dashboard
 					</Typography>
@@ -231,11 +238,6 @@ function ProductAdd() {
 						<Typography variant="h5" fontWeight="900" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 							<AddShoppingCartIcon sx={{ mr: '25px' }} />Add New Product
 						</Typography>
-					</Box>
-					<Box>
-						{/* <LinkRouter to="/my-account" style={{ textDecoration: 'none' }}>
-							<Button variant="outlined" size="small" sx={{ textTransform: 'none' }}>Back To Profile</Button>
-						</LinkRouter> */}
 					</Box>
 				</Box>
 

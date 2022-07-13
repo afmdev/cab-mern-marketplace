@@ -62,7 +62,7 @@ function ProductSingle(props) {
 
 	const element = products?.data[0]
 	const sale = products?.data[0].sale
-	const salePercentage = ((products?.data[0].sale / products?.data[0].price) * 100).toFixed(0);
+	const salePercentage = ((products?.data[0].price * sale) / 100).toFixed(0);
 
 	useEffect(() => {
 		fetchData()
@@ -82,7 +82,7 @@ function ProductSingle(props) {
 				{element ?
 					(// <img src={element.picture} alt={element.itemName} width="365px" />
 						<>
-							{sale === "0" ?
+							{sale === 0 ?
 								('')
 								:
 								(<Box sx={{

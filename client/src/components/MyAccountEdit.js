@@ -25,7 +25,7 @@ import { styled } from '@mui/material/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
 import { AuthContext } from "../context/authContext";
-import { OrdersContext } from "../context/ordersContext";
+import { ProductsContext } from "../context/ProductsContext";
 
 
 const Input = styled('input')({
@@ -51,7 +51,7 @@ function MyAccountEdit() {
 
 
 	const { token, userProfile, setUserProfile, globalTimer } = useContext(AuthContext)
-
+	const { like } = useContext(ProductsContext);
 
 	const [alert, setAlert] = useState(false)
 	const [alertSeverity, setAlertSeverity] = useState()
@@ -188,11 +188,13 @@ function MyAccountEdit() {
 							</ListItem>
 						</LinkRouter>
 						<Divider />
-						<ListItem button divider>
-							<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
-							<ListItemText primary="Whishlist" />
-							<Box component="span">32</Box>
-						</ListItem>
+						<LinkRouter to="/my-likes/" underline="none" style={{ textDecoration: 'none' }}>
+							<ListItem button divider>
+								<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="Wishlist" />
+								<Box component="span">{like.length}</Box>
+							</ListItem>
+						</LinkRouter>
 						<ListItem button>
 							<SupportAgentOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 							<ListItemText primary="Support" />

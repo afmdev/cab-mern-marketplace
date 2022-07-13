@@ -4,24 +4,22 @@ export const ProductsContext = createContext();
 
 export const ProductsContextProvider = (props) => {
 	const [products, setProducts] = useState(null)
-	const [loader, setLoader] = useState(true)
-	const [error, setError] = useState(null)
-	const [filter, setFilter] = useState([])
+	const [like, setLike] = useState([])
+
 
 
 	const fetchData = () => {
 		fetch("http://localhost:5000/api/items/all")
 			.then((response) => {
-				return response.json();
+				return response.json()
 			})
 			.then((data) => {
 				const myData = data
 				setProducts(data)
-				setFilter(myData)
-				setLoader(false)
+
 			})
 			.catch((error) => {
-				setError(error)
+				console.log(error)
 			})
 	}
 
@@ -109,7 +107,7 @@ export const ProductsContextProvider = (props) => {
 
 	return (
 		<ProductsContext.Provider value={{
-			products, loader, error, filter, setFilter, fetchData, setProducts, cart, setCart, errorCart, setErrorCart, handleAddToCart, handleRemove, price, setPrice, handleChange, showCart, setShowCart, handleShowCart
+			products, fetchData, setProducts, cart, setCart, errorCart, setErrorCart, handleAddToCart, handleRemove, price, setPrice, handleChange, showCart, setShowCart, handleShowCart, like, setLike
 		}}>
 			{props.children}
 		</ProductsContext.Provider>

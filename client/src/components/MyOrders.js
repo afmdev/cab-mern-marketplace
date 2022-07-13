@@ -76,11 +76,13 @@ function MyAccount() {
 							</ListItem>
 						</LinkRouter>
 						<Divider />
-						<ListItem button divider>
-							<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
-							<ListItemText primary="Whishlist" />
-							<Box component="span">32</Box>
-						</ListItem>
+						<LinkRouter to="/my-likes/" underline="none" style={{ textDecoration: 'none' }}>
+							<ListItem button divider>
+								<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="Wishlist" />
+								<Box component="span">32</Box>
+							</ListItem>
+						</LinkRouter>
 						<ListItem button>
 							<SupportAgentOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 							<ListItemText primary="Support" />
