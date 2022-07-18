@@ -28,7 +28,7 @@ function ProductsList() {
 
 	let items = products?.data
 
-	console.log('like >>>>>>>>>>>>>>', like)
+	// console.log('like >>>>>>>>>>>>>>', like)
 	const handleLike = (element) => {
 		const id = element._id
 		const likeExist = like.some(element => element._id === id);
