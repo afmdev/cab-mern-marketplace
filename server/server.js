@@ -15,7 +15,7 @@ import passport from 'passport'
 
 const app = express()
 dotenv.config()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5002
 
 const startServer = () => {
 	app.listen(port, () => {
@@ -40,7 +40,7 @@ const addMiddleware = () => {
 		})
 	)
 	const corsOptions = {
-		origin: "http://localhost:3000", // or '*'
+		origin: "http://localhost:3002", // or '*'
 		credentials: true,
 	}
 	app.use(cors(corsOptions))
