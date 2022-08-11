@@ -45,8 +45,10 @@ const addMiddleware = () => {
 		})
 	)
 	const corsOptions = {
-		origin: "http://localhost:3000", // or '*'
+		origin: '*',
 		credentials: true,
+		//access-control-allow-credentials:true
+		optionSuccessStatus: 200,
 	}
 	app.use(cors(corsOptions))
 	cloudinaryConfig()
