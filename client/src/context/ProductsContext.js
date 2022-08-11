@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
+import serverURL from "../config";
 
 export const ProductsContext = createContext();
 
@@ -9,7 +10,7 @@ export const ProductsContextProvider = (props) => {
 
 
 	const fetchData = () => {
-		fetch("http://localhost:5000/api/items/all")
+		fetch(serverURL + "api/items/all")
 			.then((response) => {
 				return response.json()
 			})
