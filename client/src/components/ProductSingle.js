@@ -11,6 +11,8 @@ import ReactStars from 'react-stars';
 import Button from '@mui/material/Button';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from '@mui/material/Stack';
+import serverURL from "../config";
+
 
 
 function ProductSingle(props) {
@@ -47,7 +49,7 @@ function ProductSingle(props) {
 	const [products, setProducts] = useState(null)
 
 	const fetchData = () => {
-		fetch("http://localhost:5000/api/items/" + slug)
+		fetch(serverURL + "api/items/" + slug)
 			.then((response) => {
 				return response.json();
 			})
