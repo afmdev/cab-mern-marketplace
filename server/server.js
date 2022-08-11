@@ -13,6 +13,9 @@ import { cloudinaryConfig } from './config/cloudinaryConfig.js'
 import passportConfig from './config/passport.js'
 import passport from 'passport'
 
+
+
+
 const app = express()
 dotenv.config()
 const port = process.env.PORT || 5000
@@ -22,6 +25,8 @@ const startServer = () => {
 		console.log("|-->>>>>>> The backend server is running on port " + port + " <<<<<<<--|")
 	})
 }
+
+
 
 const loadRoutes = () => {
 	app.use("/api/categories", categoriesRoute)

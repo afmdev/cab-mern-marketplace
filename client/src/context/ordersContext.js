@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { getToken } from '../utils/getToken';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "./authContext";
+import serverURL from "../config";
 
 
 
@@ -40,7 +41,7 @@ export const OrdersContextProvider = (props) => {
 			headers: myHeaders,
 		};
 		try {
-			const response = await fetch("http://localhost:5000/api/orders/" + userId,
+			const response = await fetch(serverURL + "api/orders/" + userId,
 				requestOptions
 			);
 			const data = await response.json();
