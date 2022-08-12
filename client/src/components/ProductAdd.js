@@ -28,7 +28,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
 import { AuthContext } from "../context/authContext";
 import { OrdersContext } from "../context/ordersContext";
-import { ProductsContext } from "../context/ProductsContext";
 import serverURL from "../config";
 
 
@@ -54,8 +53,6 @@ const theme = createTheme({
 function ProductAdd() {
 
 	const { token, globalTimer } = useContext(AuthContext)
-	const { ordersTotal, userOrders } = useContext(OrdersContext)
-	const { products, handleAddToCart, like, setLike } = useContext(ProductsContext);
 
 
 	const [alert, setAlert] = useState(false)
@@ -103,7 +100,7 @@ function ProductAdd() {
 			};
 			try {
 				const response = await fetch(
-					serverURL + "/api/users/imageUpload",
+					serverURL + "api/users/imageUpload",
 					requestOptions
 				);
 				console.log("response", response);
@@ -153,7 +150,7 @@ function ProductAdd() {
 
 		try {
 			const response = await fetch(
-				serverURL + "/api/items/add-product",
+				serverURL + "api/items/add-product",
 				requestOptions
 			);
 			console.log('response', response)
@@ -196,23 +193,21 @@ function ProductAdd() {
 							<ListItem button>
 								<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 								<ListItemText primary="Orders" />
-								<Box component="span">{ordersTotal ? ordersTotal : 0}</Box>
+								<Box component="span">10</Box>
 							</ListItem>
 						</LinkRouter>
 						<Divider />
-						<LinkRouter to="/my-likes/" underline="none" style={{ textDecoration: 'none' }}>
-							<ListItem button divider>
-								<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
-								<ListItemText primary="Wishlist" />
-								<Box component="span">{like.length}</Box>
-							</ListItem>
-						</LinkRouter>
-						{/* <ListItem button>
+						<ListItem button divider>
+							<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
+							<ListItemText primary="Whishlist" />
+							<Box component="span">32</Box>
+						</ListItem>
+						<ListItem button>
 							<SupportAgentOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 							<ListItemText primary="Support" />
 							<Box component="span">10</Box>
 						</ListItem>
-						<Divider light /> */}
+						<Divider light />
 					</List>
 
 
@@ -228,11 +223,11 @@ function ProductAdd() {
 							</ListItem>
 						</LinkRouter>
 						<Divider />
-						{/* <ListItem button>
+						<ListItem button>
 							<DeleteForeverOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 							<ListItemText primary="Delete" />
 						</ListItem>
-						<Divider /> */}
+						<Divider />
 					</List>
 
 				</Box>

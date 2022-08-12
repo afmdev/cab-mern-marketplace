@@ -226,15 +226,9 @@ function MyAccount() {
 							</Box>
 						</Box>
 					</Grid>
-
-
 				</Grid>
-
-
-
 			</Grid>
 		</Grid >
-
 	);
 }
 

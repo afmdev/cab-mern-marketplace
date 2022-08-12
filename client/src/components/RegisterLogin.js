@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/authContext';
 import { Link as LinkRouter, useNavigate } from 'react-router-dom';
-import serverURL from "../config";
 
 
 
@@ -19,6 +18,8 @@ import Button from '@mui/material/Button';
 
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+
+import serverURL from "../config";
 
 
 
@@ -160,7 +161,7 @@ function RegisterLogin() {
 			//REVIEW 25.2 Fetch endpoint attaching the request options. Display succes/error message to user.
 			try {
 				const response = await fetch(
-					serverURL + "/api/users/signUp",
+					serverURL + "api/users/signUp",
 					requestOptions
 				);
 				const result = await response.json();
@@ -201,7 +202,7 @@ function RegisterLogin() {
 
 		try {
 			const response = await fetch(
-				serverURL + "/api/users/login",
+				serverURL + "api/users/login",
 				requestOptions
 			);
 			const result = await response.json();

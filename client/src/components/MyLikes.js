@@ -137,13 +137,15 @@ function MyAccount() {
 							<ShoppingBagOutlinedIcon sx={{ mr: '25px' }} />My Wishlist
 						</Typography>
 					</Box>
-				</Box>
 
-				<Grid container alignItems="stretch"
-					justifyContent="center"
-					spacing={2}
-					columns={16}
-					sx={{ pb: '80px' }}>
+				</Box>
+				<Box sx={{ mt: "20px" }}>
+					<Typography component="p">
+						{like.length === 0 ? "Wishlist is empty, you have not liked any item." : ""}
+					</Typography>
+				</Box>
+				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
+					{console.log(like)}
 
 					{like && like.map((element, i) => {
 						return (
@@ -204,9 +206,7 @@ function MyAccount() {
 												</Box>
 												)
 											}
-
 										</Box>
-
 										<Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between', mr: '8px' }}>
 											<LinkRouter to={`/product/${element.slug}`} style={{ textDecoration: 'none' }}>
 												<Button variant="contained" color="error" disableElevation style={{ backgroundColor: '#0F3460' }}>Read More</Button>
@@ -222,13 +222,11 @@ function MyAccount() {
 							</Grid >
 						);
 					})}
-				</Grid >
+				</Grid>
+			</Grid >
+		</Grid>
 
-
-			</Grid>
-		</Grid >
 
 	);
 }
-
 export default MyAccount

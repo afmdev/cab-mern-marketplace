@@ -189,7 +189,7 @@ function SearchBar(props) {
 		} else {
 			try {
 				const response = await fetch(
-					serverURL + "/api/orders/placeOrder",
+					serverURL + "api/orders/placeOrder",
 					requestOptions
 				);
 				// console.log('Response', response)
@@ -637,7 +637,6 @@ function SearchBar(props) {
 								</Badge>
 							</IconButton>
 
-
 							{user ?
 								<Tooltip title="Account settings">
 									<IconButton
@@ -675,10 +674,6 @@ function SearchBar(props) {
 									</IconButton>
 								</Tooltip>
 							}
-
-
-
-
 						</Box>
 						<Box sx={{ display: { xs: 'flex', md: 'none' } }} >
 							<IconButton
