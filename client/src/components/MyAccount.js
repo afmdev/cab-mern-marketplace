@@ -136,7 +136,7 @@ function MyAccount() {
 							<Box>
 								<Avatar
 									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
+									src="../kolobo.jpg"
 									sx={{ width: 56, height: 56 }}
 								/>
 							</Box>
@@ -147,7 +147,7 @@ function MyAccount() {
 							<Box>
 								<Avatar
 									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
+									src="../kolobo.jpg"
 									sx={{ width: 56, height: 56 }}
 								/>
 							</Box>
@@ -158,7 +158,7 @@ function MyAccount() {
 							<Box>
 								<Avatar
 									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
+									src="../kolobo.jpg"
 									sx={{ width: 56, height: 56 }}
 								/>
 							</Box>
@@ -169,7 +169,7 @@ function MyAccount() {
 							<Box>
 								<Avatar
 									alt="Remy Sharp"
-									src="https://mui.com/static/images/avatar/1.jpg"
+									src="../kolobo.jpg"
 									sx={{ width: 56, height: 56 }}
 								/>
 							</Box>

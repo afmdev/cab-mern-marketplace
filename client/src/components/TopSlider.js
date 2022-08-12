@@ -21,7 +21,7 @@ function TopSlider() {
 			justifyContent="center"
 		>
 			<Box>
-				<Typography variant="h2" color="#fff">BANNER</Typography>
+				<Typography variant="h2" color="#fff"></Typography>
 			</Box>
 		</Grid>
 	)

@@ -165,7 +165,7 @@ function RegisterLogin() {
 					requestOptions
 				);
 				const result = await response.json();
-				console.log("results", result);
+				// console.log("results", result);
 				const serverMsg = result.msg
 				const serverAlert = result.alertColor
 				setAlert(true)
@@ -221,7 +221,7 @@ function RegisterLogin() {
 				setAlertMessage(serverMsg)
 				setTimeout(closeAlerts, globalTimer);
 			}
-			console.log("result", result);
+			// console.log("result", result);
 		} catch (error) {
 			setAlert(true)
 			setAlertMessage("Login failed, check your credentials or register a new account.")
@@ -299,6 +299,11 @@ function RegisterLogin() {
 								</Alert>
 							</Collapse>
 						</Grid>
+						<Box sx={{ mt: "30px" }}>
+							<Typography component="p" sx={{ fontSize: "12px", color: "#999999" }}>DEMO<br />
+								Email: a@a.com<br />
+								Pass: 123</Typography>
+						</Box>
 					</Box>
 				</TabPanel>
 
