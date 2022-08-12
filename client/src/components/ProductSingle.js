@@ -140,7 +140,7 @@ function ProductSingle(props) {
 						</Grid>
 						<Grid>
 							<Box>
-								{sale === "0" ?
+								{sale === 0 ?
 									(<Typography variant="headline" component="h4" sx={{ mr: '10px', fontSize: '25px' }}>
 										€{element.price}
 									</Typography>)
@@ -160,6 +160,7 @@ function ProductSingle(props) {
 						<Grid>
 							<Stack direction="row" spacing={2}>
 								<Button variant="outlined" startIcon={<AddShoppingCartIcon />} onClick={() => handleAddToCart(element)} sx={{ mt: '15px', mb: '70px' }}>
+
 									ADD TO CART
 								</Button>
 

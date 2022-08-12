@@ -71,12 +71,12 @@ function MyAccount() {
 								<Box component="span">{like.length}</Box>
 							</ListItem>
 						</LinkRouter>
-						<ListItem button>
+						{/* <ListItem button>
 							<SupportAgentOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 							<ListItemText primary="Support" />
 							<Box component="span">10</Box>
 						</ListItem>
-						<Divider light />
+						<Divider light /> */}
 					</List>
 					<Typography component="p" sx={{ mt: '30px' }}>
 						Account Settings
@@ -90,11 +90,11 @@ function MyAccount() {
 							</ListItem>
 						</LinkRouter>
 						<Divider />
-						<ListItem button>
+						{/* <ListItem button>
 							<DeleteForeverOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 							<ListItemText primary="Delete" />
 						</ListItem>
-						<Divider />
+						<Divider /> */}
 					</List>
 
 				</Box>
