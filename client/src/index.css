@@ -20,6 +20,34 @@ body {
 	font-weight: bold;
 }
 
+.footer {
+	font-size: 12px;
+	background: #e7e5e5;
+	display: flex;
+	align-items: center;
+	color: #2c2c2c;
+	flex-direction: column;
+	justify-content: center;
+	padding: 14px 0px 7px 0px;
+}
+
+.footer p {
+	margin-top: 0;
+	margin-bottom: 4px;
+}
+
+.footer a {
+	color: #8d8d8d;
+	text-decoration: none;
+}
+
+.ViewMyAccount, .ViewChat, .ViewShop, .ViewRegister, .ViewLogin, .Contact, .NoMatch, .NoLogged, .ViewMyOrders, .ViewMyLikes, .ViewNoMatch, .RegisterLogin  {
+	min-height: calc(100vh - 213px);
+}
+.ViewSingleProduct {
+	min-height: calc(100vh - 174px);
+}
+
 
 @media screen and (max-width: 700px) {
 	.myFlex {

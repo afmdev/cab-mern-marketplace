@@ -1,12 +1,15 @@
 import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import { ProductsContextProvider } from './context/ProductsContext'
+
 import { AuthContextProvider } from "./context/authContext";
 import { OrdersContextProvider } from "./context/ordersContext";
 
 import TopBar from './components/TopBar';
 import SearchBar from './components/SearchBar';
 import MainMenu from './components/MainMenu';
+import Footer from './components/Footer';
+import NoMatch from './components/NoMatch'
 
 import BottomNavigation from './components/BottomNavigation';
 
@@ -40,10 +43,11 @@ function App() {
 							<Route path="/my-orders" element={<ViewMyOrders />} />
 							<Route path="/my-likes" element={<ViewMyLikes />} />
 							<Route path="/add-product" element={<ViewProductAdd />} />
-							{/* <Route path="no-logged" element={<ViewNoLogged />} />
-					<Route path="*" element={<NoMatch />} /> */}
+							<Route path="*" element={<NoMatch />} />
+
 
 						</Routes>
+						<Footer />
 						<BottomNavigation />
 					</OrdersContextProvider>
 				</ProductsContextProvider>

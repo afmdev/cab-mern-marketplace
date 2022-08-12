@@ -26,6 +26,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
 import { AuthContext } from "../context/authContext";
 import { ProductsContext } from "../context/ProductsContext";
+import { OrdersContext } from "../context/ordersContext";
+import serverURL from "../config";
 
 
 const Input = styled('input')({
@@ -52,6 +54,7 @@ function MyAccountEdit() {
 
 	const { token, userProfile, setUserProfile, globalTimer } = useContext(AuthContext)
 	const { like } = useContext(ProductsContext);
+	const { ordersTotal, userOrders } = useContext(OrdersContext)
 
 	const [alert, setAlert] = useState(false)
 	const [alertSeverity, setAlertSeverity] = useState()
@@ -94,7 +97,7 @@ function MyAccountEdit() {
 			};
 			try {
 				const response = await fetch(
-					"http://localhost:5000/api/users/imageUpload",
+					serverURL + "/api/users/imageUpload",
 					requestOptions
 				);
 				console.log("response", response);
@@ -143,7 +146,7 @@ function MyAccountEdit() {
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/users/updateProfile",
+				serverURL + "/api/users/updateProfile",
 				requestOptions
 			);
 			console.log('response', response)
@@ -184,7 +187,7 @@ function MyAccountEdit() {
 							<ListItem button>
 								<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 								<ListItemText primary="Orders" />
-								<Box component="span">10</Box>
+								<Box component="span">{ordersTotal ? ordersTotal : 0}</Box>
 							</ListItem>
 						</LinkRouter>
 						<Divider />
