@@ -4,6 +4,7 @@ import { AuthContext } from '../context/authContext';
 import { ProductsContext } from '../context/ProductsContext';
 import { OrdersContext } from "../context/ordersContext";
 import { Link as LinkRouter } from "react-router-dom";
+import serverURL from "../config";
 
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -40,7 +41,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
-import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
+import DangerousIcon from '@mui/icons-material/Dangerous';
 
 import AddTaskIcon from '@mui/icons-material/AddTask';
 
@@ -188,7 +189,7 @@ function SearchBar(props) {
 		} else {
 			try {
 				const response = await fetch(
-					"http://localhost:5000/api/orders/placeOrder",
+					serverURL + "/api/orders/placeOrder",
 					requestOptions
 				);
 				// console.log('Response', response)
@@ -460,25 +461,25 @@ function SearchBar(props) {
 					<List sx={style} component="nav" aria-label="mailbox folders">
 						<Divider />
 						<LinkRouter to='/'>
-							<ListItem button>
+							<ListItem button onClick={handleShow}>
 								<ShoppingBagOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 								<ListItemText primary="Home" />
 							</ListItem>
 						</LinkRouter>
 						<Divider />
-						<LinkRouter to='/access' >
-							<ListItem button divider>
+						<LinkRouter to='/access'>
+							<ListItem button divider onClick={handleShow}>
 								<LocalGroceryStoreOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 								<ListItemText primary="Shop" />
 							</ListItem>
 						</LinkRouter>
-						{/* <LinkRouter to='/access' underline="none">
-							<ListItem button>
-								<EmojiEventsOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
-								<ListItemText primary="Bestseller" />
+						<LinkRouter to='/404' underline="none">
+							<ListItem button onClick={handleShow}>
+								<DangerousIcon sx={{ color: '#0f3460', mr: '10px' }} />
+								<ListItemText primary="404" />
 							</ListItem>
 						</LinkRouter>
-						<Divider light /> */}
+						<Divider light />
 						{/* <LinkRouter to='/access'>
 							<ListItem button>
 								<LoyaltyOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />

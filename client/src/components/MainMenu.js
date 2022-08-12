@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import { Stack, Divider } from '@mui/material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalGroceryStoreOutlinedIcon from '@mui/icons-material/LocalGroceryStoreOutlined';
-import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import DangerousIcon from '@mui/icons-material/Dangerous';
 import LoyaltyOutlinedIcon from '@mui/icons-material/LoyaltyOutlined';
 
 const menuLinksStyles = {
@@ -47,12 +47,12 @@ function Slider() {
 								<LinkRouter to='/' style={menuLinksStyles}>
 									<LocalGroceryStoreOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Shop
 								</LinkRouter>
-								<LinkRouter to='/' style={menuLinksStyles}>
-									<EmojiEventsOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Bestseller
+								<LinkRouter to='/404' style={menuLinksStyles}>
+									<DangerousIcon fontSize="small" sx={{ pr: '5px' }} />404
 								</LinkRouter>
-								<LinkRouter to='/' style={menuLinksStyles}>
+								{/* <LinkRouter to='/' style={menuLinksStyles}>
 									<LoyaltyOutlinedIcon fontSize="small" sx={{ pr: '5px' }} />Sale
-								</LinkRouter>
+								</LinkRouter> */}
 							</Stack>
 						</Box>
 					</Grid>

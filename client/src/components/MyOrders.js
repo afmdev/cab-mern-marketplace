@@ -45,10 +45,10 @@ const style = {
 function MyAccount() {
 
 	const { ordersTotal, userOrders } = useContext(OrdersContext)
+	const { products, handleAddToCart, like, setLike } = useContext(ProductsContext);
 
 	let orders = userOrders
 
-	console.log("orders>>>>>>>>>>>>>", orders)
 
 	return (
 
@@ -80,7 +80,7 @@ function MyAccount() {
 							<ListItem button divider>
 								<FavoriteBorderOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 								<ListItemText primary="Wishlist" />
-								<Box component="span">32</Box>
+								<Box component="span">{like.length}</Box>
 							</ListItem>
 						</LinkRouter>
 						{/* <ListItem button>
