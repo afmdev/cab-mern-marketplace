@@ -113,8 +113,6 @@ function MyAccount() {
 
 				</Box>
 			</Grid>
-
-
 			<Grid item xs={10} sm={10} md={8} lg={7} xl={5} order={{ xs: 3, md: 1 }}>
 				<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 					<Box>
@@ -124,19 +122,13 @@ function MyAccount() {
 					</Box>
 					<Box>
 						<LinkRouter to="/my-account/edit" underline="none" style={{ textDecoration: 'none' }}>
-
 						</LinkRouter>
 					</Box>
 				</Box>
-
 				<Grid container spacing={3} alignItems="stretch" columns={12} sx={{ mt: '0', pt: '0' }}>
-
 					<Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-
 						{!orders ? "Listing is empty, you have not yet placed an order in our marketplace. " : ""}
-
 						<Box>
-
 							{orders && orders.map((element, i) => (
 								<Box key={i}>
 									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -174,21 +166,6 @@ function MyAccount() {
 								</Box>
 							))}
 						</Box>
-
-
-
-
-
-
-
-
-						{/* {orders && orders.map((element, i) => {})}
-					return (
-					< Grid item style={{ display: 'flex' }
-					} key={i} >
-						<img src={element.picture} width="100%" />
-					</Grid >
-					); */}
 					</Grid>
 				</Grid>
 			</Grid>

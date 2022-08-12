@@ -160,7 +160,6 @@ function ProductSingle(props) {
 						<Grid>
 							<Stack direction="row" spacing={2}>
 								<Button variant="outlined" startIcon={<AddShoppingCartIcon />} onClick={() => handleAddToCart(element)} sx={{ mt: '15px', mb: '70px' }}>
-
 									ADD TO CART
 								</Button>
 

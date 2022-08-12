@@ -97,7 +97,7 @@ function MyAccountEdit() {
 			};
 			try {
 				const response = await fetch(
-					serverURL + "/api/users/imageUpload",
+					serverURL + "api/users/imageUpload",
 					requestOptions
 				);
 				console.log("response", response);
@@ -146,7 +146,7 @@ function MyAccountEdit() {
 
 		try {
 			const response = await fetch(
-				serverURL + "/api/users/updateProfile",
+				serverURL + "api/users/updateProfile",
 				requestOptions
 			);
 			console.log('response', response)

@@ -116,7 +116,6 @@ function ProductsList() {
 										<Button variant="contained" color="error" disableElevation style={{ backgroundColor: '#0F3460' }}>Read More</Button>
 									</Link>
 									<IconButton color="primary" aria-label="add to shopping cart" style={{ backgroundColor: '#e0e5ea' }} value={`${element.itemName}`} onClick={() => handleAddToCart(element)}>
-										{console.log("Element>>>>>> ", element)}
 										<AddShoppingCartIcon />
 									</IconButton>
 								</Box>

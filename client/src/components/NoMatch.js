@@ -19,7 +19,7 @@ function NoMatch() {
 		>
 			<Box sx={{ textAlign: "center" }}>
 				<Box sx={{ mt: "30px" }}>
-					<img src="./404.svg" width="200px" />
+					<img src="../404.svg" width="200px" />
 				</Box>
 				<Box>
 					<Typography variant="h1" sx={{ mt: '8px' }}>
@@ -33,7 +33,7 @@ function NoMatch() {
 				</Typography> </Box>
 
 				<Box sx={{ mt: "30px" }}>
-					<LinkRouter to='/' underline="none">
+					<LinkRouter to='/'>
 						<Button underline="none" variant="contained" disableElevation sx={{ borderRadius: "100px" }}>Go back Home</Button></LinkRouter>
 				</Box>
 			</Box>
