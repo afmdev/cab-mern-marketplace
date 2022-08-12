@@ -124,17 +124,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchBar(props) {
 
+	// CONTEXTS
 	const { user, userProfile, signOut, isUserLoggedIn, token, globalTimer } = useContext(AuthContext)
-	// console.log("userProfile", userProfile)
 	const { cart, setCart, handleRemove, price, handleChange, showCart, setShowCart, handleShowCart, like } = useContext(ProductsContext);
-
 	const { fetchOrders, ordersTotal, setOrdersTotal } = useContext(OrdersContext)
 
-
+	//ALERT STATES
 	const [alert, setAlert] = useState(false)
 	const [alertSeverity, setAlertSeverity] = useState()
 	const [alertMessage, setAlertMessage] = useState()
-
 	function closeAlerts() {
 		setAlert(false);
 	}
@@ -153,10 +151,10 @@ function SearchBar(props) {
 	}
 
 
-	const saveCart = () => {
-		localStorage.clear("MY_CART");
-		setCart([])
-	}
+	// const saveCart = () => {
+	// 	localStorage.clear("MY_CART");
+	// 	setCart([])
+	// }
 
 
 	const placeOrder = async () => {
@@ -193,9 +191,9 @@ function SearchBar(props) {
 					"http://localhost:5000/api/orders/placeOrder",
 					requestOptions
 				);
-				console.log('Response', response)
+				// console.log('Response', response)
 				const result = await response.json();
-				console.log("Result", result);
+				// console.log("Result", result);
 
 				const serverMsg = result.msg
 				const serverAlert = result.alertColor
@@ -203,7 +201,7 @@ function SearchBar(props) {
 				setAlertSeverity(serverAlert)
 				setAlertMessage(serverMsg)
 				setTimeout(closeAlerts, globalTimer);
-				console.log("num orders: ", ordersTotal)
+				// console.log("num orders: ", ordersTotal)
 				fetchOrders()
 				localStorage.clear("MY_CART");
 				setCart([])
@@ -316,12 +314,12 @@ function SearchBar(props) {
 					Add new Product
 				</LinkRouter>
 			</MenuItem>
-			<MenuItem>
+			{/* <MenuItem>
 				<ListItemIcon>
 					<Settings fontSize="small" />
 				</ListItemIcon>
 				Settings
-			</MenuItem>
+			</MenuItem> */}
 			<MenuItem>
 				<Link onClick={signOut} underline="none" sx={{ display: 'flex', alignItems: 'center' }}>
 					<ListItemIcon>
@@ -378,11 +376,11 @@ function SearchBar(props) {
 				</MenuItem>
 			</LinkRouter>
 
-			<LinkRouter to="/access" sx={{ textDecoration: 'none' }} underline="none">
+			{/* <LinkRouter to="/access" sx={{ textDecoration: 'none' }} underline="none">
 				<MenuItem>
 					<Avatar /> Register
 				</MenuItem>
-			</LinkRouter>
+			</LinkRouter> */}
 		</Menu>
 	);
 
@@ -474,20 +472,20 @@ function SearchBar(props) {
 								<ListItemText primary="Shop" />
 							</ListItem>
 						</LinkRouter>
-						<LinkRouter to='/access' underline="none">
+						{/* <LinkRouter to='/access' underline="none">
 							<ListItem button>
 								<EmojiEventsOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 								<ListItemText primary="Bestseller" />
 							</ListItem>
 						</LinkRouter>
-						<Divider light />
-						<LinkRouter to='/access'>
+						<Divider light /> */}
+						{/* <LinkRouter to='/access'>
 							<ListItem button>
 								<LoyaltyOutlinedIcon sx={{ color: '#0f3460', mr: '10px' }} />
 								<ListItemText primary="Sale" />
 							</ListItem>
 						</LinkRouter>
-						<Divider />
+						<Divider /> */}
 					</List>
 				</Drawer>
 			</Box>
@@ -568,7 +566,7 @@ function SearchBar(props) {
 					</Collapse>
 					{user ?
 						<Box sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-end', flexWrap: 'wrap', pt: '30px', boxShadow: 'inset 0px 18px 20px 0px #efefef' }}>
-							<Box><Button variant="outlined" disableElevation sx={{ width: '140px' }} onClick={saveCart}>Save Cart</Button></Box>
+							{/* <Box><Button variant="outlined" disableElevation sx={{ width: '140px' }} onClick={saveCart}>Save Cart</Button></Box> */}
 							<Box><Button variant="contained" disableElevation sx={{ width: '140px' }} onClick={placeOrder}>Place Order</Button>
 
 							</Box>
