@@ -204,7 +204,7 @@ function SearchBar(props) {
 				setTimeout(closeAlerts, globalTimer);
 				// console.log("num orders: ", ordersTotal)
 				fetchOrders()
-				localStorage.clear("MY_CART");
+				localStorage.removeItem("MY_CART");
 				setCart([])
 
 
